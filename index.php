@@ -5,6 +5,7 @@ require_once 'includes/autoloader.php';
 $page_title = "Accueil";
 
 include 'includes/header.php';
+include 'pages/new_character.php';
 
 $page='connection';
 
