@@ -1,4 +1,5 @@
 <?php
+$pseudonymeCorrect = 'ID';
 $passwordCorrect = 'toto';
 $erreur = [];
 
@@ -6,16 +7,20 @@ if (isset($_POST['pseudonyme'])) {
     $pseudonyme = ($_POST['pseudonyme']);
     $password = ($_POST['password']);
 
+    if (empty($pseudonyme)) {
+        $erreur[] = 'ID non remplie';
+
+    } elseif ($pseudonyme != $pseudonymeCorrect) {
+        $erreur[] = 'ID incorrect!';
+    }
     if (empty($password)) {
-        $erreur[] = 'Password incorrect';
+        $erreur[] = 'Password non remplie';
 
     } elseif ($password != $passwordCorrect) {
-        $erreur[] = 'Password must have special characters';
+        $erreur[] = 'Mot de passe incorrect!';
     }
 
-    if (empty($pseudonyme)) {
-        $erreur[] = 'Pseudonyme empty';
-    }
+
     if (empty($erreur)) {
         $_SESSION['pseudonyme'] = $_POST['pseudonyme'];
 
