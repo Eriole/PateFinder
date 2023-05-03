@@ -13,7 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/style.css">
-    <title>PâteFinder</title>
+    <title>
+        <?php if(isset($page_title)){ echo "page_title";} ?> PATEFINDER
+        <!-- to show $page_title = "dashbroad"; -->
+    </title>
 </head>
 
 <body>
