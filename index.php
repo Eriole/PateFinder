@@ -5,9 +5,9 @@ require_once 'includes/autoloader.php';
 $page_title = "Accueil";
 
 include 'includes/header.php';
-include 'pages/new_character.php';
 
 $page='connection';
+$page_title = "Home page";
 
 if(isset($_GET['page'])){
     $page = $_GET['page'];
