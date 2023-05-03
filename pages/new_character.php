@@ -5,11 +5,27 @@ $errors = [];
 if (!empty($_POST)) {
     $character = new Character($_POST);
     $errors = $character->validate();
+
+    if(empty($errors)){
+        //INSERT INTO Played_Character
+        $insertCharacter = "INSERT INTO played_character (character_name, player_id) VALUES (:name, 1)";
+        $statement = $connection->prepare($insertCharacter);
+        $statement->bindValue(':name', $character->getName(), PDO::PARAM_STR);
+        $statement->execute();
+        $idCharacter = $connection->lastInsertId();
+
+        //INSERT INTO Character_Statistic
+        // $insertCharacterStatistic="INSERT INTO character_statistic (character_id, statistic_id, current_statistic) VALUES (:id, :stat_id, :value)";
+        // $statement = $connection->prepare($insertCharacterStatistic);
+        // $statement->bindValue(':id', $idCharacter, PDO::PARAM_INT);
+        // //Need to Insert according to stat (catch the stat_id and bind the right get)
+        // $statement->bindValue(':stat_id', 8, PDO::PARAM_INT);
+        // $statement->bindValue(':value', $character->getConstitution(), PDO::PARAM_INT);
+        // $statement->execute();
+        //heading to success
+        // header('Location: ?page=index&send=1');
+    }
 }
-
-
-var_dump($character);
-var_dump($errors);
 ?>
 <form class="container my-5" action="" method="post">
     <fieldset>
