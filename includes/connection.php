@@ -1,40 +1,30 @@
 <?php
 $pseudonymeCorrect = 'ID';
 $passwordCorrect = 'toto';
-$erreur = [];
+$errors = [];
 
 if (isset($_POST['pseudonyme'])) {
     $pseudonyme = ($_POST['pseudonyme']);
     $password = ($_POST['password']);
 
     if (empty($pseudonyme)) {
-        $erreur[] = 'ID non remplie';
+        $errors['pseudonyme'] = 'ID non remplie';
 
     } elseif ($pseudonyme != $pseudonymeCorrect) {
-        $erreur[] = 'ID incorrect!';
+        $errors['pseudonyme'] = 'ID incorrect!';
     }
     if (empty($password)) {
-        $erreur[] = 'Password non remplie';
+        $errors['password'] = 'Password non remplie';
 
     } elseif ($password != $passwordCorrect) {
-        $erreur[] = 'Mot de passe incorrect!';
+        $errors['password'] = 'Mot de passe incorrect!';
     }
 
-
-    if (empty($erreur)) {
+    if (empty($errors)) {
         $_SESSION['pseudonyme'] = $_POST['pseudonyme'];
 
         header('location: ?login=success');
     }
-}
-?>
-<?php
-foreach ($erreur as $erreur) {
-    ?>
-    <div class="alert alert-danger" role="alert">
-        <?= $erreur; ?>
-    </div>
-    <?php
 }
 ?>
 <!-- // var_dump($_POST); -->
@@ -51,14 +41,22 @@ foreach ($erreur as $erreur) {
                     <div class="form-group mx-5">
                         <label for="pseudonyme"></label>
                         <input type="text" class="form-control" id="pseudonyme" name="pseudonyme" placeholder="Pseudo">
+                        <?php
+                        if (!empty($errors['pseudonyme'])) {
+                            echo '<p class="badge text-bg-danger">' . $errors['pseudonyme'] . '</p>';
+                        }
+                        ?>
                     </div>
-
                     <div class="form-group mx-5">
                         <label for="password"></label>
                         <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
+                        <?php
+                        if (!empty($errors['password'])) {
+                            echo '<p class="badge text-bg-danger">' . $errors['password'] . '</p>';
+                        }
+                        ?>
                     </div>
                     <div class="form-check text-center p-3">
-
                         <button type="submit" class="btn btn-primary">SE CONNECTER</button>
                     </div>
                 </form>
