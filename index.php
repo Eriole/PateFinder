@@ -2,7 +2,7 @@
 require_once 'includes/config.inc.php';
 require_once 'includes/autoloader.php';
 
-$page_title = "Home page";
+$page_title = "Accueil";
 
 include 'includes/header.php';
 
