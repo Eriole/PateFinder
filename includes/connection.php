@@ -1,9 +1,9 @@
 <?php
-
+$passwordCorrect = 'toto';
 $erreur = [];
 
 if (isset($_POST['pseudonyme'])) {
-    $username = ($_POST['pseudonyme']);
+    $pseudonyme = ($_POST['pseudonyme']);
     $password = ($_POST['password']);
 
     if (empty($password)) {
@@ -29,7 +29,7 @@ foreach ($erreur as $erreur) {
     <div class="alert alert-danger" role="alert">
         <?= $erreur; ?>
     </div>
-<?php
+    <?php
 }
 ?>
 <!-- // var_dump($_POST); -->
