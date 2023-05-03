@@ -16,15 +16,24 @@ class Statistic
 	}
 
 	public function getShortname(): string {
+<<<<<<< HEAD
 		return $this->statistic_shortname;
 	}
 	
 	public function setShortname(string $statistic_shortname): self {
 		$this->statistic_shortname = $statistic_shortname;
+=======
+		return $this->shortname;
+	}
+	
+	public function setShortname(string $shortname): self {
+		$this->shortname = $shortname;
+>>>>>>> 4bfc610 (F3-Ajout lien BDD Fixture et Insert Stat et Character)
 		return $this;
 	}
 
 	public function getQuantity(): int {
+<<<<<<< HEAD
 		return $this->statistic_quantity;
 	}
 
@@ -39,6 +48,13 @@ class Statistic
 	
 	public function setId(int $statistic_id): self {
 		$this->statistic_id = $statistic_id;
+=======
+		return $this->quantity;
+	}
+
+	public function setQuantity(int $quantity): self {
+		$this->quantity = $quantity;
+>>>>>>> 4bfc610 (F3-Ajout lien BDD Fixture et Insert Stat et Character)
 		return $this;
 	}
 }
