@@ -1,6 +1,7 @@
 let stats = document.querySelectorAll("[data-type]");
 let count = document.querySelector("#count");
 
+window.addEventListener("load", addition);
 stats.forEach((stat) => {
   //Event Listener onchange and on key up
   stat.addEventListener("change", addition);

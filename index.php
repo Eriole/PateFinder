@@ -1,9 +1,9 @@
 <?php
+require_once 'includes/autoloader.php';
+
 $page_title = "Home page";
 
 include 'includes/header.php';
-include 'pages/new_character.php';
-
 
 $page='connection';
 
