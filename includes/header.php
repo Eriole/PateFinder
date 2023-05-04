@@ -20,7 +20,7 @@
     <script src="https://kit.fontawesome.com/ed398f5d99.js" crossorigin="anonymous"></script>
     <title>PâteFinder</title>
     <title>
-        <?php if(isset($page_title)){ echo "page_title";} ?> PATEFINDER
+        <?php if(isset($page_title)){ echo $page_title;} ?> PATEFINDER
         <!-- to show $page_title = "dashbroad"; -->
     </title>
 </head>
