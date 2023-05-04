@@ -1,7 +1,8 @@
 <?php
 
 $errors = [];
-// partie création de compte:
+// Account Creation PART:
+
 if (isset($_POST['mailuser'])) {
   $username = trim(($_POST['pseudonyme']));
   $password = trim($_POST['password']);
@@ -29,7 +30,7 @@ if (isset($_POST['mailuser'])) {
 
   <section class="row text-center d-flex justify-content-around mt-5">
 
-    <!-- formulaire de connexion -->
+    <!-- connexion form -->
 
     <article class="col-5">
       <h2>Me Connecter</h2>
@@ -57,7 +58,7 @@ if (isset($_POST['mailuser'])) {
 
 
 
-    <!-- formulaire inscription  -->
+    <!--  inscription  form -->
 
     <article class="col-5">
       <h2>Créer un compte</h2>
