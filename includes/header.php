@@ -1,3 +1,6 @@
+<?php
+include_once 'variables.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -8,7 +11,9 @@
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/style.css">
     <title>
-        <?php if(isset($page_title)){ echo $page_title;} ?> PATEFINDER
+        <?php if (isset($page_title)) {
+            echo $page_title;
+        } ?> PATEFINDER
     </title>
     <script src="https://kit.fontawesome.com/ed398f5d99.js" crossorigin="anonymous"></script>
     <title>PâteFinder</title>
