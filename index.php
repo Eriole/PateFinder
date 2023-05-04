@@ -1,13 +1,21 @@
 <?php
-$page_title = "Home page";
+require_once 'includes/config.inc.php';
+require_once 'includes/autoloader.php';
+
+$page_title = "Accueil";
 
 include 'includes/header.php';
 
-
 $page='connection';
+$page_title = "Home page";
 
 if(isset($_GET['page'])){
-   $page = $_GET['page'];
+    $page = $_GET['page'];
+}
+
+//Primary Alert New Character created successfully
+if(isset($_GET['create'])){
+    echo '<div class="alert alert-primary d-flex align-items-center" role="alert">Personnage créé</div>';
 }
 
 include_once 'pages/'. $page .'.php';
