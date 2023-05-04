@@ -32,7 +32,6 @@ if (isset($_POST['pseudonyme'])) {
     <section class="col-12 text-center d-flex justify-content-around mt-5">
 
         <!-- formulaire de connexion -->
-
         <div class="col-5">
             <h2>Me Connecter</h2>
 
@@ -64,7 +63,6 @@ if (isset($_POST['pseudonyme'])) {
         </div>
 
         <!-- formulaire inscription  -->
-
         <div class="col-5">
             <h2>Créer un compte</h2>
 
@@ -87,8 +85,8 @@ if (isset($_POST['pseudonyme'])) {
                             <input type="password" class="form-control" id="mdp" name="password"
                                 placeholder="Mot de Passe">
                         </div>
-                        <div class="form-check text-center p-3">
 
+                        <div class="form-check text-center p-3">
                             <button type="submit" class="btn btn-primary">CRÉER UN COMPTE</button>
                         </div>
                     </form>
