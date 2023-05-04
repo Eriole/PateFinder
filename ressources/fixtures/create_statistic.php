@@ -1,10 +1,10 @@
 <?php
 spl_autoload_register(function ($class) { 
-    require_once "../classes/$class.php";
+    require_once "../../classes/$class.php";
 });
 
 require_once 'list_statistic.php';
-require_once '../includes/config.inc.php';
+require_once '../../includes/config.inc.php';
 
 //Emptying tables
 $connection->exec("SET foreign_key_checks = 0;

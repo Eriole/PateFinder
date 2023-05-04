@@ -1,10 +1,13 @@
 <?php
 class Character
 {
+    protected int $id;
     protected string $name = '';
     protected int $initiative = 0;
     protected int $pvmax = 0;
+    protected int $pvcur = 0;
     protected int $pmmax = 0;
+    protected int $pmcur = 0;
     protected int $strength = 0;
     protected int $dexterity = 0;
     protected int $constitution = 0;
@@ -12,7 +15,6 @@ class Character
     protected int $wisdom = 0;
     protected int $luck = 0;
     protected int $stat = 0;
-
 
     // Constructor
     public function __construct(?array $form = [])
@@ -26,9 +28,17 @@ class Character
             }
             if (!empty($form['pvmax'])) {
                 $this->pvmax = $form['pvmax'];
+                $this->pvcur = $this->pvmax;
+            }
+            if (!empty($form['pvcur'])) {
+                $this->pvcur = $form['pvcur'];
             }
             if (!empty($form['pmmax'])) {
                 $this->pmmax = $form['pmmax'];
+                $this->pmcur = $this->pmmax;
+            }
+            if (!empty($form['pmcur'])) {
+                $this->pmcur = $form['pmcur'];
             }
             if (!empty($form['strength'])) {
                 $this->strength = $form['strength'];
@@ -51,7 +61,8 @@ class Character
         }
     }
 
-    public function validate(): array
+    //Validate function
+    public function validate(bool $isCreate = true): array
     {
         $errors = [];
         if (empty($this->name)) {
@@ -87,8 +98,16 @@ class Character
 
         $this->stat = intval($this->strength) + intval($this->dexterity) + intval($this->constitution) + intval($this->intelligence) + intval($this->wisdom) + intval($this->luck);
 
-        if ($this->stat < 60 || $this->stat > 80) {
+        //Check for sum of stats at Character Creation
+        if ($isCreate && ($this->stat < 60 || $this->stat > 80)) {
             $errors['stat'] = true;
+        }
+        //Check for current Pv and PM at Character Update
+        if (!$isCreate && (empty($this->pvcur) || $this->pvcur > $this->pvmax)){
+            $errors['pvcur'] = true;
+        }
+        if (!$isCreate && (empty($this->pmcur) || $this->pmcur > $this->pmmax)){
+            $errors['pmcur'] = true;
         }
         return $errors;
     }
@@ -203,4 +222,31 @@ class Character
         $this->luck = $luck;
         return $this;
     }
+
+	public function getPvcur(): int {
+		return $this->pvcur;
+	}
+
+	public function setPvcur(int $pvcur): self {
+		$this->pvcur = $pvcur;
+		return $this;
+	}
+
+	public function getPmcur(): int {
+		return $this->pmcur;
+	}
+
+	public function setPmcur(int $pmcur): self {
+		$this->pmcur = $pmcur;
+		return $this;
+	}
+
+	public function getId(): int {
+		return $this->id;
+	}
+
+	public function setId(int $id): self {
+		$this->id = $id;
+		return $this;
+	}
 }
