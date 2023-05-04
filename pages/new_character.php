@@ -78,7 +78,7 @@ if (!empty($_POST)) {
         }
 
         //heading to success
-        header('Location: ?page=home&create=true');
+        header('Location: ?page=index&create=true');
     }
 }
 
