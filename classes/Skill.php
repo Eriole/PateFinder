@@ -1,9 +1,9 @@
 <?php
 class Skill
 {
-    protected string $name;
-    protected string $stat;
-    protected int $level;
+    protected string $name = '';
+    protected string $statId = '';
+    protected int $level = 0;
 
     public function __construct(?array $form = [])
     {
@@ -11,7 +11,7 @@ class Skill
             $this->name = trim($form['name']);
         }
         if (isset($form['stat'])) {
-            $this->stat = $form['stat'];
+            $this->statId = $form['stat'];
         }
         if (isset($form['level'])) {
             $this->level = $form['level'];
@@ -25,7 +25,7 @@ class Skill
         if (empty($this->name)) {
             $errors['name'] = true;
         }
-        if (empty($this->stat)) {
+        if (empty($this->statId)) {
             $errors['stat'] = true;
         }
         if (empty($this->level) || ($this->level < 0 || $this->level > 5)) {
@@ -47,14 +47,14 @@ class Skill
         return $this;
     }
 
-    public function getStat(): string
+    public function getStatId(): string
     {
-        return $this->stat;
+        return $this->statId;
     }
 
-    public function setStat(string $stat): self
+    public function setStatId(string $statId): self
     {
-        $this->stat = $stat;
+        $this->statId = $statId;
         return $this;
     }
 

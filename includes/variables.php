@@ -8,6 +8,6 @@ $statistics = $queryStat->fetchAll();
 
 $statisticList = [];
 
-// foreach ($statistics as $key => $value) {
-
-// }
+foreach ($statistics as $key => $statistic) {
+    $statisticList[$statistic->getId()] = $statistic->getName();
+}
