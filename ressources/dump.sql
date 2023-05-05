@@ -3,11 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 04 mai 2023 à 11:29
+-- Généré le : ven. 05 mai 2023 à 13:56
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -182,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `skill` (
   `skill_id` int NOT NULL AUTO_INCREMENT,
   `skill_name` varchar(50) NOT NULL,
   `skill_level` tinyint NOT NULL,
-  `player_id` int NOT NULL,
+  `player_id` int DEFAULT NULL,
   `statistic_id` int NOT NULL,
   PRIMARY KEY (`skill_id`),
   KEY `Skill_Game_Master_FK` (`player_id`),
@@ -296,7 +295,6 @@ ALTER TABLE `skill`
 --
 ALTER TABLE `stuff`
   ADD CONSTRAINT `Stuff_Game_Master_FK` FOREIGN KEY (`player_id`) REFERENCES `game_master` (`player_id`);
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
