@@ -3,22 +3,29 @@
 class Player
 {
 
-    protected string $username;
-    protected string $mail;
-    protected string $password;
+    protected string $username = '';
+    protected string $mail = '';
+    protected string $password = '';
 
 
     public function __construct(?array $form = [])
     {
-        $this->username = trim(($form['username']));
-        $this->password = trim($form['password']);
-        $this->mail = trim($form['email']);
+        if (isset($form['username'])) {
+            $this->username = trim(($form['username']));
+        }
+        if (isset($form['password'])) {
+            $this->password = trim($form['password']);
+        }
+        if (isset($form['email'])) {
+            $this->mail = ($form['email']);
+        }
+
     }
 
     public function validate()
     {
         $errors = [];
-        
+
         if (empty($this->username)) {
             $errors['username'] = true;
         }

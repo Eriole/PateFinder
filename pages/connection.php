@@ -4,6 +4,8 @@ $usernameCorrect = 'ID';
 $passwordCorrect = 'toto';
 $errors = [];
 
+
+
 if (isset($_POST['username'])) {
   $username = ($_POST['username']);
   $password = ($_POST['password']);
@@ -29,14 +31,27 @@ if (isset($_POST['username'])) {
 }
 
 // Account Creation PART:
-
 $player = new Player();
 $errors = [];
-if ( isset($_POST['email'])) {
+
+0f (isset($_POST['email'])) {
   $player = new Player($_POST);
   $errors = $player->validate();
+
+  if (empty($errors)) {
+    // INSERT INTO Player
+    $insertPlayer = "INSERT INTO player(player_username, player_mail, player_password) 
+    VALUES (:username, :mail, :password )";
+
+    $statmentInsertPlay = $connection->prepare($insertPlayer);
+    $statmentInsertPlay->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':mail', $player->getMail(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':password', $player->getPassword(), PDO::PARAM_STR);
+    $statmentInsertPlay->execute();
+  }
 }
 ?>
+
 <body>
 
   <section class="row text-center d-flex justify-content-around mt-5">
@@ -50,7 +65,7 @@ if ( isset($_POST['email'])) {
         <form action="" method="post" class="d-flex justify-content-center flex-column">
           <div class="form-group mx-5">
             <label for="username"></label>
-            <input type="text" class="form-control"  name="username" placeholder="Pseudo">
+            <input type="text" class="form-control" name="username" placeholder="Pseudo">
             <?php
             if (!empty($errors['username'])) {
               echo '<p class="badge text-bg-danger">' . $errors['username'] . '</p>';
@@ -60,7 +75,7 @@ if ( isset($_POST['email'])) {
 
           <div class="form-group mx-5">
             <label for="password"></label>
-            <input type="password" class="form-control"  name="password" placeholder="Mot de passe">
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe">
             <?php
             if (!empty($errors['password'])) {
               echo '<p class="badge text-bg-danger">' . $errors['password'] . '</p>';
@@ -72,7 +87,7 @@ if ( isset($_POST['email'])) {
 
           <div class="form-check text-center p-3">
 
-            <button type="submit" class="btn btn-primary" href="?page=" >SE CONNECTER</button>
+            <button type="submit" class="btn btn-primary" href="?page=">SE CONNECTER</button>
           </div>
         </form>
       </div>
@@ -87,7 +102,7 @@ if ( isset($_POST['email'])) {
         <form action="" method="post" class="d-flex justify-content-center flex-column">
           <div class="form-group mx-5">
             <label for="username"></label>
-            <input type="text" class="form-control"  name="username" placeholder="Pseudo">
+            <input type="text" class="form-control" name="username" placeholder="Pseudo">
             <?php
 
             if (!empty($errors['username'])) {
@@ -98,7 +113,7 @@ if ( isset($_POST['email'])) {
 
           <div class="form-group mx-5">
             <label for="email"></label>
-            <input type="text" class="form-control" aria-describedby="emailHelp" name="email"
+            <input type="email" class="form-control" aria-describedby="emailHelp" name="email"
               placeholder="Votre Adresse Mail">
             <?php
             if (!empty($errors['email'])) {
