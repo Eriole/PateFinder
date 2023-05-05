@@ -77,8 +77,8 @@ if (!empty($_POST)) {
             $statementInsertCharStat->execute();
         }
 
-        //heading to success
-        header('Location: ?page=index&create=true');
+        //@TODO heading to player dashboard
+        header('Location: ?page=connection&create=true');
     }
 }
 

@@ -8,17 +8,12 @@ if (!empty($_POST)) {
 
     if (empty($errors)) {
         // INSERT INTO Skill
-        // INSERT INTO `skill`(`skill_id`, `skill_name`, `skill_level`, `player_id`, `statistic_id`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]')
-        $insertSkill = "INSERT INTO skill (skill_name, skill_level, player_id, statistic_id) 
-        VALUES (:name, :level, :player_id, :statistic_id)";
-
-        //Missing player_id info
-        $playerId = 2;
+        $insertSkill = "INSERT INTO skill (skill_name, skill_level, statistic_id) 
+        VALUES (:name, :level, :statistic_id)";
 
         $statementInsertSkill = $connection->prepare($insertSkill);
         $statementInsertSkill->bindValue(':name', $skill->getName(), PDO::PARAM_STR);
         $statementInsertSkill->bindValue(':level', $skill->getLevel(), PDO::PARAM_INT);
-        $statementInsertSkill->bindValue(':player_id', $playerId, PDO::PARAM_INT);
         $statementInsertSkill->bindValue(':statistic_id', $skill->getStatId(), PDO::PARAM_INT);
         $statementInsertSkill->execute();
         $idSkill = $connection->lastInsertId();
@@ -27,7 +22,7 @@ if (!empty($_POST)) {
         $insertCharSkill = "INSERT INTO character_skill (character_id, skill_id) 
                 VALUES (:character_id, :skill_id)";
 
-        //Missing character_id info
+        //@TODO Missing character_id info
         $charId = 2;
 
         $statementInsertCharSkill = $connection->prepare($insertCharSkill);
@@ -35,13 +30,10 @@ if (!empty($_POST)) {
         $statementInsertCharSkill->bindValue(':skill_id', $idSkill, PDO::PARAM_INT);
         $statementInsertCharSkill->execute();
 
-        //heading to success
-        header('Location: ?page=index&create=true');
+        //@TODO heading to Character Sheet
+        header('Location: ?page=connection&create=true');
     }
 }
-
-
-
 
 ?>
 
