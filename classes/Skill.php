@@ -2,7 +2,7 @@
 class Skill
 {
     protected string $name = '';
-    protected string $statId = '';
+    protected int $statId = 0;
     protected int $level = 0;
 
     public function __construct(?array $form = [])
@@ -47,12 +47,12 @@ class Skill
         return $this;
     }
 
-    public function getStatId(): string
+    public function getStatId(): int
     {
         return $this->statId;
     }
 
-    public function setStatId(string $statId): self
+    public function setStatId(int $statId): self
     {
         $this->statId = $statId;
         return $this;
