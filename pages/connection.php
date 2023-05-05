@@ -15,10 +15,10 @@ if (isset($_POST['pseudonyme'])) {
         $errors['pseudonyme'] = 'ID incorrect!';
     }
     if (empty($password)) {
-        $errors['password'] = 'Password non remplie';
+        $errors['passwordConnection'] = 'Password non remplie';
 
     } elseif ($password != $passwordCorrect) {
-        $errors['password'] = 'Mot de passe incorrect!';
+        $errors['passwordConnection'] = 'Mot de passe incorrect!';
     }
 
     if (empty($errors)) {
@@ -78,8 +78,8 @@ if (isset($_POST['mailuser'])) {
                         <label for="password"></label>
                         <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
                         <?php
-                        if (!empty($errors['password'])) {
-                            echo '<p class="badge text-bg-danger">' . $errors['password'] . '</p>';
+                        if (!empty($errors['passwordConnection'])) {
+                            echo '<p class="badge text-bg-danger">' . $errors['passwordConnection'] . '</p>';
                         }
                         ?>
                     </div>
