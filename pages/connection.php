@@ -1,6 +1,33 @@
 <?php
-
+// connection 
+$pseudonymeCorrect = 'ID';
+$passwordCorrect = 'toto';
 $errors = [];
+
+if (isset($_POST['pseudonyme'])) {
+    $pseudonyme = ($_POST['pseudonyme']);
+    $password = ($_POST['password']);
+
+    if (empty($pseudonyme)) {
+        $errors['pseudonyme'] = 'ID non remplie';
+
+    } elseif ($pseudonyme != $pseudonymeCorrect) {
+        $errors['pseudonyme'] = 'ID incorrect!';
+    }
+    if (empty($password)) {
+        $errors['password'] = 'Password non remplie';
+
+    } elseif ($password != $passwordCorrect) {
+        $errors['password'] = 'Mot de passe incorrect!';
+    }
+
+    if (empty($errors)) {
+        $_SESSION['pseudonyme'] = $_POST['pseudonyme'];
+
+        header('location: ?login=success');
+    }
+}
+
 // Account Creation PART:
 
 if (isset($_POST['mailuser'])) {
@@ -37,16 +64,27 @@ if (isset($_POST['mailuser'])) {
 
       <div>
         <form action="" method="post" class="d-flex justify-content-center flex-column">
-          <div class="form-group mx-5">
-            <label for="pseudonyme"></label>
-            <input type="text" class="form-control" id="pseudonyme" name="pseudonyme" placeholder="Pseudo">
-          </div>
+        <div class="form-group mx-5">
+                        <label for="pseudonyme"></label>
+                        <input type="text" class="form-control" id="pseudonyme" name="pseudonyme" placeholder="Pseudo">
+                        <?php
+                        if (!empty($errors['pseudonyme'])) {
+                            echo '<p class="badge text-bg-danger">' . $errors['pseudonyme'] . '</p>';
+                        }
+                        ?>
+                    </div>
 
-          <div class="form-group mx-5">
-            <label for="password"></label>
-            <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
-          </div>
-          <small><a href="#">mot de passe oublié ?</a></small>
+                    <div class="form-group mx-5">
+                        <label for="password"></label>
+                        <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
+                        <?php
+                        if (!empty($errors['password'])) {
+                            echo '<p class="badge text-bg-danger">' . $errors['password'] . '</p>';
+                        }
+                        ?>
+                    </div>
+
+          <small><a href="#">Mot de passe oublié ?</a></small>
 
           <div class="form-check text-center p-3">
 
@@ -55,8 +93,6 @@ if (isset($_POST['mailuser'])) {
         </form>
       </div>
     </article>
-
-
 
     <!--  inscription  form -->
 
