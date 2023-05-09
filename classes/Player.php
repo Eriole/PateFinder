@@ -3,21 +3,22 @@
 class Player
 {
 
-    protected string $username = '';
-    protected string $mail = '';
-    protected string $password = '';
+    protected string $player_username = '';
+    protected string $player_mail = '';
+    protected string $player_password = '';
+    protected int $player_id = 0;
 
 
     public function __construct(?array $form = [])
     {
         if (isset($form['username'])) {
-            $this->username = trim(($form['username']));
+            $this->player_username = trim(($form['username']));
         }
         if (isset($form['password'])) {
-            $this->password = trim($form['password']);
+            $this->player_password = trim($form['password']);
         }
         if (isset($form['email'])) {
-            $this->mail = ($form['email']);
+            $this->player_mail = ($form['email']);
         }
 
     }
@@ -26,15 +27,15 @@ class Player
     {
         $errors = [];
 
-        if (empty($this->username)) {
+        if (empty($this->player_username)) {
             $errors['username'] = true;
         }
 
-        if ($isCreate && !filter_var(value: $this->mail, filter: FILTER_VALIDATE_EMAIL)) {
+        if ($isCreate && !filter_var(value: $this->player_mail, filter: FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = true;
         }
 
-        if (empty($this->password)) {
+        if (empty($this->player_password)) {
             $errors['password'] = true;
         }
         return $errors;
@@ -43,35 +44,43 @@ class Player
     // GET AND SET
     public function getUsername(): string
     {
-        return $this->username;
+        return $this->player_username;
     }
 
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $this->player_username = $username;
         return $this;
     }
 
     public function getMail(): string
     {
-        return $this->mail;
+        return $this->player_mail;
     }
 
     public function setMail(string $mail): self
     {
-        $this->mail = $mail;
+        $this->player_mail = $mail;
         return $this;
     }
 
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->player_password;
     }
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->player_password = $password;
         return $this;
     }
 
+	public function getId(): int {
+		return $this->player_id;
+	}
+	
+	public function setId(int $id): self {
+		$this->player_id = $id;
+		return $this;
+	}
 }

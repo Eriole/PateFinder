@@ -4,86 +4,80 @@ $errors = [];
 $connexionErrors = [];
 
 // Log in :
-/*
-$usernameCorrect = 'ID';
-$passwordCorrect = 'toto';
-
 if (isset($_POST['username'])) {
   $player = new Player($_POST);
-  $connexionErrors = $player->validate();
-  $username = ($_POST['username']);
-  $password = ($_POST['password']);
+  $connexionErrors = $player->validate(isCreate: false);
 
-  if (empty($username)) {
-    $errors['username'] = 'ID non remplie';
-    } elseif ($pseudonyme != $pseudonymeCorrect) {
-        $errors['pseudonyme'] = 'ID incorrect!';
-    }
-    if (empty($password)) {
-        $errors['passwordConnection'] = 'Password non remplie';
+  //Check if Username is set in Database
+  $checkUsername = "SELECT * FROM player WHERE player_username LIKE :username";
+  $queryUsername = $connection->prepare($checkUsername);
+  $queryUsername->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
+  //PDO create an object $dataBaseUsername based on Player class
+  $queryUsername->setFetchMode(PDO::FETCH_CLASS, Player::class);
+  $queryUsername->execute();
+  $dataBaseUsername = $queryUsername->fetch();
 
-    } elseif ($password != $passwordCorrect) {
-        $errors['passwordConnection'] = 'Mot de passe incorrect!';
-    }
-
-  } elseif ($username != $usernameCorrect) {
-    $errors['username'] = 'ID incorrect!';
-  }
-  if (empty($password)) {
-    $errors['password'] = 'Password non remplie';
-
-  } elseif ($password != $passwordCorrect) {
-    $errors['password'] = 'Mot de passe incorrect!';
+  if (empty($dataBaseUsername)) {
+    $connexionErrors['usernameUnknown'] = true;
+  } elseif (!password_verify($player->getPassword(),$dataBaseUsername->getPassword())) {
+    $connexionErrors['passwordWrong'] = true;
   }
 
-  if (empty($errors)) {
-    $_SESSION['username'] = $_POST['username'];
+    //If everything is ok open session and head to Dashboard
+  if (empty($connexionErrors)) {
+    
+    $_SESSION['user'] = $dataBaseUsername;
 
+    // @TODO Heading to User Dashboard
     header('location: ?login=success');
   }
-*/
+}
 
 // Sign in:
-
 if (isset($_POST['email'])) {
   $player = new Player($_POST);
   $errors = $player->validate(isCreate: true);
-
+  
   //Check if Username is set in Database
   $checkUsername = "SELECT * FROM player WHERE player_username LIKE :username";
   $statmentCheckUsername = $connection->prepare($checkUsername);
   $statmentCheckUsername->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
   $statmentCheckUsername->execute();
   $resultCheckUsername = $statmentCheckUsername->fetchAll();
-
+  
   if(!empty($resultCheckUsername)){
-    $errors['usernametaken'] = true;
+    $errors['usernameTaken'] = true;
   }
-
+  
   //Check if Email is set in Database
   $checkEmail = "SELECT * FROM player WHERE player_mail LIKE :email";
   $statmentCheckEmail = $connection->prepare($checkEmail);
   $statmentCheckEmail->bindValue(':email', $player->getMail(), PDO::PARAM_STR);
   $statmentCheckEmail->execute();
   $resultCheckEmail = $statmentCheckEmail->fetchAll();
-
+  
   if(!empty($resultCheckEmail)){
-    $errors['emailtaken'] = true;
+    $errors['emailTaken'] = true;
   }
-
+  
   //If everything is ok Insert into Database
   if (empty($errors)) {
     // INSERT INTO Player
     $insertPlayer = "INSERT INTO player(player_username, player_mail, player_password) 
     VALUES (:username, :mail, :password )";
-
+    $password = password_hash($player->getPassword(), PASSWORD_DEFAULT);
     $statmentInsertPlay = $connection->prepare($insertPlayer);
     $statmentInsertPlay->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
     $statmentInsertPlay->bindValue(':mail', $player->getMail(), PDO::PARAM_STR);
-    $statmentInsertPlay->bindValue(':password', $player->getPassword(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':password', $password, PDO::PARAM_STR);
     $statmentInsertPlay->execute();
+    $player->setId($connection->lastInsertId());
+    //Opening Session with new username
+    $player->setPassword($password);
+    $_SESSION['user'] = $player;
 
     // @TODO Heading after Sign in
+    header('location: ?login=success');
   }
 }
 ?>
@@ -101,10 +95,12 @@ if (isset($_POST['email'])) {
         <form action="" method="post" class="d-flex justify-content-center flex-column">
           <div class="form-group mx-5">
             <label for="username"></label>
-            <input type="text" class="form-control" name="username" placeholder="Pseudo">
+            <input type="text" class="form-control" name="username" placeholder="Pseudo" value="<?php echo $player->getUsername(); ?>" >
             <?php
-            if (!empty($errors['username'])) {
-              echo '<p class="badge text-bg-danger">' . $errors['username'] . '</p>';
+            if (!empty($connexionErrors['username'])) {
+              echo '<p class="badge text-bg-danger">Renseignez un pseudo</p>';
+            } elseif (!empty($connexionErrors['usernameUnknown'])) {
+              echo '<p class="badge text-bg-danger">Utilisateur inconnu</p>';
             }
             ?>
           </div>
@@ -113,9 +109,12 @@ if (isset($_POST['email'])) {
             <label for="password"></label>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe">
             <?php
-            if (!empty($errors['password'])) {
-              echo '<p class="badge text-bg-danger">' . $errors['password'] . '</p>';
+            if (!empty($connexionErrors['password'])) {
+              echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
+            } elseif (!empty($connexionErrors['passwordWrong'])) {
+              echo '<p class="badge text-bg-danger">Mot de passe invalide</p>';
             }
+            
             ?>
           </div>
           <small><a href="#">Mot de passe oublié ?</a></small>
@@ -142,7 +141,7 @@ if (isset($_POST['email'])) {
             if (!empty($errors['username'])) {
               echo '<p class="badge text-bg-danger">Renseignez un pseudo</p>';
             }
-            if (!empty($errors['usernametaken'])) {
+            if (!empty($errors['usernameTaken'])) {
               echo '<p class="badge text-bg-danger">Pseudo déjà pris</p>';
             }
             ?>
@@ -156,7 +155,7 @@ if (isset($_POST['email'])) {
             if (!empty($errors['email'])) {
               echo '<p class="badge text-bg-danger">Renseignez un mail</p>';
             }
-            if (!empty($errors['emailtaken'])) {
+            if (!empty($errors['emailTaken'])) {
               echo '<p class="badge text-bg-danger">Un compte avec cette adresse existe déjà</p>';
             }
             ?>
