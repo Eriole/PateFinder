@@ -82,7 +82,6 @@ if (isset($_POST['email'])) {
             ?>
           </div>
 
-<<<<<<< HEAD
           <div class="form-group mx-5">
             <label for="password"></label>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe">
@@ -92,7 +91,6 @@ if (isset($_POST['email'])) {
             }
             ?>
           </div>
-=======
                     <div class="form-group mx-5">
                         <label for="password"></label>
                         <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
@@ -102,7 +100,6 @@ if (isset($_POST['email'])) {
                         }
                         ?>
                     </div>
->>>>>>> f099125 (Modifier passwordConnection avec Ichem)
 
           <small><a href="#">Mot de passe oublié ?</a></small>
 
