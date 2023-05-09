@@ -12,6 +12,15 @@ if (isset($_POST['username'])) {
 
   if (empty($username)) {
     $errors['username'] = 'ID non remplie';
+    } elseif ($pseudonyme != $pseudonymeCorrect) {
+        $errors['pseudonyme'] = 'ID incorrect!';
+    }
+    if (empty($password)) {
+        $errors['passwordConnection'] = 'Password non remplie';
+
+    } elseif ($password != $passwordCorrect) {
+        $errors['passwordConnection'] = 'Mot de passe incorrect!';
+    }
 
   } elseif ($username != $usernameCorrect) {
     $errors['username'] = 'ID incorrect!';
@@ -28,7 +37,7 @@ if (isset($_POST['username'])) {
 
     header('location: ?login=success');
   }
-}
+
 
 // Account Creation PART:
 $player = new Player();
@@ -73,6 +82,7 @@ if (isset($_POST['email'])) {
             ?>
           </div>
 
+<<<<<<< HEAD
           <div class="form-group mx-5">
             <label for="password"></label>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe">
@@ -82,6 +92,17 @@ if (isset($_POST['email'])) {
             }
             ?>
           </div>
+=======
+                    <div class="form-group mx-5">
+                        <label for="password"></label>
+                        <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
+                        <?php
+                        if (!empty($errors['passwordConnection'])) {
+                            echo '<p class="badge text-bg-danger">' . $errors['passwordConnection'] . '</p>';
+                        }
+                        ?>
+                    </div>
+>>>>>>> f099125 (Modifier passwordConnection avec Ichem)
 
           <small><a href="#">Mot de passe oublié ?</a></small>
 
