@@ -1,11 +1,13 @@
 <?php
 $character = new Character();
 $errors = [];
+var_dump($character);
 
 //Creation Character
 if (!empty($_POST)) {
     $character = new Character($_POST);
     $errors = $character->validate(isCreate: true);
+    var_dump($character);
 
     if (empty($errors)) {
 

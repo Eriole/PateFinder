@@ -1,27 +1,53 @@
 <?php
-
+// connection 
+$usernameCorrect = 'ID';
+$passwordCorrect = 'toto';
 $errors = [];
-// Account Creation PART:
 
-if (isset($_POST['mailuser'])) {
-  $username = trim(($_POST['pseudonyme']));
-  $password = trim($_POST['password']);
-  $email = ($_POST['mailuser']);
-  // $userconnect = [$username, $password,];
-  $userinfo = [$email, $username, $password,];
 
+
+if (isset($_POST['username'])) {
+  $username = ($_POST['username']);
+  $password = ($_POST['password']);
 
   if (empty($username)) {
+    $errors['username'] = 'ID non remplie';
 
-    $errors['username'] = true;
+  } elseif ($username != $usernameCorrect) {
+    $errors['username'] = 'ID incorrect!';
   }
-
-  if (!filter_var(value: $email, filter: FILTER_VALIDATE_EMAIL)) {
-    $errors['email'] = true;
-  }
-
   if (empty($password)) {
-    $errors['password'] = true;
+    $errors['password'] = 'Password non remplie';
+
+  } elseif ($password != $passwordCorrect) {
+    $errors['password'] = 'Mot de passe incorrect!';
+  }
+
+  if (empty($errors)) {
+    $_SESSION['username'] = $_POST['username'];
+
+    header('location: ?login=success');
+  }
+}
+
+// Account Creation PART:
+$player = new Player();
+$errors = [];
+
+if (isset($_POST['email'])) {
+  $player = new Player($_POST);
+  $errors = $player->validate();
+
+  if (empty($errors)) {
+    // INSERT INTO Player
+    $insertPlayer = "INSERT INTO player(player_username, player_mail, player_password) 
+    VALUES (:username, :mail, :password )";
+
+    $statmentInsertPlay = $connection->prepare($insertPlayer);
+    $statmentInsertPlay->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':mail', $player->getMail(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':password', $player->getPassword(), PDO::PARAM_STR);
+    $statmentInsertPlay->execute();
   }
 }
 ?>
@@ -38,25 +64,34 @@ if (isset($_POST['mailuser'])) {
       <div>
         <form action="" method="post" class="d-flex justify-content-center flex-column">
           <div class="form-group mx-5">
-            <label for="pseudonyme"></label>
-            <input type="text" class="form-control" id="pseudonyme" name="pseudonyme" placeholder="Pseudo">
+            <label for="username"></label>
+            <input type="text" class="form-control" name="username" placeholder="Pseudo">
+            <?php
+            if (!empty($errors['username'])) {
+              echo '<p class="badge text-bg-danger">' . $errors['username'] . '</p>';
+            }
+            ?>
           </div>
 
           <div class="form-group mx-5">
             <label for="password"></label>
-            <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe">
+            <?php
+            if (!empty($errors['password'])) {
+              echo '<p class="badge text-bg-danger">' . $errors['password'] . '</p>';
+            }
+            ?>
           </div>
-          <small><a href="#">mot de passe oublié ?</a></small>
+
+          <small><a href="#">Mot de passe oublié ?</a></small>
 
           <div class="form-check text-center p-3">
 
-            <button type="submit" class="btn btn-primary">SE CONNECTER</button>
+            <button type="submit" class="btn btn-primary" href="?page=">SE CONNECTER</button>
           </div>
         </form>
       </div>
     </article>
-
-
 
     <!--  inscription  form -->
 
@@ -66,8 +101,8 @@ if (isset($_POST['mailuser'])) {
 
         <form action="" method="post" class="d-flex justify-content-center flex-column">
           <div class="form-group mx-5">
-            <label for="pseudonyme"></label>
-            <input type="text" class="form-control" id="pseudonyme" name="pseudonyme" placeholder="Pseudo">
+            <label for="username"></label>
+            <input type="text" class="form-control" name="username" placeholder="Pseudo">
             <?php
 
             if (!empty($errors['username'])) {
@@ -77,8 +112,8 @@ if (isset($_POST['mailuser'])) {
           </div>
 
           <div class="form-group mx-5">
-            <label for="mailuser"></label>
-            <input type="text" class="form-control" id="mailuser" aria-describedby="emailHelp" name="mailuser"
+            <label for="email"></label>
+            <input type="email" class="form-control" aria-describedby="emailHelp" name="email"
               placeholder="Votre Adresse Mail">
             <?php
             if (!empty($errors['email'])) {
@@ -89,7 +124,7 @@ if (isset($_POST['mailuser'])) {
 
           <div class="form-group mx-5">
             <label for="password"></label>
-            <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de Passe">
+            <input type="password" class="form-control" name="password" placeholder="Mot de Passe">
 
             <?php
             if (!empty($errors['password'])) {
