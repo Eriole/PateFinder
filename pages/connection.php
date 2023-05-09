@@ -34,7 +34,7 @@ if (isset($_POST['username'])) {
 $player = new Player();
 $errors = [];
 
-0f (isset($_POST['email'])) {
+if (isset($_POST['email'])) {
   $player = new Player($_POST);
   $errors = $player->validate();
 
