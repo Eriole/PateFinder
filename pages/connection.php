@@ -1,12 +1,16 @@
 <?php
-// connection 
+$player = new Player();
+$errors = [];
+$connexionErrors = [];
+
+// Log in :
+/*
 $usernameCorrect = 'ID';
 $passwordCorrect = 'toto';
-$errors = [];
-
-
 
 if (isset($_POST['username'])) {
+  $player = new Player($_POST);
+  $connexionErrors = $player->validate();
   $username = ($_POST['username']);
   $password = ($_POST['password']);
 
@@ -37,16 +41,37 @@ if (isset($_POST['username'])) {
 
     header('location: ?login=success');
   }
+*/
 
-
-// Account Creation PART:
-$player = new Player();
-$errors = [];
+// Sign in:
 
 if (isset($_POST['email'])) {
   $player = new Player($_POST);
-  $errors = $player->validate();
+  $errors = $player->validate(isCreate: true);
 
+  //Check if Username is set in Database
+  $checkUsername = "SELECT * FROM player WHERE player_username LIKE :username";
+  $statmentCheckUsername = $connection->prepare($checkUsername);
+  $statmentCheckUsername->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
+  $statmentCheckUsername->execute();
+  $resultCheckUsername = $statmentCheckUsername->fetchAll();
+
+  if(!empty($resultCheckUsername)){
+    $errors['usernametaken'] = true;
+  }
+
+  //Check if Email is set in Database
+  $checkEmail = "SELECT * FROM player WHERE player_mail LIKE :email";
+  $statmentCheckEmail = $connection->prepare($checkEmail);
+  $statmentCheckEmail->bindValue(':email', $player->getMail(), PDO::PARAM_STR);
+  $statmentCheckEmail->execute();
+  $resultCheckEmail = $statmentCheckEmail->fetchAll();
+
+  if(!empty($resultCheckEmail)){
+    $errors['emailtaken'] = true;
+  }
+
+  //If everything is ok Insert into Database
   if (empty($errors)) {
     // INSERT INTO Player
     $insertPlayer = "INSERT INTO player(player_username, player_mail, player_password) 
@@ -57,6 +82,8 @@ if (isset($_POST['email'])) {
     $statmentInsertPlay->bindValue(':mail', $player->getMail(), PDO::PARAM_STR);
     $statmentInsertPlay->bindValue(':password', $player->getPassword(), PDO::PARAM_STR);
     $statmentInsertPlay->execute();
+
+    // @TODO Heading after Sign in
   }
 }
 ?>
@@ -91,16 +118,6 @@ if (isset($_POST['email'])) {
             }
             ?>
           </div>
-                    <div class="form-group mx-5">
-                        <label for="password"></label>
-                        <input type="password" class="form-control" id="mdp" name="password" placeholder="Mot de passe">
-                        <?php
-                        if (!empty($errors['passwordConnection'])) {
-                            echo '<p class="badge text-bg-danger">' . $errors['passwordConnection'] . '</p>';
-                        }
-                        ?>
-                    </div>
-
           <small><a href="#">Mot de passe oublié ?</a></small>
 
           <div class="form-check text-center p-3">
@@ -120,11 +137,13 @@ if (isset($_POST['email'])) {
         <form action="" method="post" class="d-flex justify-content-center flex-column">
           <div class="form-group mx-5">
             <label for="username"></label>
-            <input type="text" class="form-control" name="username" placeholder="Pseudo">
+            <input type="text" class="form-control" name="username" placeholder="Pseudo" value="<?php echo $player->getUsername(); ?>">
             <?php
-
             if (!empty($errors['username'])) {
-              echo '<p class="badge text-bg-danger">vous devez renseignez un pseudo !</p>';
+              echo '<p class="badge text-bg-danger">Renseignez un pseudo</p>';
+            }
+            if (!empty($errors['usernametaken'])) {
+              echo '<p class="badge text-bg-danger">Pseudo déjà pris</p>';
             }
             ?>
           </div>
@@ -132,10 +151,13 @@ if (isset($_POST['email'])) {
           <div class="form-group mx-5">
             <label for="email"></label>
             <input type="email" class="form-control" aria-describedby="emailHelp" name="email"
-              placeholder="Votre Adresse Mail">
+              placeholder="Votre Adresse Mail" value="<?php echo $player->getMail(); ?>">
             <?php
             if (!empty($errors['email'])) {
-              echo '<p class="badge text-bg-danger">Renseignez un mail!</p>';
+              echo '<p class="badge text-bg-danger">Renseignez un mail</p>';
+            }
+            if (!empty($errors['emailtaken'])) {
+              echo '<p class="badge text-bg-danger">Un compte avec cette adresse existe déjà</p>';
             }
             ?>
           </div>
@@ -143,13 +165,11 @@ if (isset($_POST['email'])) {
           <div class="form-group mx-5">
             <label for="password"></label>
             <input type="password" class="form-control" name="password" placeholder="Mot de Passe">
-
             <?php
             if (!empty($errors['password'])) {
-              echo '<p class="badge text-bg-danger">Renseignez un mot de passe !</p>';
+              echo '<p class="badge text-bg-danger">Renseignez un mot de passe</p>';
             }
             ?>
-
           </div>
           <div class="form-check text-center p-3">
 

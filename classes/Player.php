@@ -22,7 +22,7 @@ class Player
 
     }
 
-    public function validate()
+    public function validate(bool $isCreate = true) :array
     {
         $errors = [];
 
@@ -30,7 +30,7 @@ class Player
             $errors['username'] = true;
         }
 
-        if (!filter_var(value: $this->mail, filter: FILTER_VALIDATE_EMAIL)) {
+        if ($isCreate && !filter_var(value: $this->mail, filter: FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = true;
         }
 
