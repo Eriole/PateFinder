@@ -4,9 +4,19 @@ $errors = [];
 
 if (!empty($_POST)){
     $stuff = new Stuff($_POST);
-    $errors = $stuff->validate();
-    var_dump($stuff);
-    var_dump($stuff->validate());  
+    $errors = $stuff->validate(); 
+
+    if (empty($errors)) {
+        $insertStuff = "INSERT INTO `stuff`(stuff_name, stuff_dmg, stuff_range) 
+        VALUES (:name, :damage, :range)";
+
+        $statementInsertStuff = $connection->prepare($insertStuff);
+        $statementInsertStuff->bindValue(':name', $stuff->getName(), PDO::PARAM_STR);
+        $statementInsertStuff->bindValue(':damage', $stuff->getDamage(), PDO::PARAM_INT);
+        $statementInsertStuff->bindValue(':range', $stuff->getRange(), PDO::PARAM_INT);
+
+        $statementInsertStuff->execute();
+    }
 }
 
 ?>
