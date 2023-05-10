@@ -1,10 +1,12 @@
 <?php
 $player = new Player();
+$registration = new Player();
 $errors = [];
 $connexionErrors = [];
+var_dump($_POST);
 
 // Log in :
-if (isset($_POST['username'])) {
+if (isset($_POST['connection'])) {
   $player = new Player($_POST);
   $connexionErrors = $player->validate(isCreate: false);
 
@@ -33,14 +35,14 @@ if (isset($_POST['username'])) {
 }
 
 // Sign in:
-if (isset($_POST['email'])) {
-  $player = new Player($_POST);
-  $errors = $player->validate(isCreate: true);
+if (isset($_POST['registration'])) {
+  $registration = new Player($_POST);
+  $errors = $registration->validate(isCreate: true);
   
   //Check if Username is set in Database
   $checkUsername = "SELECT * FROM player WHERE player_username LIKE :username";
   $statmentCheckUsername = $connection->prepare($checkUsername);
-  $statmentCheckUsername->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
+  $statmentCheckUsername->bindValue(':username', $registration->getUsername(), PDO::PARAM_STR);
   $statmentCheckUsername->execute();
   $resultCheckUsername = $statmentCheckUsername->fetchAll();
   
@@ -51,7 +53,7 @@ if (isset($_POST['email'])) {
   //Check if Email is set in Database
   $checkEmail = "SELECT * FROM player WHERE player_mail LIKE :email";
   $statmentCheckEmail = $connection->prepare($checkEmail);
-  $statmentCheckEmail->bindValue(':email', $player->getMail(), PDO::PARAM_STR);
+  $statmentCheckEmail->bindValue(':email', $registration->getMail(), PDO::PARAM_STR);
   $statmentCheckEmail->execute();
   $resultCheckEmail = $statmentCheckEmail->fetchAll();
   
@@ -64,16 +66,16 @@ if (isset($_POST['email'])) {
     // INSERT INTO Player
     $insertPlayer = "INSERT INTO player(player_username, player_mail, player_password) 
     VALUES (:username, :mail, :password )";
-    $password = password_hash($player->getPassword(), PASSWORD_DEFAULT);
+    $password = password_hash($registration->getPassword(), PASSWORD_DEFAULT);
     $statmentInsertPlay = $connection->prepare($insertPlayer);
-    $statmentInsertPlay->bindValue(':username', $player->getUsername(), PDO::PARAM_STR);
-    $statmentInsertPlay->bindValue(':mail', $player->getMail(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':username', $registration->getUsername(), PDO::PARAM_STR);
+    $statmentInsertPlay->bindValue(':mail', $registration->getMail(), PDO::PARAM_STR);
     $statmentInsertPlay->bindValue(':password', $password, PDO::PARAM_STR);
     $statmentInsertPlay->execute();
-    $player->setId($connection->lastInsertId());
+    $registration->setId($connection->lastInsertId());
     //Opening Session with new username
-    $player->setPassword($password);
-    $_SESSION['user'] = $player;
+    $registration->setPassword($password);
+    $_SESSION['user'] = $registration;
 
     // @TODO Heading after Sign in
     header('location: ?login=success');
@@ -116,11 +118,11 @@ if (isset($_POST['email'])) {
         </li>
         <small><a href="#">Mot de passe oublié ?</a></small>
       </ul>
-      <button type="submit" class="btn btn-primary" href="?page=">SE CONNECTER</button>
+      <button type="submit" class="btn btn-primary" href="?page=" name="connection">SE CONNECTER</button>
     </form>
   </article>
   
-  <!--  inscription  form -->
+  <!-- registration  form -->
   
   <article class="col-5 offset-2 text-center">
     <h2>Créer un compte</h2>
@@ -128,7 +130,7 @@ if (isset($_POST['email'])) {
       <ul class="list-unstyled">
         <li class="text-start mt-3">
           <label for="username">Nom d'utilisateur :</label>
-          <input type="text" class="form-control" name="username" placeholder="Pseudo" value="<?php echo $player->getUsername(); ?>">
+          <input type="text" class="form-control" name="username" placeholder="Pseudo" value="<?php echo $registration->getUsername(); ?>">
           <?php
             if (!empty($errors['username'])) {
               echo '<p class="badge text-bg-danger">Renseignez un pseudo</p>';
@@ -141,7 +143,7 @@ if (isset($_POST['email'])) {
         <li class="text-start mt-3">
           <label for="email">Adresse e-mail :</label>
           <input type="email" class="form-control" aria-describedby="emailHelp" name="email"
-          placeholder="Votre adresse mail" value="<?php echo $player->getMail(); ?>">
+          placeholder="Votre adresse mail" value="<?php echo $registration->getMail(); ?>">
           <?php
             if (!empty($errors['email'])) {
               echo '<p class="badge text-bg-danger">Renseignez un mail</p>';
@@ -161,7 +163,7 @@ if (isset($_POST['email'])) {
             ?>
         </li>
       </ul>
-      <button type="submit" class="btn btn-primary">CRÉER UN COMPTE</button>
+      <button type="submit" class="btn btn-primary" name="registration">CRÉER UN COMPTE</button>
     </form>
   </article>
   

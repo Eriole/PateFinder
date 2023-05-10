@@ -11,14 +11,14 @@ class Skill
             $this->name = trim($form['name']);
         }
         if (isset($form['stat'])) {
-            $this->statId = $form['stat'];
+            $this->statId = intval($form['stat']);
         }
         if (isset($form['level'])) {
             $this->level = $form['level'];
         }
     }
 
-    public function validate()
+    public function validate(): array
     {
         $errors = [];
 
@@ -28,7 +28,7 @@ class Skill
         if (empty($this->statId)) {
             $errors['stat'] = true;
         }
-        if (empty($this->level) || ($this->level < 0 || $this->level > 5)) {
+        if ($this->level < 0 || $this->level > 5) {
             $errors['level'] = true;
         }
 
