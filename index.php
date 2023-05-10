@@ -9,13 +9,10 @@ $pages = [
     'new_character' => "Nouvelle fiche",
     'logout' => "Déconnexion",
     'new_skill' => "Nouvelle compétence",
-<<<<<<< HEAD
     'new_stuff' => "Nouvel équipement",
     'update_stuff' => "Modifier un équipement",
     'update_skill' => "Modifier la compétence",
-=======
     'character_sheet' => "Fiche personnage",
->>>>>>> 04f2ceb (debut html)
 ];
 
 if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
