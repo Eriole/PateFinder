@@ -3,7 +3,6 @@ $player = new Player();
 $registration = new Player();
 $errors = [];
 $connexionErrors = [];
-var_dump($_POST);
 
 // Log in :
 if (isset($_POST['connection'])) {
