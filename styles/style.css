@@ -43,9 +43,14 @@ footer img {
     aspect-ratio: 1/1;
 }
 
-.bg-forms {
-
-background-color: rgb(186, 186, 186);
-
+.bg-light-gray {
+    background-color: #D8D8D8;
 }
 
+.bg-gray {
+    background-color: #BABABA;
+}
+
+.dark-gray {
+    background-color: #8C8C8C;
+}
