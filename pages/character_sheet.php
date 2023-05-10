@@ -17,8 +17,6 @@ $selectStat = "SELECT character_statistic.statistic_id, current_statistic, stati
     WHERE character_id= :charact_id";
 $queryStat = $connection->prepare($selectStat);
 $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
-//PDO create an array $characSkill based on Skill class
-// $queryStat->setFetchMode(PDO::FETCH_CLASS, Skill::class);
 $queryStat->execute();
 $characStat = $queryStat->fetchAll();
 $currentCharact  = (new CharacterComposer())->compose($currentCharact, $characStat);
@@ -44,8 +42,6 @@ $queryStuff->bindValue(':charact_id', $characId, PDO::PARAM_INT);
 $queryStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
 $queryStuff->execute();
 $characStuff = $queryStuff->fetchAll();
-
-var_dump($currentCharact, $characStat, $characSkill, $characStuff, $statisticList);
 
 ?>
 
