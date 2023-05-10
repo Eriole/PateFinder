@@ -24,10 +24,10 @@ Class Stuff
         if (empty($this->name)){
             $errors['name'] = true;
         }
-        if (empty($this->damage)){
+        if ($this->damage < 0) {
             $errors['damage'] = true;
         }
-        if (empty($this->range) || ($this->range < 0 || $this->range > 5)){
+        if ($this->range < 0 || $this->range > 5) {
             $errors['range'] = true;
         }
 
