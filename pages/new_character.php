@@ -1,13 +1,11 @@
 <?php
 $character = new Character();
 $errors = [];
-var_dump($character);
 
 //Creation Character
 if (!empty($_POST)) {
     $character = new Character($_POST);
     $errors = $character->validate(isCreate: true);
-    var_dump($character);
 
     if (empty($errors)) {
 
@@ -21,14 +19,7 @@ if (!empty($_POST)) {
         $statementInsertChar->execute();
         $idCharacter = $connection->lastInsertId();
 
-        //SELECT FROM Statistic
-        $queryStat = $connection->prepare("SELECT * FROM statistic");
-        //PDO create an array $statistics based on Statistic class
-        $queryStat->setFetchMode(PDO::FETCH_CLASS, Statistic::class);
-        $queryStat->execute();
-        $statistics = $queryStat->fetchAll();
-
-        //Creation of an Array $characterStatistics with 'statistic_id' => 'current_stat' based on $statistics and $character
+        //Creation of an Array $characterStatistics with 'statistic_id' => 'current_stat' based on $statistics (in variables.php) and $character
         $characterStatistics = [];
         foreach ($statistics as $key => $statistic) {
             switch ($statistic->getShortname()) {

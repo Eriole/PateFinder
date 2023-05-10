@@ -1,23 +1,28 @@
 <?php
 require_once 'includes/config.inc.php';
 require_once 'includes/autoloader.php';
+ob_start();
+session_start();
 
-$page_title = "Accueil";
+$pages = [
+    'connection' => "Accueil",
+    'new_character' => "Nouvelle fiche",
+    'logout' => "Déconnexion",
+    'new_skill' => "Nouvelle compétence",
+];
+
+if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
+    $page = $_GET['page'];
+    $pageTitle = $pages[$page];
+} else {
+    $page = 'connection';
+    $pageTitle = $pages[$page];
+}
 
 include 'includes/header.php';
-
-$page='connection';
-$page_title = "Home page";
-
-if(isset($_GET['page'])){
-    $page = $_GET['page'];
-}
-
-//Primary Alert New Character created successfully
-if(isset($_GET['create'])){
-    echo '<div class="alert alert-primary d-flex align-items-center" role="alert">Personnage créé</div>';
-}
 
 include_once 'pages/'. $page .'.php';
 
 include 'includes/footer.php';
+
+ob_end_flush();
