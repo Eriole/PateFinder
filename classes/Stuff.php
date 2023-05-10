@@ -18,7 +18,7 @@ Class Stuff
         }
     }
 
-    public function validate()
+    public function validate(): array
     {
         $errors = [];
         if (empty($this->name)){
