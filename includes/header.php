@@ -27,8 +27,8 @@ include_once 'variables.php';
             <p>Gérez vos fiches de personnages pour vos parties de Jeu de Rôle !</p>
         </div>
     </header>
-<?php if (!empty($_SESSION)) {
-    echo '
+    <?php if (!empty($_SESSION)) {
+        echo '
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,15 +58,27 @@ include_once 'variables.php';
             </div>
         </div>
     </nav>
-    '; } ?>
+    ';
+    } ?>
 
-<?php
-//Primary Alert New Character created successfully
-if(!empty($_GET['create']) && $_GET['create'] == true) {
-    echo '<div class="alert alert-primary d-flex align-items-center" role="alert">Personnage créé</div>';
-}
-//Warning Alert Logout successful
-if (!empty($_GET['disconnected']) && $_GET['disconnected'] == true) {
-    echo '<div class="alert alert-warning d-flex align-items-center" role="alert" >Vous êtes déconnecté</div>';
-};
-?>
+    <?php
+    //Primary Alert New Character created successfully
+    if (!empty($_GET['create']) && $_GET['create'] == true) {
+        echo '<div class="alert alert-primary d-flex align-items-center" role="alert">Personnage créé</div>';
+    }
+    //Warning Alert Logout successful
+    if (!empty($_GET['disconnected']) && $_GET['disconnected'] == true) {
+        echo '<div class="alert alert-warning d-flex align-items-center" role="alert" >Vous êtes déconnecté</div>';
+    }
+    ;
+
+    if (!empty($_GET['addStuff']) && $_GET['addStuff'] == true) {
+        echo '<div class="alert alert-primary d-flex align-items-center" role="alert" >Equipement ajouté</div>';
+    }
+    ;
+
+    if (!empty($_GET['updateStuff']) && $_GET['updateStuff'] == true) {
+        echo '<div class="alert alert-primary d-flex align-items-center" role="alert" >Equipement modifié</div>';
+    }
+    ;
+    ?>

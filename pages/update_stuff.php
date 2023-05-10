@@ -1,29 +1,45 @@
 <?php
-$stuff = new Stuff();
 $errors = [];
+
+// @TODO Need link with id_stuff
+// $idStuff = $_GET['id_stuff'];
+$idStuff = 1;
+
+$selectStuff = "SELECT * FROM stuff WHERE stuff_id = :stuff_id";
+$statementSelectStuff = $connection->prepare($selectStuff);
+
+$statementSelectStuff->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);
+$statementSelectStuff->execute();
+$statementSelectStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
+$stuff = $statementSelectStuff->fetch();
+
 
 if (!empty($_POST)) {
     $stuff = new Stuff($_POST);
     $errors = $stuff->validate();
 
     if (empty($errors)) {
-        $insertStuff = "INSERT INTO `stuff`(stuff_name, stuff_dmg, stuff_range) 
-        VALUES (:name, :damage, :range)";
+        // $idPlayer = null;
 
-        $statementInsertStuff = $connection->prepare($insertStuff);
-        $statementInsertStuff->bindValue(':name', $stuff->getName(), PDO::PARAM_STR);
-        $statementInsertStuff->bindValue(':damage', $stuff->getDamage(), PDO::PARAM_INT);
-        $statementInsertStuff->bindValue(':range', $stuff->getRange(), PDO::PARAM_INT);
+        $updateStuff = "UPDATE stuff 
+        SET stuff_id=:stuff_id, stuff_name=:name, stuff_dmg=:dmg, stuff_range=:range WHERE stuff_id = :stuff_id";
 
-        $statementInsertStuff->execute();
+        $statementUpdateStuff = $connection->prepare($updateStuff);
+        $statementUpdateStuff->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);
+        $statementUpdateStuff->bindValue(':name', $stuff->getName(), PDO::PARAM_STR);
+        $statementUpdateStuff->bindValue(':dmg', $stuff->getDamage(), PDO::PARAM_INT);
+        $statementUpdateStuff->bindValue(':range', $stuff->getRange(), PDO::PARAM_INT);
+        // $statementUpdateStuff->bindValue(':player_id', $idPlayer, PDO::PARAM_INT);
 
-        header('Location: ?page=new_stuff&addStuff=true');
+        $statementUpdateStuff->execute();
+
+        header('location: ?page=update_stuff&updateStuff=true');
     }
 }
 
 ?>
 <section class="container">
-    <h2 class="text-center my-5">Ajouter un équipement</h2>
+    <h2 class="text-center my-5">Modifier un équipement</h2>
     <form action="" method="post">
         <ul class="list-unstyled w-50">
             <li class="d-flex justify-content-between align-items-center">
