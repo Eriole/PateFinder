@@ -24,7 +24,7 @@ $characters = $queryCharacter->fetchAll();
         <a class="btn btn-primary" href="?page=new_character">Créer une fiche</a>
     </div>
 
-    <table class="table text-center mt-5 ">
+    <table class="table text-center mt-5 table-striped">
         <thead>
             <tr>
                 <th scope="col">Nom du personnage</th>
@@ -41,17 +41,17 @@ $characters = $queryCharacter->fetchAll();
                         <?php echo $character->getName(); ?>
                     </td>
                     <td>
-                        <a href="?page=character_sheet&id=<?php echo $character->getId(); ?>">
+                        <a href="?page=character_sheet&id=<?php echo $character->getId(); ?>" class="btn btn-primary">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="?page=edit_character&id=<?php echo $character->getId(); ?>">
+                        <a href="?page=edit_character&id=<?php echo $character->getId(); ?>" class="btn btn-Succes">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>
                     <td class="">
-                        <a href="?page=remove_character&id=<?php echo $character->getId(); ?>">
+                        <a href="?page=remove_character&id=<?php echo $character->getId(); ?>" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>
