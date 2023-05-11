@@ -14,9 +14,25 @@ if (!empty($_POST)) {
         $statementInsertStuff->bindValue(':name', $stuff->getName(), PDO::PARAM_STR);
         $statementInsertStuff->bindValue(':damage', $stuff->getDamage(), PDO::PARAM_INT);
         $statementInsertStuff->bindValue(':range', $stuff->getRange(), PDO::PARAM_INT);
-
         $statementInsertStuff->execute();
 
+<<<<<<< HEAD
+=======
+        $idStuff = $connection->lastInsertId();
+
+        // INSERT INTO character_stuff
+        $insertCharSkill = "INSERT INTO character_stuff (character_id, stuff_id) 
+                VALUES (:character_id, :stuff_id)";
+
+        //@TODO Missing character_id info
+        $charId = 2;
+
+        $statementInsertCharSkill = $connection->prepare($insertCharSkill);
+        $statementInsertCharSkill->bindValue(':character_id', $charId, PDO::PARAM_INT);
+        $statementInsertCharSkill->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);
+        $statementInsertCharSkill->execute();
+
+>>>>>>> 36cb268 (F12 - Ajout de l'insertion des données dans la table intermédiaire)
         header('Location: ?page=new_stuff&addStuff=true');
     }
 }
