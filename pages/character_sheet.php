@@ -1,5 +1,6 @@
 <?php
 $characId = 5;
+$errors = [];
 
 //SELECT FROM Played_Character
 $selectCharac = "SELECT character_id, character_name, player_id FROM played_character
@@ -20,6 +21,29 @@ $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
 $queryStat->execute();
 $characStat = $queryStat->fetchAll();
 $currentCharact = (new CharacterComposer())->compose($currentCharact, $characStat);
+
+//UPDATE PV and PM
+if (!empty($_POST)) {
+    $currentCharact->setPmcur($_POST['pmcur']);
+    $currentCharact->setPvcur($_POST['pvcur']);
+
+    $errors = $currentCharact->validate(isCreate: false);
+
+    if (empty($errors)) {
+        $updatePVPM = "UPDATE character_statistic 
+        SET current_statistic = :currentStat 
+        WHERE statistic_id = (SELECT statistic_id FROM statistic WHERE statistic_shortname = :shortname) 
+        AND character_id = :charact_id ";
+        $statementUpdatePVPM = $connection->prepare($updatePVPM);
+        $statementUpdatePVPM->bindValue(':charact_id', $characId, PDO::PARAM_INT);
+        $statementUpdatePVPM->bindValue(':shortname', 'PVact', PDO::PARAM_STR);
+        $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPvcur(), PDO::PARAM_INT);
+        $statementUpdatePVPM->execute();
+        $statementUpdatePVPM->bindValue(':shortname', 'PMact', PDO::PARAM_STR);
+        $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPmcur(), PDO::PARAM_INT);
+        $statementUpdatePVPM->execute();
+    }
+}
 
 //SELECT FROM Character_Skill
 $selectSkill = "SELECT character_skill.skill_id, skill_name, skill_level, statistic_id FROM character_skill
@@ -43,10 +67,9 @@ $queryStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
 $queryStuff->execute();
 $characStuff = $queryStuff->fetchAll();
 
-// var_dump($characSkill, $characStuff);
 ?>
 
-<div class="container d-flex flex-column align-items-center my-5 gap-5">
+<div class="container d-flex flex-column justify-content-center align-items-center my-5 gap-5">
     <div class="w-75">
         <div class="d-flex justify-content-around align-items-center">
             <h2>
@@ -55,6 +78,9 @@ $characStuff = $queryStuff->fetchAll();
             <i class="fa-solid fa-pen-to-square"></i>
         </div>
         <hr class="mx-auto w-75">
+        <div class="mb-2 row justify-content-center">
+            <button type="button" class="col-4 btn btn-light" id="toggle">Activer les modifications</button>
+        </div>
     </div>
 
     <!-- Statistics -->
@@ -64,24 +90,30 @@ $characStuff = $queryStuff->fetchAll();
             <h3>Caractéristiques</h3>
             <i class="fa-solid fa-pen-to-square"></i>
         </div>
-        <!-- Display -->
-        <div class="bg-gray px-3 py-5 rounded">
+        <!-- Display Stats -->
+        <form class="bg-gray px-3 py-5 rounded" method="POST" action="">
             <p class="mb-4"><span class="p-2 dark-gray rounded me-3">
                     <?php echo $currentCharact->getInitiative(); ?>
-                </span>
-                Initiative (INIT) </p>
-
+                </span> Initiative (INIT)
+            </p>
+            <!-- Display PV and PM -->
             <div class="d-flex justify-content-between align-items-center">
-                <ul class="list-unstyled my-0">
+                <ul class="list-unstyled">
                     <li>
                         <p><span class="p-2 dark-gray rounded me-3">
                                 <?php echo $currentCharact->getPvmax(); ?>
                             </span> Points de vie max </p>
                     </li>
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getPvcur(); ?>
-                            </span> Points de vie actuels </p>
+                    <li class="">
+                        <p>Points de vie actuels </p>
+                        <div class="current">
+                            <input type="number" min="0" max="<?php echo $currentCharact->getPvmax(); ?>" name="pvcur"
+                                class="p-2 dark-gray rounded"
+                                value="<?php echo $currentCharact->getPvcur(); ?>"></input>
+                            <?php if (!empty($errors['pvcur'])) {
+                                echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
+                            } ?>
+                        </div>
                     </li>
                 </ul>
                 <ul class="list-unstyled">
@@ -90,14 +122,23 @@ $characStuff = $queryStuff->fetchAll();
                                 <?php echo $currentCharact->getPmmax(); ?>
                             </span> Points de magie max </p>
                     </li>
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getPmcur(); ?>
-                            </span> Points de magie actuels </p>
+                    <li class="">
+                        <p>Points de magie actuels </p>
+                        <div class="current">
+                            <input type="number" min="0" max="<?php echo $currentCharact->getPmmax(); ?>" name="pmcur"
+                                class="p-2 dark-gray rounded"
+                                value="<?php echo $currentCharact->getPmcur(); ?>"></input>
+                            <?php if (!empty($errors['pmcur'])) {
+                                echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
+                            } ?>
+                        </div>
                     </li>
                 </ul>
             </div>
-
+            <div class="mb-2 row justify-content-center">
+                <input type="submit" class="col-1 btn btn-light" value="OK">
+            </div>
+            <!-- Display stats -->
             <div class="d-flex justify-content-around mx-auto align-items-center w-75 bg-light-gray p-3 rounded ">
                 <ul class="list-unstyled my-0">
                     <li>
@@ -134,7 +175,7 @@ $characStuff = $queryStuff->fetchAll();
                     </li>
                 </ul>
             </div>
-        </div>
+        </form>
     </section>
 
     <!-- Skill and Stuff -->
@@ -143,7 +184,7 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50">
             <h3 class="text-center">Compétences</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"> <a href="#"><i class="fa-solid fa-plus"></i></p></a>
+                <p class="text-end"> <a href="#" data-toggle ><i class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped">
                     <tr>
@@ -164,7 +205,7 @@ $characStuff = $queryStuff->fetchAll();
                                 <?php echo $skill->getLevel() ?>
                             </td>
                             <td class="text-end">
-                                <a href="?page=update_skill&idSkill=<?php echo $skill->getSkillId(); ?>">
+                                <a data-toggle href="?page=update_skill&idSkill=<?php echo $skill->getSkillId(); ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -177,7 +218,7 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50">
             <h3 class="text-center">Équipement</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"><a href="#"><i class="fa-solid fa-plus"></i></p></a>
+                <p class="text-end"><a data-toggle href="#"><i class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped">
                     <tr>
@@ -198,7 +239,7 @@ $characStuff = $queryStuff->fetchAll();
                                 <?php echo $stuff->getRange() ?>
                             </td>
                             <td class="text-end">
-                                <a href="?page=update_skill&idSkill=<?php echo $stuff->getStuffId(); ?>">
+                                <a data-toggle href="?page=update_skill&idSkill=<?php echo $stuff->getStuffId(); ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>

@@ -54,3 +54,25 @@ footer img {
 .dark-gray {
     background-color: #8C8C8C;
 }
+
+/*
+.current input::-webkit-outer-spin-button,
+.current input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.current input[type=number] {
+    -moz-appearance: textfield;
+    width: 40px;
+    height: 30px;
+    border: none;
+}
+
+button[type="qty"] {
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: #BABABA;
+    color : #8C8C8C;
+}*/

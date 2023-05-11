@@ -1,3 +1,13 @@
+//Enable change on character_sheet
+let button = document.querySelector("#toggle");
+let links = document.querySelectorAll("[data-toggle]");
+
+button.addEventListener("click", () => {
+    links.forEach((link) => {link.toggleAttribute(`aria-disabled="true"`)})
+  }
+)
+
+//Count of sum stat on new_character
 let stats = document.querySelectorAll("[data-type]");
 let count = document.querySelector("#count");
 
@@ -22,3 +32,5 @@ function addition() {
 function displaySum(sum) {
   count.innerHTML = `Reste entre ${60 - sum} et ${80 - sum} pts à distribuer.`;
 }
+
+
