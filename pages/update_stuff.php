@@ -3,7 +3,7 @@ $errors = [];
 
 // @TODO Need link with id_stuff
 // $idStuff = $_GET['id_stuff'];
-$idStuff = 1;
+$idStuff = 12;
 
 $selectStuff = "SELECT * FROM stuff WHERE stuff_id = :stuff_id";
 $statementSelectStuff = $connection->prepare($selectStuff);
