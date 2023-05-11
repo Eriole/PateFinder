@@ -34,9 +34,9 @@ $characters = $queryCharacter->fetchAll();
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <?php
+            <?php
                 foreach ($characters as $character) { ?>
+                    <tr>
                     <td>
                         <?php echo $character->getName(); ?>
                     </td>
@@ -55,9 +55,9 @@ $characters = $queryCharacter->fetchAll();
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>
+                    </tr>
                     <?php
                 } ?>
-            </tr>
 
         </tbody>
     </table>
