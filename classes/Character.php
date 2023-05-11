@@ -1,8 +1,10 @@
 <?php
 class Character
 {
-    protected int $id;
-    protected string $name = '';
+    protected int $character_id;
+    protected int $player_id;
+    protected string $character_name = '';
+    protected string $character_creation_date = '';
     protected int $initiative = 0;
     protected int $pvmax = 0;
     protected int $pvcur = 0;
@@ -21,7 +23,7 @@ class Character
     {
         if (!empty($form)) {
             if (isset($form['name'])) {
-                $this->name = trim($form['name']);
+                $this->character_name = trim($form['name']);
             }
             if (!empty($form['initiative'])) {
                 $this->initiative = $form['initiative'];
@@ -65,7 +67,7 @@ class Character
     public function validate(bool $isCreate = true): array
     {
         $errors = [];
-        if (empty($this->name)) {
+        if (empty($this->character_name)) {
             $errors['name'] = true;
         }
         if (empty($this->initiative) || $this->initiative > 10) {
@@ -103,10 +105,10 @@ class Character
             $errors['stat'] = true;
         }
         //Check for current Pv and PM at Character Update
-        if (!$isCreate && (empty($this->pvcur) || $this->pvcur > $this->pvmax)){
+        if (!$isCreate && (empty($this->pvcur) || $this->pvcur > $this->pvmax)) {
             $errors['pvcur'] = true;
         }
-        if (!$isCreate && (empty($this->pmcur) || $this->pmcur > $this->pmmax)){
+        if (!$isCreate && (empty($this->pmcur) || $this->pmcur > $this->pmmax)) {
             $errors['pmcur'] = true;
         }
         return $errors;
@@ -115,12 +117,12 @@ class Character
     // GET SET
     public function getName(): string
     {
-        return $this->name;
+        return $this->character_name;
     }
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->character_name = $name;
         return $this;
     }
 
@@ -223,30 +225,58 @@ class Character
         return $this;
     }
 
-	public function getPvcur(): int {
-		return $this->pvcur;
-	}
+    public function getPvcur(): int
+    {
+        return $this->pvcur;
+    }
 
-	public function setPvcur(int $pvcur): self {
-		$this->pvcur = $pvcur;
-		return $this;
-	}
+    public function setPvcur(int $pvcur): self
+    {
+        $this->pvcur = $pvcur;
+        return $this;
+    }
 
-	public function getPmcur(): int {
-		return $this->pmcur;
-	}
+    public function getPmcur(): int
+    {
+        return $this->pmcur;
+    }
 
-	public function setPmcur(int $pmcur): self {
-		$this->pmcur = $pmcur;
-		return $this;
-	}
+    public function setPmcur(int $pmcur): self
+    {
+        $this->pmcur = $pmcur;
+        return $this;
+    }
 
-	public function getId(): int {
-		return $this->id;
-	}
+    public function getId(): int
+    {
+        return $this->character_id;
+    }
 
-	public function setId(int $id): self {
-		$this->id = $id;
-		return $this;
-	}
+    public function setId(int $id): self
+    {
+        $this->character_id = $id;
+        return $this;
+    }
+
+    public function getCreationDate(): string
+    {
+        return $this->character_creation_date;
+    }
+
+    public function setCreationDate(string $creationDate): self
+    {
+        $this->character_creation_date = $creationDate;
+        return $this;
+    }
+
+    public function getPlayer(): int
+    {
+        return $this->player_id;
+    }
+
+    public function setPlayer(int $player): self
+    {
+        $this->player_id = $player;
+        return $this;
+    }
 }
