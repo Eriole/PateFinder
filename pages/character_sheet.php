@@ -1,5 +1,5 @@
 <?php
-$characId = 1;
+$characId = 5;
 
 //SELECT FROM Played_Character
 $selectCharac = "SELECT character_id, character_name, player_id FROM played_character
@@ -43,7 +43,7 @@ $queryStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
 $queryStuff->execute();
 $characStuff = $queryStuff->fetchAll();
 
-var_dump($characSkill, $characStuff);
+// var_dump($characSkill, $characStuff);
 ?>
 
 <div class="container d-flex flex-column align-items-center my-5 gap-5">
@@ -148,7 +148,7 @@ var_dump($characSkill, $characStuff);
                 <table class="table table-striped">
                     <tr>
                         <th>Nom</th>
-                        <th class="text-center">Caractéristique</th>
+                        <th class="text-center">Stat</th>
                         <th class="text-center">Niveau (0-5)</th>
                         <th></th>
                     </tr>
