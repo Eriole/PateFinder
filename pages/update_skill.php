@@ -1,6 +1,14 @@
 <?php
-$skill = new Skill();
-$skillid = 1 ;
+$skillid = 1;
+
+$skillstatement = "SELECT * FROM `skill` WHERE `skill_id`= :skill_id";
+$querySkill = $connection->prepare($skillstatement);
+$querySkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
+$querySkill->execute();
+$querySkill->setFetchMode(PDO::FETCH_CLASS,Skill::class ) ;
+$skill = $querySkill->fetch();
+
+
 $errors = [];
 
 if (!empty($_POST)) {
@@ -12,7 +20,7 @@ if (!empty($_POST)) {
         $insertSkill = "UPDATE `skill` SET `skill_id`= :skill_id ,`skill_name`= :name ,`skill_level`= :level  ,`statistic_id`= :statistic_id  WHERE skill_id = :skill_id";
 
         $statementInsertSkill = $connection->prepare($insertSkill);
-        $statementInsertSkill->bindValue(':skill_id',$skillid, PDO::PARAM_INT);
+        $statementInsertSkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
         $statementInsertSkill->bindValue(':name', $skill->getName(), PDO::PARAM_STR);
         $statementInsertSkill->bindValue(':level', $skill->getLevel(), PDO::PARAM_INT);
         $statementInsertSkill->bindValue(':statistic_id', $skill->getStatId(), PDO::PARAM_INT);
