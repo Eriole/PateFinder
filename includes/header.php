@@ -61,6 +61,7 @@ include_once 'variables.php';
     ';
     } ?>
 
+<<<<<<< HEAD
     <?php
     //Primary Alert New Character created successfully
     if (!empty($_GET['create']) && $_GET['create'] == true) {
@@ -79,3 +80,21 @@ include_once 'variables.php';
         echo '<div class="alert alert-primary d-flex align-items-center" role="alert" >Equipement modifié</div>';
     }
     ?>
+=======
+<?php
+//Primary Alert New Character created successfully
+if(!empty($_GET['create']) && $_GET['create'] == true) {
+    echo '<div class="alert alert-primary d-flex align-items-center" role="alert">Personnage créé</div>';
+}
+//Warning Alert Logout successful
+if (!empty($_GET['disconnected']) && $_GET['disconnected'] == true) {
+    echo '<div class="alert alert-warning d-flex align-items-center" role="alert" >Vous êtes déconnecté</div>';
+};
+
+if (!empty($_GET['updateskill']) && $_GET['updateskill'] == true) {
+    echo '<div class="alert alert-primary d-flex align-items-center"role="alert" >Compétences modifier </div>';
+};
+
+
+?>
+>>>>>>> 8590b59 (F9)

@@ -1,44 +1,31 @@
 <?php
 $skill = new Skill();
+$skillid = 1 ;
 $errors = [];
 
 if (!empty($_POST)) {
     $skill = new Skill($_POST);
-    $errors = $skill->validate();   
+    $errors = $skill->validate();
 
     if (empty($errors)) {
         // INSERT INTO Skill
-        $insertSkill = "INSERT INTO skill (skill_name, skill_level, statistic_id) 
-        VALUES (:name, :level, :statistic_id)";
+        $insertSkill = "UPDATE `skill` SET `skill_id`= :skill_id ,`skill_name`= :name ,`skill_level`= :level  ,`statistic_id`= :statistic_id  WHERE skill_id = :skill_id";
 
         $statementInsertSkill = $connection->prepare($insertSkill);
+        $statementInsertSkill->bindValue(':skill_id',$skillid, PDO::PARAM_INT);
         $statementInsertSkill->bindValue(':name', $skill->getName(), PDO::PARAM_STR);
         $statementInsertSkill->bindValue(':level', $skill->getLevel(), PDO::PARAM_INT);
         $statementInsertSkill->bindValue(':statistic_id', $skill->getStatId(), PDO::PARAM_INT);
         $statementInsertSkill->execute();
         $idSkill = $connection->lastInsertId();
 
-        // INSERT INTO character_skill
-        $insertCharSkill = "INSERT INTO character_skill (character_id, skill_id) 
-                VALUES (:character_id, :skill_id)";
-
-        //@TODO Missing character_id info
-        $charId = 2;
-
-        $statementInsertCharSkill = $connection->prepare($insertCharSkill);
-        $statementInsertCharSkill->bindValue(':character_id', $charId, PDO::PARAM_INT);
-        $statementInsertCharSkill->bindValue(':skill_id', $idSkill, PDO::PARAM_INT);
-        $statementInsertCharSkill->execute();
-
-        //@TODO heading to Character Sheet
-        header('Location: ?page=connection&create=true');
+        header('Location: ?page=update_skill&updateskill=true');
     }
 }
-
 ?>
 
 <section class="container">
-    <h2 class="text-center my-5">Ajouter une compétence</h2>
+    <h2 class="text-center my-5">Modifier une compétence</h2>
     <form action="" method="post">
         <ul class="list-unstyled w-50">
             <li class="d-flex justify-content-between align-items-center">

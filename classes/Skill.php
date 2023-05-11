@@ -1,20 +1,22 @@
 <?php
 class Skill
 {
-    protected string $name = '';
-    protected int $statId = 0;
-    protected int $level = 0;
-
+    protected string $skill_name = '';
+    protected int $statistic_id = 0;
+    protected int $skill_level = 0;
+    protected ?int $skill_id;
+    protected ?int $player_id;
+    
     public function __construct(?array $form = [])
     {
         if (isset($form['name'])) {
-            $this->name = trim($form['name']);
+            $this->skill_name = trim($form['name']);
         }
         if (isset($form['stat'])) {
-            $this->statId = intval($form['stat']);
+            $this->statistic_id = intval($form['stat']);
         }
         if (isset($form['level'])) {
-            $this->level = $form['level'];
+            $this->skill_level = $form['level'];
         }
     }
 
@@ -22,50 +24,66 @@ class Skill
     {
         $errors = [];
 
-        if (empty($this->name)) {
+        if (empty($this->skill_name)) {
             $errors['name'] = true;
         }
-        if (empty($this->statId)) {
+        if (empty($this->statistic_id)) {
             $errors['stat'] = true;
         }
-        if ($this->level < 0 || $this->level > 5) {
+        if ($this->skill_level < 0 || $this->skill_level > 5) {
             $errors['level'] = true;
         }
-
         return $errors;
     }
 
     // GET SET
     public function getName(): string
     {
-        return $this->name;
+        return $this->skill_name;
     }
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->skill_name = $name;
         return $this;
     }
 
     public function getStatId(): int
     {
-        return $this->statId;
+        return $this->statistic_id;
     }
 
     public function setStatId(int $statId): self
     {
-        $this->statId = $statId;
+        $this->statistic_id = $statId;
         return $this;
     }
 
     public function getLevel(): int
     {
-        return $this->level;
+        return $this->skill_level;
     }
 
     public function setLevel(int $level): self
     {
-        $this->level = $level;
+        $this->skill_level = $level;
         return $this;
     }
+	public function getSkillId(): ?int {
+		return $this->skill_id;
+	}
+	
+	public function setSkillId(?int $skillId): self {
+		$this->skill_id = $skillId;
+		return $this;
+	}
+
+	public function getPlayerId(): ?int {
+		return $this->player_id;
+	}
+	
+	public function setPlayerId(?int $playerId): self {
+		$this->player_id = $playerId;
+		return $this;
+	}
 }
