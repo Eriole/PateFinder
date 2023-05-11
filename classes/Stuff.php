@@ -7,7 +7,6 @@ class Stuff
     protected int $stuff_range = 0;
     protected ?int $player_id;
 
-    
     public function __construct(?array $form = [])
     {
         if (isset($form['name'])) {
@@ -37,50 +36,56 @@ class Stuff
         return $errors;
     }
 
-	public function getName(): string {
-		return $this->stuff_name;
-	}
-	
-	public function setName(string $name): self {
-		$this->stuff_name = $name;
-		return $this;
-	}
+    public function getName(): string
+    {
+        return $this->stuff_name;
+    }
 
-	public function getDamage(): int {
-		return $this->stuff_dmg;
-	}
-	
-	public function setDamage(int $damage): self {
-		$this->stuff_dmg = $damage;
-		return $this;
-	}
-	
-	public function getRange(): int {
-		return $this->stuff_range;
-	}
-	
-	public function setRange(int $range): self {
-		$this->stuff_range = $range;
-		return $this;
-	}
+    public function setName(string $name): self
+    {
+        $this->stuff_name = $name;
+        return $this;
+    }
 
-    public function getStuff_id(): ?int
+    public function getDamage(): int
+    {
+        return $this->stuff_dmg;
+    }
+
+    public function setDamage(int $damage): self
+    {
+        $this->stuff_dmg = $damage;
+        return $this;
+    }
+
+    public function getRange(): int
+    {
+        return $this->stuff_range;
+    }
+
+    public function setRange(int $range): self
+    {
+        $this->stuff_range = $range;
+        return $this;
+    }
+
+    public function getStuffId(): ?int
     {
         return $this->stuff_id;
     }
 
-    public function setStuff_id(?int $stuff_id): self
+    public function setStuffId(?int $stuff_id): self
     {
         $this->stuff_id = $stuff_id;
         return $this;
     }
 
-    public function getPlayer_id(): ?int
+    public function getPlayerId(): ?int
     {
         return $this->player_id;
     }
 
-    public function setPlayer_id(?int $player_id): self
+    public function setPlayerId(?int $player_id): self
     {
         $this->player_id = $player_id;
         return $this;
