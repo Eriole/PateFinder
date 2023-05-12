@@ -50,7 +50,7 @@ if (!empty($_POST)) {
                     <option value="">--</option>
                     <?php foreach ($statisticList as $key => $statistic) { ?>
                         <option value="<?php echo $key ?>">
-                            <?php echo $statistic ?>
+                            <?php echo $statistic; ?>
                         </option>
                     <?php } ?>
                 </select>

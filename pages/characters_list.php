@@ -16,10 +16,8 @@ $characters = $queryCharacter->fetchAll();
 <section class="container my-5">
 
     <div class=" d-flex justify-content-between">
-        <h3>Bonjour
-            <?= $username ?>
-        </h3>
-        <a class="btn btn-primary" href="?page=new_character">Créer une fiche</a>
+        <h3>Bonjour <?= $username; ?></h3>
+        <a class="btn btn-success" href="?page=new_character">Créer une fiche</a>
     </div>
 
     <table class="table text-center mt-5 table-striped">
@@ -46,13 +44,13 @@ $characters = $queryCharacter->fetchAll();
                     </td>
                     <td>
                         <a href="?page=edit_character&characterid=<?php echo $character->getId(); ?>"
-                            class="btn btn-Succes">
+                            class="btn btn-secondary">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>
                     <td class="">
                         <a href="?page=remove_character&characterid=<?php echo $character->getId(); ?>"
-                            class="btn btn-danger">
+                        onclick="return confirm('Valider la suppression?')" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>

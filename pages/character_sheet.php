@@ -215,13 +215,13 @@ $characStuff = $queryStuff->fetchAll();
                     <?php foreach ($characSkill as $key => $skill) { ?>
                         <tr>
                             <td>
-                                <?php echo $skill->getName() ?>
+                                <?php echo $skill->getName(); ?>
                             </td>
                             <td class="text-center">
                                 <?php echo $statisticShortnameList[$skill->getStatId()]; ?>
                             </td>
                             <td class="text-center">
-                                <?php echo $skill->getLevel() ?>
+                                <?php echo $skill->getLevel(); ?>
                             </td>
                             <td class="text-end">
                                 <a
@@ -239,7 +239,7 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50 align-content-stretch">
             <h3 class="text-center">Équipement</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"><a href="?page=new_stuff&characterid=<?php echo $characId ?>"><i
+                <p class="text-end"><a href="?page=new_stuff&characterid=<?php echo $characId; ?>"><i
                             class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped">
@@ -252,13 +252,13 @@ $characStuff = $queryStuff->fetchAll();
                     <?php foreach ($characStuff as $key => $stuff) { ?>
                         <tr>
                             <td>
-                                <?php echo $stuff->getName() ?>
+                                <?php echo $stuff->getName(); ?>
                             </td>
                             <td class="text-center">
-                                <?php echo $stuff->getDamage() ?>
+                                <?php echo $stuff->getDamage(); ?>
                             </td>
                             <td class="text-center">
-                                <?php echo $stuff->getRange() ?>
+                                <?php echo $stuff->getRange(); ?>
                             </td>
                             <td class="text-end">
                                 <a
@@ -274,7 +274,7 @@ $characStuff = $queryStuff->fetchAll();
     </section>
     <div class="text-center">
         <p>Personnage créé le :
-            <?php echo $currentCharact->getCreationDate() ?>
+            <?php echo $currentCharact->getCreationDate(); ?>
         </p>
         <a href="" onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
     </div>
