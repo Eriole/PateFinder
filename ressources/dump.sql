@@ -15,12 +15,12 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données : `exo_patefinder`
 --
-CREATE DATABASE IF NOT EXISTS `exo_patefinder` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `exo_patefinder` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `exo_patefinder`;
 
 -- --------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `character_game` (
   `game_id` int NOT NULL,
   PRIMARY KEY (`character_id`,`game_id`),
   KEY `Character_Game_Game_FK` (`game_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `character_skill` (
   `skill_id` int NOT NULL,
   PRIMARY KEY (`character_id`,`skill_id`),
   KEY `Character_Skill_Skill_FK` (`skill_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `character_statistic` (
   `current_statistic` tinyint NOT NULL,
   PRIMARY KEY (`character_id`,`statistic_id`),
   KEY `Character_Statistic_Statistic_FK` (`statistic_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `character_stuff` (
   `stuff_id` int NOT NULL,
   PRIMARY KEY (`character_id`,`stuff_id`),
   KEY `Character_Stuff_Stuff_FK` (`stuff_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `dice` (
   PRIMARY KEY (`dice_id`),
   KEY `Dice_Game_FK` (`game_id`),
   KEY `Dice_Player_FK` (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `game` (
   `player_id` int NOT NULL,
   PRIMARY KEY (`game_id`),
   KEY `Game_Game_Master_FK` (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,7 @@ DROP TABLE IF EXISTS `game_master`;
 CREATE TABLE IF NOT EXISTS `game_master` (
   `player_id` int NOT NULL,
   PRIMARY KEY (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `played_character` (
   `player_id` int NOT NULL,
   PRIMARY KEY (`character_id`),
   KEY `Played_Character_Player_FK` (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `player` (
   `player_password` varchar(255) NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `Player_AK` (`player_mail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -168,7 +168,7 @@ DROP TABLE IF EXISTS `regular_player`;
 CREATE TABLE IF NOT EXISTS `regular_player` (
   `player_id` int NOT NULL,
   PRIMARY KEY (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `skill` (
   PRIMARY KEY (`skill_id`),
   KEY `Skill_Game_Master_FK` (`player_id`),
   KEY `Skill_Statistic_FK` (`statistic_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `statistic` (
   `statistic_shortname` varchar(5) NOT NULL,
   `statistic_quantity` tinyint NOT NULL,
   PRIMARY KEY (`statistic_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `stuff` (
   `player_id` int DEFAULT NULL,
   PRIMARY KEY (`stuff_id`),
   KEY `Stuff_Game_Master_FK` (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Contraintes pour les tables déchargées

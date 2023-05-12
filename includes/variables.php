@@ -7,7 +7,10 @@ $queryStat->execute();
 $statistics = $queryStat->fetchAll();
 
 $statisticList = [];
+$statisticShortnameList = [];
+
 
 foreach ($statistics as $key => $statistic) {
     $statisticList[$statistic->getId()] = $statistic->getName();
+    $statisticShortnameList[$statistic->getId()] = $statistic->getShortname();
 }

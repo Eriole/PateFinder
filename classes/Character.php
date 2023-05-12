@@ -16,6 +16,7 @@ class Character
     protected int $intelligence = 0;
     protected int $wisdom = 0;
     protected int $luck = 0;
+    /** stat = sum of stats only for creation*/
     protected int $stat = 0;
 
     // Constructor

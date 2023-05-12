@@ -16,8 +16,6 @@ if (!empty($_POST)) {
         $statementInsertStuff->bindValue(':range', $stuff->getRange(), PDO::PARAM_INT);
         $statementInsertStuff->execute();
 
-<<<<<<< HEAD
-=======
         $idStuff = $connection->lastInsertId();
 
         // INSERT INTO character_stuff
@@ -32,7 +30,6 @@ if (!empty($_POST)) {
         $statementInsertCharSkill->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);
         $statementInsertCharSkill->execute();
 
->>>>>>> 36cb268 (F12 - Ajout de l'insertion des données dans la table intermédiaire)
         header('Location: ?page=new_stuff&addStuff=true');
     }
 }

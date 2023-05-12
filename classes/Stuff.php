@@ -69,23 +69,23 @@ class Stuff
         return $this;
     }
 
-    public function getStuff_id(): ?int
+    public function getStuffId(): ?int
     {
         return $this->stuff_id;
     }
 
-    public function setStuff_id(?int $stuff_id): self
+    public function setStuffId(?int $stuff_id): self
     {
         $this->stuff_id = $stuff_id;
         return $this;
     }
 
-    public function getPlayer_id(): ?int
+    public function getPlayerId(): ?int
     {
         return $this->player_id;
     }
 
-    public function setPlayer_id(?int $player_id): self
+    public function setPlayerId(?int $player_id): self
     {
         $this->player_id = $player_id;
         return $this;

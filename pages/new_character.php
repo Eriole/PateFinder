@@ -19,45 +19,8 @@ if (!empty($_POST)) {
         $statementInsertChar->execute();
         $idCharacter = $connection->lastInsertId();
 
-        //Creation of an Array $characterStatistics with 'statistic_id' => 'current_stat' based on $statistics (in variables.php) and $character
-        $characterStatistics = [];
-        foreach ($statistics as $key => $statistic) {
-            switch ($statistic->getShortname()) {
-                case 'INIT':
-                    $characterStatistics[$statistic->getId()] = $character->getInitiative();
-                    break;
-                case 'PVmax':
-                    $characterStatistics[$statistic->getId()] = $character->getPvmax();
-                    break;
-                case 'PVact':
-                    $characterStatistics[$statistic->getId()] = $character->getPvcur();
-                    break;
-                case 'PMmax':
-                    $characterStatistics[$statistic->getId()] = $character->getPmmax();
-                    break;
-                case 'PMact':
-                    $characterStatistics[$statistic->getId()] = $character->getPmcur();
-                    break;
-                case 'FOR':
-                    $characterStatistics[$statistic->getId()] = $character->getStrength();
-                    break;
-                case 'DEX':
-                    $characterStatistics[$statistic->getId()] = $character->getDexterity();
-                    break;
-                case 'CONST':
-                    $characterStatistics[$statistic->getId()] = $character->getConstitution();
-                    break;
-                case 'INT':
-                    $characterStatistics[$statistic->getId()] = $character->getIntelligence();
-                    break;
-                case 'SAG':
-                    $characterStatistics[$statistic->getId()] = $character->getWisdom();
-                    break;
-                case 'CHA':
-                    $characterStatistics[$statistic->getId()] = $character->getLuck();
-                    break;
-            }
-        }
+        //Creation of an Array with CharacterComposer decompose function based on $statistics (in variables.php) and $character
+        $characterStatistics = (new CharacterComposer)->decompose($character, $statistics);
 
         //INSERT INTO Character_Statistic using array $characterStatistics
         foreach ($characterStatistics as $statId => $currentStat) {
