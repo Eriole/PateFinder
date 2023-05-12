@@ -61,6 +61,7 @@ include_once 'variables.php';
     ';
     } ?>
 
+
     <?php
     //Primary Alert New Character created successfully
     if (!empty($_GET['create']) && $_GET['create'] == true) {
