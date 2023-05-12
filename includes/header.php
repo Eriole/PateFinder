@@ -37,7 +37,7 @@ include_once 'variables.php';
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=characters-list">Mes personnages</a>
+                    <a class="nav-link active" aria-current="page" href="?page=characters_list">Mes personnages</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="?page=new_character">Créer une fiche</a>
@@ -78,5 +78,13 @@ include_once 'variables.php';
 
     if (!empty($_GET['updateStuff']) && $_GET['updateStuff'] == true) {
         echo '<div class="alert alert-primary d-flex align-items-center" role="alert" >Equipement modifié</div>';
+    }
+
+    if (!empty($_GET['signin']) && $_GET['signin'] == true) {
+        echo '<div class="alert alert-success d-flex align-items-center" role="alert" >Compte crée avec succès. Vous pouvez vous connecter</div>';
+    }
+
+    if (!empty($_GET['login']) && $_GET['login'] == true) {
+        echo '<div class="alert alert-success d-flex align-items-center" role="alert" >Connexion réussie</div>';
     }
     ?>

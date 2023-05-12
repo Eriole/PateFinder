@@ -1,6 +1,6 @@
 <?php
-$username = "bidibi";
-$idPlayer = 2;
+$username = $_SESSION['user']->getUsername();
+$idPlayer = $_SESSION['user']->getId();
 //SELECT FROM played_Character
 $selectCharacter = "SELECT * FROM played_character WHERE player_id = :id";
 
@@ -11,11 +11,9 @@ $queryCharacter->bindValue(':id', $idPlayer, PDO::PARAM_INT);
 $queryCharacter->setFetchMode(PDO::FETCH_CLASS, Character::class);
 $queryCharacter->execute();
 $characters = $queryCharacter->fetchAll();
-
-// var_dump($characters);
 ?>
 
-<section class="container">
+<section class="container my-5">
 
     <div class=" d-flex justify-content-between">
         <h3>Bonjour
@@ -35,29 +33,32 @@ $characters = $queryCharacter->fetchAll();
         </thead>
         <tbody>
             <?php
-                foreach ($characters as $character) { ?>
-                    <tr>
+            foreach ($characters as $character) { ?>
+                <tr>
                     <td>
                         <?php echo $character->getName(); ?>
                     </td>
                     <td>
-                        <a href="?page=character_sheet&id=<?php echo $character->getId(); ?>" class="btn btn-primary">
+                        <a href="?page=character_sheet&characterid=<?php echo $character->getId(); ?>"
+                            class="btn btn-primary">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="?page=edit_character&id=<?php echo $character->getId(); ?>" class="btn btn-Succes">
+                        <a href="?page=edit_character&characterid=<?php echo $character->getId(); ?>"
+                            class="btn btn-Succes">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>
                     <td class="">
-                        <a href="?page=remove_character&id=<?php echo $character->getId(); ?>" class="btn btn-danger">
+                        <a href="?page=remove_character&characterid=<?php echo $character->getId(); ?>"
+                            class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>
-                    </tr>
-                    <?php
-                } ?>
+                </tr>
+                <?php
+            } ?>
 
         </tbody>
     </table>

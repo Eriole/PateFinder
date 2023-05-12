@@ -1,4 +1,5 @@
 <?php
+$playerId = $_SESSION['user']->getId();
 $character = new Character();
 $errors = [];
 
@@ -11,8 +12,6 @@ if (!empty($_POST)) {
 
         //INSERT INTO Played_Character
         $insertCharacter = "INSERT INTO played_character (character_name, player_id) VALUES (:name, :player_id)";
-        //Missing player_id info
-        $playerId = 1;
         $statementInsertChar = $connection->prepare($insertCharacter);
         $statementInsertChar->bindValue(':player_id', $playerId, PDO::PARAM_INT);
         $statementInsertChar->bindValue(':name', $character->getName(), PDO::PARAM_STR);
@@ -33,8 +32,8 @@ if (!empty($_POST)) {
             $statementInsertCharStat->execute();
         }
 
-        //@TODO heading to player dashboard
-        header('Location: ?page=connection&create=true');
+        //heading to player dashboard
+        header('Location: ?page=characters_list&create=true');
     }
 }
 
