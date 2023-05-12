@@ -202,7 +202,8 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50 ">
             <h3 class="text-center">Compétences</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"><a href="#"><i class="fa-solid fa-plus"></i></p></a>
+                <p class="text-end"><a href="?page=new_skill&characterid=<?php echo $characId; ?>"><i
+                            class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped ">
                     <tr>
@@ -217,13 +218,14 @@ $characStuff = $queryStuff->fetchAll();
                                 <?php echo $skill->getName() ?>
                             </td>
                             <td class="text-center">
-                                <?php echo $statisticShortnameList[$skill->getStatId()] ?>
+                                <?php echo $statisticShortnameList[$skill->getStatId()]; ?>
                             </td>
                             <td class="text-center">
                                 <?php echo $skill->getLevel() ?>
                             </td>
                             <td class="text-end">
-                                <a href="?page=update_skill&idSkill=<?php echo $skill->getSkillId(); ?>">
+                                <a
+                                    href="?page=update_skill&characterid=<?php echo $characId; ?>&idskill=<?php echo $skill->getSkillId(); ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -237,7 +239,8 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50 align-content-stretch">
             <h3 class="text-center">Équipement</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"><a href="#"><i class="fa-solid fa-plus"></i></p></a>
+                <p class="text-end"><a href="?page=new_stuff&characterid=<?php echo $characId ?>"><i
+                            class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped">
                     <tr>
@@ -258,7 +261,8 @@ $characStuff = $queryStuff->fetchAll();
                                 <?php echo $stuff->getRange() ?>
                             </td>
                             <td class="text-end">
-                                <a href="?page=update_skill&idSkill=<?php echo $stuff->getStuffId(); ?>">
+                                <a
+                                    href="?page=update_stuff&characterid=<?php echo $characId; ?>&idstuff=<?php echo $stuff->getStuffId(); ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>

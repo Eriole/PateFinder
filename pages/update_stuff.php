@@ -1,10 +1,7 @@
 <?php
 $errors = [];
-
-// @TODO Need link with id_stuff
-// $idStuff = $_GET['id_stuff'];
-$idStuff = 1;
-
+$idStuff = $_GET['idstuff'];
+$characId = $_GET['characterid'];
 $selectStuff = "SELECT * FROM stuff WHERE stuff_id = :stuff_id";
 $statementSelectStuff = $connection->prepare($selectStuff);
 
@@ -33,7 +30,7 @@ if (!empty($_POST)) {
 
         $statementUpdateStuff->execute();
 
-        header('location: ?page=update_stuff&updateStuff=true');
+        header('location: ?page=character_sheet&characterid=' . $characId);
     }
 }
 

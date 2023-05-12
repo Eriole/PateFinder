@@ -22,16 +22,15 @@ if (!empty($_POST)) {
         $insertCharSkill = "INSERT INTO character_skill (character_id, skill_id) 
                 VALUES (:character_id, :skill_id)";
 
-        //@TODO Missing character_id info
-        $charId = 2;
+        $charId = $_GET['characterid'];
 
         $statementInsertCharSkill = $connection->prepare($insertCharSkill);
         $statementInsertCharSkill->bindValue(':character_id', $charId, PDO::PARAM_INT);
         $statementInsertCharSkill->bindValue(':skill_id', $idSkill, PDO::PARAM_INT);
         $statementInsertCharSkill->execute();
 
-        //@TODO heading to Character Sheet
-        header('Location: ?page=connection&create=true');
+        // heading to Character Sheet
+        header('Location: ?page=character_sheet&characterid='.$charId);
     }
 }
 
