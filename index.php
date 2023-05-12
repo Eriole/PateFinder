@@ -9,6 +9,8 @@ $pages = [
     'new_character' => "Nouvelle fiche",
     'logout' => "Déconnexion",
     'new_skill' => "Nouvelle compétence",
+    'new_stuff' => "Nouvel équipement",
+    'update_stuff' => "Modifier un équipement",
 ];
 
 if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
@@ -21,7 +23,7 @@ if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
 
 include 'includes/header.php';
 
-include_once 'pages/'. $page .'.php';
+include_once 'pages/' . $page . '.php';
 
 include 'includes/footer.php';
 
