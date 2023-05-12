@@ -3,7 +3,7 @@ $errors = [];
 
 // @TODO Need link with id_stuff
 // $idStuff = $_GET['id_stuff'];
-$idStuff = 12;
+$idStuff = 1;
 
 $selectStuff = "SELECT * FROM stuff WHERE stuff_id = :stuff_id";
 $statementSelectStuff = $connection->prepare($selectStuff);
@@ -19,10 +19,10 @@ if (!empty($_POST)) {
     $errors = $stuff->validate();
 
     if (empty($errors)) {
-        // $idPlayer = null;
 
         $updateStuff = "UPDATE stuff 
-        SET stuff_id=:stuff_id, stuff_name=:name, stuff_dmg=:dmg, stuff_range=:range WHERE stuff_id = :stuff_id";
+            SET stuff_id=:stuff_id, stuff_name=:name, stuff_dmg=:dmg, stuff_range=:range 
+            WHERE stuff_id = :stuff_id";
 
         $statementUpdateStuff = $connection->prepare($updateStuff);
         $statementUpdateStuff->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);

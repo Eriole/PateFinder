@@ -70,15 +70,12 @@ include_once 'variables.php';
     if (!empty($_GET['disconnected']) && $_GET['disconnected'] == true) {
         echo '<div class="alert alert-warning d-flex align-items-center" role="alert" >Vous êtes déconnecté</div>';
     }
-    ;
 
     if (!empty($_GET['addStuff']) && $_GET['addStuff'] == true) {
         echo '<div class="alert alert-primary d-flex align-items-center" role="alert" >Equipement ajouté</div>';
     }
-    ;
 
     if (!empty($_GET['updateStuff']) && $_GET['updateStuff'] == true) {
         echo '<div class="alert alert-primary d-flex align-items-center" role="alert" >Equipement modifié</div>';
     }
-    ;
     ?>
