@@ -7,3 +7,30 @@ function deleteChar($tableName, $charaID, $connection)
     $statementDeleteCharacter->bindValue(':charact_id', $charaID, PDO::PARAM_INT);
     $statementDeleteCharacter->execute();
 }
+
+//SELECT FROM Played_Character
+function selectCharacter(int $characId, PDO $connection): Character
+{
+    $characterStatement = "SELECT * FROM `played_character` WHERE `character_id` = :character_id;";
+    $queryCharacter = $connection->prepare($characterStatement);
+    $queryCharacter->bindValue(':character_id', $characId, PDO::PARAM_INT);
+    $queryCharacter->execute();
+    //Creation of an object $character based on Character class
+    $queryCharacter->setFetchMode(PDO::FETCH_CLASS, Character::class);
+    $character = $queryCharacter->fetch();
+    return $character;
+}
+
+//SELECT FROM Statistic
+function selectStatistic(int $characId, Character $character, PDO $connection): Character
+{
+    $selectStat = "SELECT character_statistic.statistic_id, current_statistic, statistic_shortname FROM character_statistic 
+        LEFT JOIN statistic ON character_statistic.statistic_id = statistic.statistic_id 
+        WHERE character_id= :charact_id";
+    $queryStat = $connection->prepare($selectStat);
+    $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
+    $queryStat->execute();
+    $characStat = $queryStat->fetchAll();
+    $character = (new CharacterComposer())->compose($character, $characStat);
+    return $character;
+}

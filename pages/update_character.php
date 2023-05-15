@@ -3,13 +3,7 @@ $characId = $_GET['characterid'];
 $errors = [];
 
 //SELECT FROM played_character
-$characterStatement = "SELECT * FROM `played_character` WHERE `character_id` = :character_id;";
-$queryCharacter = $connection->prepare($characterStatement);
-$queryCharacter->bindValue(':character_id', $characId, PDO::PARAM_INT);
-$queryCharacter->execute();
-//Creation of an object $character based on Character class
-$queryCharacter->setFetchMode(PDO::FETCH_CLASS, Character::class);
-$character = $queryCharacter->fetch();
+$character = selectCharacter($characId, $connection);
 
 //Clone object $character to differenciate old and new object
 $characterRename = clone $character;

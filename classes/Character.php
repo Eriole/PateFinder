@@ -22,6 +22,11 @@ class Character
     // Constructor
     public function __construct(?array $form = [])
     {
+        $this->update($form);
+    }
+
+    public function update(array $form = []) :self
+    {
         if (!empty($form)) {
             if (isset($form['name'])) {
                 $this->character_name = trim($form['name']);
@@ -62,6 +67,7 @@ class Character
                 $this->luck = $form['luck'];
             }
         }
+        return $this;
     }
 
     //Validate function
