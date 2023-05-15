@@ -76,7 +76,7 @@ $characStuff = $queryStuff->fetchAll();
             <h2>
                 <?php echo $currentCharact->getName(); ?>
             </h2>
-            <a href=""><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
         <hr class="mx-auto w-75">
     </div>
