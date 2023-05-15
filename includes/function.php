@@ -1,7 +1,5 @@
 <?php
-
-
-//CAREFULL IT CAN DELETE EVERYTHING U THROW AT IT ! 
+//ATTENTION ! IT'S A DELETE QUERY !
 function deleteChar($tableName, $charaID, $connection)
 {
     $queryDelete = "DELETE FROM $tableName WHERE character_id = :charact_id ";
