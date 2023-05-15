@@ -16,6 +16,7 @@ $pages = [
     'character_sheet' => "Fiche personnage",
     'characters_list' => "Tableau de bord",
     'character_delete' => "pouf",
+    'update_character' => "Modifier le personnage",
 ];
 
 if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
