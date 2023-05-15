@@ -276,6 +276,6 @@ $characStuff = $queryStuff->fetchAll();
         <p>Personnage créé le :
             <?php echo $currentCharact->getCreationDate() ?>
         </p>
-        <a href="" onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
+        <a href="?page=character_delete&characterid=<?= $characId ?>" onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
     </div>
 </div>

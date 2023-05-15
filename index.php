@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/config.inc.php';
 require_once 'includes/autoloader.php';
+require_once 'includes/function.php';
 ob_start();
 session_start();
 
@@ -14,6 +15,7 @@ $pages = [
     'update_skill' => "Modifier la compétence",
     'character_sheet' => "Fiche personnage",
     'characters_list' => "Tableau de bord",
+    'character_delete' => "pouf",
 ];
 
 if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
