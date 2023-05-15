@@ -23,6 +23,13 @@ class Character
     public function __construct(?array $form = [])
     {
         $this->update($form);
+        
+        if (!empty($form['pvmax'])) {
+            $this->pvcur = $this->pvmax;
+        }
+        if (!empty($form['pmmax'])) {
+            $this->pmcur = $this->pmmax;
+        }
     }
 
     public function update(array $form = []) :self
@@ -36,14 +43,12 @@ class Character
             }
             if (!empty($form['pvmax'])) {
                 $this->pvmax = $form['pvmax'];
-                $this->pvcur = $this->pvmax;
             }
             if (!empty($form['pvcur'])) {
                 $this->pvcur = $form['pvcur'];
             }
             if (!empty($form['pmmax'])) {
                 $this->pmmax = $form['pmmax'];
-                $this->pmcur = $this->pmmax;
             }
             if (!empty($form['pmcur'])) {
                 $this->pmcur = $form['pmcur'];

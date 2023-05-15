@@ -11,13 +11,29 @@ selectStatistic($characId, $character, $connection);
 if (!empty($_POST)){
     $character->update($_POST);
     $errors = $character->validate($isCreate = false);
+
+    if (empty($errors)){
+        //Creation of an Array with CharacterComposer decompose function based on $statistics (in variables.php) and $character
+        $characterStatistics = (new CharacterComposer)->decompose($character, $statistics);
+
+        //UPDATE Character_Statistic using array $characterStatistics
+        foreach ($characterStatistics as $statId => $currentStat) {
+        $updateCharacterStatistic = "UPDATE `character_statistic` 
+            SET `current_statistic`= :current_stat
+            WHERE `character_id` = :character_id AND `statistic_id` = :stat_id;";
+        $statementUpdateCharStat = $connection->prepare($updateCharacterStatistic);
+        $statementUpdateCharStat->bindValue(':character_id', $characId, PDO::PARAM_INT);
+        $statementUpdateCharStat->bindValue(':stat_id', $statId, PDO::PARAM_INT);
+        $statementUpdateCharStat->bindValue(':current_stat', $currentStat, PDO::PARAM_INT);
+        $statementUpdateCharStat->execute();
+        }
+
+        header('Location: ?page=character_sheet&characterid=' . $characId);
+    }
 }
 
-var_dump($character);
-
-// header('Location: ?page=character_sheet&characterid=' . $characId);
-
 ?>
+
 <section class= "container">
     <h2 class="text-center my-5">Modifier les caractéristiques de <?php echo $character->getName(); ?></h2>
     <form class="my-5" action="" method="post">
