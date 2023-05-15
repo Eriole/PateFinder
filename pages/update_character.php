@@ -11,19 +11,27 @@ $character = $queryCharacter->fetch();
 
 $characterRename = clone $character;
 
-if(!empty($_POST)){
-    $characterRename->setName(trim($_POST['name'])) ;
+if (!empty($_POST)) {
+    $characterRename->setName(trim($_POST['name']));
     $errors = $characterRename->validate();
 
-    if (empty($errors)){
-        
+    if (empty($errors['name'])) {
+        $updateName = "UPDATE `played_character` SET `character_name`= :character_name WHERE `character_id` = :character_id";
+        $statementUpdateName = $connection->prepare($updateName);
+        $statementUpdateName->bindValue(':character_id', $characId, PDO::PARAM_INT);
+        $statementUpdateName->bindValue(':character_name', $characterRename->getName(), PDO::PARAM_STR);
+        $statementUpdateName->execute();
+
+        header('Location: ?page=character_sheet&characterid=' . $characId);
     }
 }
 
 
 ?>
 <section class="container">
-    <h2 class="text-center my-5">Modifier le nom de <?php echo $character->getName(); ?></h2>
+    <h2 class="text-center my-5">Modifier le nom de
+        <?php echo $character->getName(); ?>
+    </h2>
     <form class="my-5" action="" method="post">
         <fieldset class="mb-3">
             <legend>Nouveau nom du personnage</legend>
@@ -31,6 +39,6 @@ if(!empty($_POST)){
             <?php if (!empty($errors['name'])) {
                 echo '<p class="badge text-bg-danger m-0">Renseignez un nom</p>';
             } ?>
-    </fieldset>
-    <button class="btn btn-success" type="submit">Modifier</button>
+        </fieldset>
+        <button class="btn btn-success" type="submit">Modifier</button>
 </section>

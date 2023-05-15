@@ -18,14 +18,14 @@ if (!empty($_POST)) {
 
     if (empty($errors)) {
         // INSERT INTO Skill
-        $insertSkill = "UPDATE `skill` SET `skill_id`= :skill_id ,`skill_name`= :name ,`skill_level`= :level  ,`statistic_id`= :statistic_id  WHERE skill_id = :skill_id";
+        $updateSkill = "UPDATE `skill` SET `skill_id`= :skill_id ,`skill_name`= :name ,`skill_level`= :level  ,`statistic_id`= :statistic_id  WHERE skill_id = :skill_id";
 
-        $statementInsertSkill = $connection->prepare($insertSkill);
-        $statementInsertSkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
-        $statementInsertSkill->bindValue(':name', $skill->getName(), PDO::PARAM_STR);
-        $statementInsertSkill->bindValue(':level', $skill->getLevel(), PDO::PARAM_INT);
-        $statementInsertSkill->bindValue(':statistic_id', $skill->getStatId(), PDO::PARAM_INT);
-        $statementInsertSkill->execute();
+        $statementUpdateSkill = $connection->prepare($updateSkill);
+        $statementUpdateSkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
+        $statementUpdateSkill->bindValue(':name', $skill->getName(), PDO::PARAM_STR);
+        $statementUpdateSkill->bindValue(':level', $skill->getLevel(), PDO::PARAM_INT);
+        $statementUpdateSkill->bindValue(':statistic_id', $skill->getStatId(), PDO::PARAM_INT);
+        $statementUpdateSkill->execute();
         $idSkill = $connection->lastInsertId();
 
         header('Location: ?page=character_sheet&characterid=' . $characterid);
