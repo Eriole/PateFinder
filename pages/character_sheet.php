@@ -87,7 +87,7 @@ $characStuff = $queryStuff->fetchAll();
         <!-- Title -->
         <div class="d-flex justify-content-around align-items-center gap-3">
             <h3>Caractéristiques</h3>
-            <a href=""><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="?page=update_statistics&characterid=<?= $currentCharact->getId(); ?>"><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
 
         <!-- Display Stats -->

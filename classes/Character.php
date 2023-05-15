@@ -22,6 +22,18 @@ class Character
     // Constructor
     public function __construct(?array $form = [])
     {
+        $this->update($form);
+        
+        if (!empty($form['pvmax'])) {
+            $this->pvcur = $this->pvmax;
+        }
+        if (!empty($form['pmmax'])) {
+            $this->pmcur = $this->pmmax;
+        }
+    }
+
+    public function update(array $form = []) :self
+    {
         if (!empty($form)) {
             if (isset($form['name'])) {
                 $this->character_name = trim($form['name']);
@@ -31,14 +43,12 @@ class Character
             }
             if (!empty($form['pvmax'])) {
                 $this->pvmax = $form['pvmax'];
-                $this->pvcur = $this->pvmax;
             }
             if (!empty($form['pvcur'])) {
                 $this->pvcur = $form['pvcur'];
             }
             if (!empty($form['pmmax'])) {
                 $this->pmmax = $form['pmmax'];
-                $this->pmcur = $this->pmmax;
             }
             if (!empty($form['pmcur'])) {
                 $this->pmcur = $form['pmcur'];
@@ -62,6 +72,7 @@ class Character
                 $this->luck = $form['luck'];
             }
         }
+        return $this;
     }
 
     //Validate function
