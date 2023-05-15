@@ -1,4 +1,5 @@
 <?php
+$playerId = $_SESSION['user']->getId();
 $character = new Character();
 $errors = [];
 
@@ -11,8 +12,6 @@ if (!empty($_POST)) {
 
         //INSERT INTO Played_Character
         $insertCharacter = "INSERT INTO played_character (character_name, player_id) VALUES (:name, :player_id)";
-        //Missing player_id info
-        $playerId = 1;
         $statementInsertChar = $connection->prepare($insertCharacter);
         $statementInsertChar->bindValue(':player_id', $playerId, PDO::PARAM_INT);
         $statementInsertChar->bindValue(':name', $character->getName(), PDO::PARAM_STR);
@@ -33,8 +32,8 @@ if (!empty($_POST)) {
             $statementInsertCharStat->execute();
         }
 
-        //@TODO heading to player dashboard
-        header('Location: ?page=connection&create=true');
+        //heading to player dashboard
+        header('Location: ?page=characters_list&create=true');
     }
 }
 
@@ -50,21 +49,21 @@ if (!empty($_POST)) {
     <fieldset class="my-4">
         <legend>Caractéristiques</legend>
         <label for="initiative">Initiative (max 10):</label>
-        <input type="number" name="initiative" value="<?php echo $character->getInitiative(); ?>">
+        <input type="number" min="0" max="10" name="initiative" value="<?php echo $character->getInitiative(); ?>">
         <?php if (!empty($errors['initiative'])) {
             echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
         } ?>
         <div class="d-flex gap-5 w-75 justify-content-between">
             <div class="my-3 d-flex justify-content-between w-50 align-items-center">
-                <label for="pvmax">Points de vie maximum:</label>
-                <input type="number" name="pvmax" value="<?php echo $character->getPvmax(); ?>">
+                <label for="pvmax">Points de vie maximum (max 250):</label>
+                <input type="number" min="0" max="250" name="pvmax" value="<?php echo $character->getPvmax(); ?>">
                 <?php if (!empty($errors['pvmax'])) {
                     echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                 } ?>
             </div>
             <div class="my-3 d-flex justify-content-between w-50 align-items-center">
-                <label for="pmmax">Points de magie maximum:</label>
-                <input type="number" name="pmmax" value="<?php echo $character->getPmmax(); ?>">
+                <label for="pmmax">Points de magie maximum (max 250):</label>
+                <input type="number" min="0" max="250" name="pmmax" value="<?php echo $character->getPmmax(); ?>">
                 <?php if (!empty($errors['pmmax'])) {
                     echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                 } ?>
@@ -74,7 +73,7 @@ if (!empty($_POST)) {
             <ul class="list-unstyled w-50">
                 <li class="my-3 d-flex justify-content-between align-items-center">
                     <label for="strength">Force (max 20) </label>
-                    <input data-type="stat" type="number" name="strength"
+                    <input data-type="stat" type="number" min="0" max="20" name="strength"
                         value="<?php echo $character->getStrength(); ?>">
                     <?php if (!empty($errors['strength'])) {
                         echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
@@ -82,7 +81,7 @@ if (!empty($_POST)) {
                 </li>
                 <li class="my-3 d-flex justify-content-between align-items-center">
                     <label for="dexterity">Dextérité (max 20) </label>
-                    <input data-type="stat" type="number" name="dexterity"
+                    <input data-type="stat" type="number" min="0" max="20" name="dexterity"
                         value="<?php echo $character->getDexterity(); ?>">
                     <?php if (!empty($errors['dexterity'])) {
                         echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
@@ -90,7 +89,7 @@ if (!empty($_POST)) {
                 </li>
                 <li class="my-3 d-flex justify-content-between align-items-center">
                     <label for="constitution">Constitution (max 20) </label>
-                    <input data-type="stat" type="number" name="constitution"
+                    <input data-type="stat" type="number" min="0" max="20" name="constitution"
                         value="<?php echo $character->getConstitution(); ?>">
                     <?php if (!empty($errors['constitution'])) {
                         echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
@@ -100,7 +99,7 @@ if (!empty($_POST)) {
             <ul class="list-unstyled w-50">
                 <li class="my-3 d-flex justify-content-between align-items-center">
                     <label for="intelligence">Intelligence (max 20) </label>
-                    <input data-type="stat" type="number" name="intelligence"
+                    <input data-type="stat" type="number" min="0" max="20" name="intelligence"
                         value="<?php echo $character->getIntelligence(); ?>">
                     <?php if (!empty($errors['intelligence'])) {
                         echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
@@ -108,14 +107,16 @@ if (!empty($_POST)) {
                 </li>
                 <li class="my-3 d-flex justify-content-between align-items-center">
                     <label for="wisdom">Sagesse (max 20) </label>
-                    <input data-type="stat" type="number" name="wisdom" value="<?php echo $character->getWisdom(); ?>">
+                    <input data-type="stat" type="number" min="0" max="20" name="wisdom" 
+                        value="<?php echo $character->getWisdom(); ?>">
                     <?php if (!empty($errors['wisdom'])) {
                         echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                     } ?>
                 </li>
                 <li class="my-3 d-flex justify-content-between align-items-center">
                     <label for="luck">Chance (max 20) </label>
-                    <input data-type="stat" type="number" name="luck" value="<?php echo $character->getLuck(); ?>">
+                    <input data-type="stat" type="number" min="0" max="20" name="luck" 
+                        value="<?php echo $character->getLuck(); ?>">
                     <?php if (!empty($errors['luck'])) {
                         echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                     } ?>

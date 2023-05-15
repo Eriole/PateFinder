@@ -13,6 +13,7 @@ $pages = [
     'update_stuff' => "Modifier un équipement",
     'update_skill' => "Modifier la compétence",
     'character_sheet' => "Fiche personnage",
+    'characters_list' => "Tableau de bord",
 ];
 
 if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {

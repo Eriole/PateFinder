@@ -1,5 +1,5 @@
 <?php
-$characId = 5;
+$characId = $_GET['characterid'];
 $errors = [];
 
 //SELECT FROM Played_Character
@@ -73,7 +73,9 @@ $characStuff = $queryStuff->fetchAll();
     <!-- Character Name -->
     <div class="w-75">
         <div class="d-flex justify-content-around align-items-center">
-            <h2><?php echo $currentCharact->getName(); ?></h2>
+            <h2>
+                <?php echo $currentCharact->getName(); ?>
+            </h2>
             <a href=""><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
         <hr class="mx-auto w-75">
@@ -91,7 +93,9 @@ $characStuff = $queryStuff->fetchAll();
         <!-- Display Stats -->
         <form class="bg-gray px-3 py-5 rounded" method="POST" action="">
             <p class="mb-4">
-                <span class="p-2 dark-gray rounded me-3"><?php echo $currentCharact->getInitiative(); ?></span> 
+                <span class="p-2 dark-gray rounded me-3">
+                    <?php echo $currentCharact->getInitiative(); ?>
+                </span>
                 Initiative (INIT)
             </p>
 
@@ -100,8 +104,10 @@ $characStuff = $queryStuff->fetchAll();
                 <ul class="list-unstyled">
                     <li>
                         <p>
-                            <span class="p-2 dark-gray rounded me-3"><?php echo $currentCharact->getPvmax(); ?></span>
-                            Points de vie max 
+                            <span class="p-2 dark-gray rounded me-3">
+                                <?php echo $currentCharact->getPvmax(); ?>
+                            </span>
+                            Points de vie max
                         </p>
                     </li>
                     <li>
@@ -119,14 +125,18 @@ $characStuff = $queryStuff->fetchAll();
                 <ul class="list-unstyled">
                     <li>
                         <p>
-                            <span class="p-2 dark-gray rounded me-3"><?php echo $currentCharact->getPmmax(); ?></span>
+                            <span class="p-2 dark-gray rounded me-3">
+                                <?php echo $currentCharact->getPmmax(); ?>
+                            </span>
                             Points de magie max
                         </p>
                     </li>
                     <li class="">
                         <p>Points de magie actuels </p>
                         <div class="current">
-                            <input type="number" min="0" max="<?php echo $currentCharact->getPmmax(); ?>" name="pmcur" class="p-2 dark-gray rounded" value="<?php echo $currentCharact->getPmcur(); ?>"></input>
+                            <input type="number" min="0" max="<?php echo $currentCharact->getPmmax(); ?>" name="pmcur"
+                                class="p-2 dark-gray rounded"
+                                value="<?php echo $currentCharact->getPmcur(); ?>"></input>
                             <?php if (!empty($errors['pmcur'])) {
                                 echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                             } ?>
@@ -142,20 +152,27 @@ $characStuff = $queryStuff->fetchAll();
                 <ul class="list-unstyled my-0">
                     <li>
                         <p>
-                            <span class="p-2 dark-gray rounded me-3"><?php echo $currentCharact->getStrength(); ?></span>
-                            FOR 
+                            <span class="p-2 dark-gray rounded me-3">
+                                <?php echo $currentCharact->getStrength(); ?>
+                            </span>
+                            FOR
                         </p>
                     </li>
                     <li>
                         <p>
-                            <span class="p-2 dark-gray rounded me-3"><?php echo $currentCharact->getDexterity(); ?></span>
+                            <span class="p-2 dark-gray rounded me-3">
+                                <?php echo $currentCharact->getDexterity(); ?>
+                            </span>
                             DEX
                         </p>
                     </li>
                     <li>
                         <p>
-                            <span class="p-2 dark-gray rounded me-3"><?php echo $currentCharact->getConstitution(); ?></span>
-                            CONST </p>
+                            <span class="p-2 dark-gray rounded me-3">
+                                <?php echo $currentCharact->getConstitution(); ?>
+                            </span>
+                            CONST
+                        </p>
                     </li>
                 </ul>
                 <ul class="list-unstyled my-0">
@@ -185,7 +202,8 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50 ">
             <h3 class="text-center">Compétences</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"><a href="#" ><i class="fa-solid fa-plus"></i></p></a>
+                <p class="text-end"><a href="?page=new_skill&characterid=<?php echo $characId; ?>"><i
+                            class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped ">
                     <tr>
@@ -196,11 +214,18 @@ $characStuff = $queryStuff->fetchAll();
                     </tr>
                     <?php foreach ($characSkill as $key => $skill) { ?>
                         <tr>
-                            <td><?php echo $skill->getName() ?></td>
-                            <td class="text-center"><?php echo $statisticShortnameList[$skill->getStatId()] ?></td>
-                            <td class="text-center"><?php echo $skill->getLevel() ?></td>
+                            <td>
+                                <?php echo $skill->getName(); ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $statisticShortnameList[$skill->getStatId()]; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $skill->getLevel(); ?>
+                            </td>
                             <td class="text-end">
-                                <a href="?page=update_skill&idSkill=<?php echo $skill->getSkillId(); ?>">
+                                <a
+                                    href="?page=update_skill&characterid=<?php echo $characId; ?>&idskill=<?php echo $skill->getSkillId(); ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -214,7 +239,8 @@ $characStuff = $queryStuff->fetchAll();
         <article class="w-50 align-content-stretch">
             <h3 class="text-center">Équipement</h3>
             <div class="bg-gray px-2 py-4 rounded">
-                <p class="text-end"><a href="#"><i class="fa-solid fa-plus"></i></p></a>
+                <p class="text-end"><a href="?page=new_stuff&characterid=<?php echo $characId; ?>"><i
+                            class="fa-solid fa-plus"></i></p></a>
                 <!-- Display -->
                 <table class="table table-striped">
                     <tr>
@@ -225,11 +251,18 @@ $characStuff = $queryStuff->fetchAll();
                     </tr>
                     <?php foreach ($characStuff as $key => $stuff) { ?>
                         <tr>
-                            <td><?php echo $stuff->getName() ?></td>
-                            <td class="text-center"><?php echo $stuff->getDamage() ?></td>
-                            <td class="text-center"><?php echo $stuff->getRange() ?></td>
+                            <td>
+                                <?php echo $stuff->getName(); ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $stuff->getDamage(); ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $stuff->getRange(); ?>
+                            </td>
                             <td class="text-end">
-                                <a href="?page=update_skill&idSkill=<?php echo $stuff->getStuffId(); ?>">
+                                <a
+                                    href="?page=update_stuff&characterid=<?php echo $characId; ?>&idstuff=<?php echo $stuff->getStuffId(); ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -240,7 +273,9 @@ $characStuff = $queryStuff->fetchAll();
         </article>
     </section>
     <div class="text-center">
-        <p>Personnage créé le : <?php echo $currentCharact->getCreationDate() ?></p>
+        <p>Personnage créé le :
+            <?php echo $currentCharact->getCreationDate(); ?>
+        </p>
         <a href="" onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
     </div>
 </div>

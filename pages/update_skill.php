@@ -1,11 +1,12 @@
 <?php
-$skillid = 1;
+$skillid = $_GET['idskill'];
+$characterid = $_GET['characterid'];
 
 $skillstatement = "SELECT * FROM `skill` WHERE `skill_id`= :skill_id";
 $querySkill = $connection->prepare($skillstatement);
 $querySkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
 $querySkill->execute();
-$querySkill->setFetchMode(PDO::FETCH_CLASS,Skill::class ) ;
+$querySkill->setFetchMode(PDO::FETCH_CLASS, Skill::class);
 $skill = $querySkill->fetch();
 
 
@@ -27,7 +28,7 @@ if (!empty($_POST)) {
         $statementInsertSkill->execute();
         $idSkill = $connection->lastInsertId();
 
-        header('Location: ?page=update_skill&updateskill=true');
+        header('Location: ?page=character_sheet&characterid=' . $characterid);
     }
 }
 ?>
@@ -49,7 +50,7 @@ if (!empty($_POST)) {
                     <option value="">--</option>
                     <?php foreach ($statisticList as $key => $statistic) { ?>
                         <option value="<?php echo $key ?>">
-                            <?php echo $statistic ?>
+                            <?php echo $statistic; ?>
                         </option>
                     <?php } ?>
                 </select>
