@@ -1,5 +1,5 @@
 <?php
-spl_autoload_register(function ($class) { 
+spl_autoload_register(function ($class) {
     require_once "../../classes/$class.php";
 });
 
@@ -11,19 +11,19 @@ $statistics = [
     (new Statistic())
         ->setName('Points de vie max')
         ->setShortname('PVmax')
-        ->setQuantity(99),
+        ->setQuantity(250),
     (new Statistic())
         ->setName('Points de vie actuels')
         ->setShortname('PVact')
-        ->setQuantity(99),
+        ->setQuantity(250),
     (new Statistic())
         ->setName('Points de magie max')
         ->setShortname('PMmax')
-        ->setQuantity(99),
+        ->setQuantity(250),
     (new Statistic())
         ->setName('Points de magie actuels')
         ->setShortname('PMact')
-        ->setQuantity(99),
+        ->setQuantity(250),
     (new Statistic())
         ->setName('Force')
         ->setShortname('FOR')

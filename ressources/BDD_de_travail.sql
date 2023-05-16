@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 11 mai 2023 à 11:40
+-- Généré le : mar. 16 mai 2023 à 10:05
 -- Version du serveur : 8.0.31
--- Version de PHP : 8.0.26
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `game_master` (
 DROP TABLE IF EXISTS `played_character`;
 CREATE TABLE IF NOT EXISTS `played_character` (
   `character_id` int NOT NULL AUTO_INCREMENT,
-  `character_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `character_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `character_creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `player_id` int NOT NULL,
   PRIMARY KEY (`character_id`),
@@ -247,9 +247,9 @@ INSERT INTO `played_character` (`character_id`, `character_name`, `character_cre
 DROP TABLE IF EXISTS `player`;
 CREATE TABLE IF NOT EXISTS `player` (
   `player_id` int NOT NULL AUTO_INCREMENT,
-  `player_username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `player_mail` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `player_password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `player_username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `player_mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `player_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `Player_AK` (`player_mail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `regular_player` (
 DROP TABLE IF EXISTS `skill`;
 CREATE TABLE IF NOT EXISTS `skill` (
   `skill_id` int NOT NULL AUTO_INCREMENT,
-  `skill_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `skill_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `skill_level` tinyint NOT NULL,
   `player_id` int DEFAULT NULL,
   `statistic_id` int NOT NULL,
@@ -311,9 +311,9 @@ INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_level`, `player_id`, `stat
 DROP TABLE IF EXISTS `statistic`;
 CREATE TABLE IF NOT EXISTS `statistic` (
   `statistic_id` int NOT NULL AUTO_INCREMENT,
-  `statistic_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `statistic_shortname` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
-  `statistic_quantity` tinyint NOT NULL,
+  `statistic_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `statistic_shortname` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `statistic_quantity` tinyint UNSIGNED NOT NULL,
   PRIMARY KEY (`statistic_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -343,7 +343,7 @@ INSERT INTO `statistic` (`statistic_id`, `statistic_name`, `statistic_shortname`
 DROP TABLE IF EXISTS `stuff`;
 CREATE TABLE IF NOT EXISTS `stuff` (
   `stuff_id` int NOT NULL AUTO_INCREMENT,
-  `stuff_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `stuff_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `stuff_dmg` tinyint NOT NULL,
   `stuff_range` tinyint NOT NULL,
   `player_id` int DEFAULT NULL,
