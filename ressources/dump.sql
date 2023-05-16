@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 16 mai 2023 à 10:06
+-- Généré le : mar. 16 mai 2023 à 11:38
 -- Version du serveur : 8.0.31
--- Version de PHP : 8.2.0
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,7 +61,7 @@ DROP TABLE IF EXISTS `character_statistic`;
 CREATE TABLE IF NOT EXISTS `character_statistic` (
   `character_id` int NOT NULL,
   `statistic_id` int NOT NULL,
-  `current_statistic` tinyint NOT NULL,
+  `current_statistic` tinyint UNSIGNED NOT NULL,
   PRIMARY KEY (`character_id`,`statistic_id`),
   KEY `Character_Statistic_Statistic_FK` (`statistic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

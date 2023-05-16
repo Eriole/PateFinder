@@ -12,7 +12,7 @@ Projet PHP - PateFinder
 6. Configure the user and password if needed
 
 ### If you want to use the working database
-1. Import the database file named "workdatabase" in "Patefinder/ressources"
+1. Import the database file named "work_database" in "Patefinder/ressources"
 
 ### If you want to use an empty database
 1. Import the database file named "dump" in "Patefinder/ressources"
