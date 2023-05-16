@@ -43,7 +43,7 @@ function combinationCheck(PDO $connection, int $characterId, int $userId)
     $statementcombination->bindValue(':characterId', $characterId, PDO::PARAM_INT);
     $statementcombination->bindValue(':playerId', $userId, PDO::PARAM_INT);
     $statementcombination->execute();
-    $resultVerif = $statementcombination->fetchAll();
+    $resultVerif = $statementcombination->fetch();
 
     if (empty($resultVerif)) {
         header('Location: ?page=characters_list.php');

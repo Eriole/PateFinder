@@ -2,6 +2,9 @@
 $characId = $_GET['characterid'];
 $errors = [];
 
+combinationCheck($connection, $charID, $_SESSION['user']->getId());
+
+
 //SELECT FROM Played_Character
 $selectCharac = "SELECT * FROM played_character
     WHERE character_id = :charact_id";
@@ -76,8 +79,8 @@ $characStuff = $queryStuff->fetchAll();
             <h2>
                 <?php echo $currentCharact->getName(); ?>
             </h2>
-            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><i
-                    class="fa-solid fa-pen-to-square"></i></a>
+            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><iclass="fa-solid
+                    fa-pen-to-square"></iclass=></a>
         </div>
         <hr class="mx-auto w-75">
     </div>
@@ -274,9 +277,7 @@ $characStuff = $queryStuff->fetchAll();
         </article>
     </section>
     <div class="text-center">
-        <p>Personnage créé le :
-            <?php echo $currentCharact->getCreationDate(); ?>
-        </p>
+        <p>Personnage créé le : <?php echo $currentCharact->getCreationDate(); ?></p>
         <a href="?page=character_delete&characterid=<?= $characId ?>"
             onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
     </div>

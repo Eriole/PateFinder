@@ -50,7 +50,7 @@ $characters = $queryCharacter->fetchAll();
                         </a>
                     </td>
                     <td class="">
-                        <a href="?page=character_delete&characterid=<?= $character->getId() ?>"
+                        <a href="?page=character_delete&characterid=<?= $character->getId(); ?>"
                         onclick="return confirm('Valider la suppression?')" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                         </a>
