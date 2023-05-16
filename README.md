@@ -7,19 +7,19 @@ Projet PHP - PateFinder
 1. Start your server
 2. Open PHPMyAdmin
 3. Login in
-4. Click on the "Import" button on the navbar
+4. Open the "config.inc.php" file in "PateFinder/includes"
+5. Active the part related to your server system (Mac or Windows)
+6. Configure the user and password if needed
 
-### You want to use the working database
+### If you want to use the working database
+1. Import the database file named "workdatabase" in "Patefinder/ressources"
 
-1. Browse to import the database file named "workdatabase" in "Patefinder/ressources/.."
-2. Import it
+### If you want to use an empty database
+1. Import the database file named "dump" in "Patefinder/ressources"
+2. Execute the fixtures file "create_statistic.php" in "Patefinder/ressources/fixtures" to truncate all tables and insert only the info in table named "statistic"
 
-### You want to use an empty database
-
-1. Browse to import the database file named "dump" in "Patefinder/ressources/.."
-2. Import it
-3. Execute the fixtures file "create_statistic.php" by using the URL "http://localhost/patefinder/ressources/fixtures/create_statistic.php".
-   **If you are on MAC** execute this fixtures file "http://localhost:8888/patefinder/ressources/fixtures/create_statistic.php".
+### Open the project :
+1. Open "Patefinder/index.php"
 
 ![Project MCD](ressources/MCD.png)
 ![Project MLD](ressources/MLD.png)
