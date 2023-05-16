@@ -2,6 +2,10 @@
 $stuff = new Stuff();
 $errors = [];
 
+$charId = intval($_GET['characterid']);
+
+combinationCheck($connection, $charId, $_SESSION['user']->getId());
+
 if (!empty($_POST)) {
     $stuff = new Stuff($_POST);
     $errors = $stuff->validate();
@@ -22,15 +26,12 @@ if (!empty($_POST)) {
         $insertCharSkill = "INSERT INTO character_stuff (character_id, stuff_id) 
                 VALUES (:character_id, :stuff_id)";
 
-        //Missing character_id info
-        $charId = $_GET['characterid'];
-
         $statementInsertCharSkill = $connection->prepare($insertCharSkill);
         $statementInsertCharSkill->bindValue(':character_id', $charId, PDO::PARAM_INT);
         $statementInsertCharSkill->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);
         $statementInsertCharSkill->execute();
 
-        header('Location: ?page=character_sheet&characterid='.$charId );
+        header('Location: ?page=character_sheet&characterid=' . $charId);
     }
 }
 

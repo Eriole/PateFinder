@@ -43,7 +43,7 @@ $characters = $queryCharacter->fetchAll();
                         </a>
                     </td>
                     <td>
-                        <a href="?page=edit_character&characterid=<?php echo $character->getId(); ?>"
+                        <a href="?page=character_sheet&characterid=<?php echo $character->getId(); ?>"
                             class="btn btn-secondary">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>

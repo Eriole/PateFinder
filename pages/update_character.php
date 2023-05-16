@@ -2,6 +2,8 @@
 $characId = $_GET['characterid'];
 $errors = [];
 
+combinationCheck($connection, $characId, $_SESSION['user']->getId());
+
 //SELECT FROM played_character
 $character = selectCharacter($characId, $connection);
 

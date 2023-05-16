@@ -5,20 +5,30 @@ require_once 'includes/function.php';
 ob_start();
 session_start();
 
-$pages = [
-    'connection' => "Accueil",
-    'new_character' => "Nouvelle fiche",
-    'logout' => "Déconnexion",
-    'new_skill' => "Nouvelle compétence",
-    'new_stuff' => "Nouvel équipement",
-    'update_stuff' => "Modifier un équipement",
-    'update_skill' => "Modifier la compétence",
-    'character_sheet' => "Fiche personnage",
-    'characters_list' => "Tableau de bord",
-    'character_delete' => "pouf",
-    'update_character' => "Modifier le personnage",
-    'update_statistics' => "Modifier les caractéristiques",
-];
+if (empty($_SESSION['user'])) {
+
+    $pages = [
+        'connection' => "Accueil",
+    ];
+
+} else {
+
+    $pages = [
+        'connection' => "Accueil",
+        'new_character' => "Nouvelle fiche",
+        'logout' => "Déconnexion",
+        'new_skill' => "Nouvelle compétence",
+        'new_stuff' => "Nouvel équipement",
+        'update_stuff' => "Modifier un équipement",
+        'update_skill' => "Modifier la compétence",
+        'character_sheet' => "Fiche personnage",
+        'characters_list' => "Tableau de bord",
+        'character_delete' => "pouf",
+        'update_character' => "Modifier le personnage",
+    ];
+
+}
+
 
 if (isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
     $page = $_GET['page'];

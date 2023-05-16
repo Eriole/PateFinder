@@ -2,6 +2,8 @@
 $skillid = $_GET['idskill'];
 $characterid = $_GET['characterid'];
 
+combinationCheck($connection, $characterid, $_SESSION['user']->getId());
+
 $skillstatement = "SELECT * FROM `skill` WHERE `skill_id`= :skill_id";
 $querySkill = $connection->prepare($skillstatement);
 $querySkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
@@ -11,6 +13,8 @@ $skill = $querySkill->fetch();
 
 
 $errors = [];
+
+
 
 if (!empty($_POST)) {
     $skill = new Skill($_POST);
