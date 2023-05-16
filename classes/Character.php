@@ -23,7 +23,7 @@ class Character
     public function __construct(?array $form = [])
     {
         $this->update($form);
-        
+
         if (!empty($form['pvmax'])) {
             $this->pvcur = $this->pvmax;
         }
@@ -32,7 +32,7 @@ class Character
         }
     }
 
-    public function update(array $form = []) :self
+    public function update(array $form = []): self
     {
         if (!empty($form)) {
             if (isset($form['name'])) {
