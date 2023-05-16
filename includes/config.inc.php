@@ -1,11 +1,11 @@
 <?php
 
-// Connexion WAMP Pour Window (Joanna, Hichem et Antoine)
+// Connection WAMP (For Windows)
 $dsn = 'mysql:dbname=exo_patefinder;port=3306;host=127.0.0.1';
 $user = 'root'; // Default User
 $password = ''; // Default no password
 
-//Connexion MAMP Pour Mac (Winai)
+//Connection MAMP (For Mac)
 // $dsn = 'mysql:dbname=exo_patefinder;port=8889;host=127.0.0.1';
 // $user = 'root';
 // $password = 'root';
