@@ -5,25 +5,58 @@ class Character
     protected int $player_id;
     protected string $character_name = '';
     protected string $character_creation_date = '';
-    
+
     /** stat = sum of stats only for creation*/
     protected int $stat = 0;
+
+    /** @var array<Stuff> */
+    protected array $stuffs = [];
+
+    /** @var array<Skill> */
+    protected array $skills = [];
+
+    /** @var array<CharacterStatistic> */
+    protected array $stats = [];
 
     // Constructor
     public function __construct(?array $form = [])
     {
-       
-    }
-
-    public function update(array $form = []): self
-    {
-       
+        if (isset($form['name'])) {
+            $this->character_name = trim($form['name']);
+        }
+        if (!empty($form['stats'])) {
+            foreach ($form['stats'] as $statisticId => $currentStatistic) {
+                $characterStatistic = new CharacterStatistic($statisticId, $currentStatistic);
+                $this->addStat($characterStatistic);
+            }
+        }
     }
 
     //Validate function
-    public function validate(bool $isCreate = true): array
+    public function validate(array $statsById = [], bool $isCreate = false): array
     {
-        
+        $errors = [];
+        if (empty($this->character_name)) {
+            $errors['name'] = true;
+        }
+
+        $this->stat = 0;
+        foreach ($this->getStats() as $charStat) {
+            $statId = $charStat->getStatistic_id();
+            $statFromDb = $statsById[$statId];
+
+            if ($statFromDb->getInSum()) {
+                $this->stat += $charStat->getCurrent_statistic();
+            }
+
+            $errors['stat_' . $statId] = $charStat->validate($statFromDb);
+        }
+
+        if ($isCreate && ($this->stat < 60 || $this->stat > 80)) {
+            $errors['stat'] = true;
+        }
+
+        return $errors;
     }
 
     // GET SET
@@ -70,5 +103,79 @@ class Character
     {
         $this->player_id = $player;
         return $this;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function getStuffs(): array
+    {
+        return $this->stuffs;
+    }
+
+    /**
+     * 
+     * @param  $stuffs 
+     * @return self
+     */
+    public function setStuffs(array $stuffs): self
+    {
+        $this->stuffs = $stuffs;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function getSkills(): array
+    {
+        return $this->skills;
+    }
+
+    /**
+     * 
+     * @param  $skills 
+     * @return self
+     */
+    public function setSkills(array $skills): self
+    {
+        $this->skills = $skills;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return array<CharacterStatistic>
+     */
+    public function getStats(): array
+    {
+        return $this->stats;
+    }
+
+    /**
+     * 
+     * @param  $stats 
+     * @return self
+     */
+    public function setStats(array $stats): self
+    {
+        $this->stats = $stats;
+        return $this;
+    }
+
+    public function addStat(CharacterStatistic $stat): self
+    {
+        $this->stats[$stat->getStatistic_id()] = $stat;
+
+        return $this;
+    }
+    public function getStatById(int $idStat): ?CharacterStatistic
+    {
+        if (!isset($this->stats[$idStat])) {
+            return null;
+        }
+        return $this->stats[$idStat];
     }
 }

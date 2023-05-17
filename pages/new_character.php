@@ -3,13 +3,12 @@ $playerId = $_SESSION['user']->getId();
 $character = new Character();
 $errors = [];
 
-var_dump($_POST);
 //Creation Character
 if (!empty($_POST)) {
-    $character = new Character($_POST);
-    $errors = $character->validate(isCreate: true);
+    $errors = $character->validate($statsById, true);
+    var_dump($errors);
 
-    if (empty($errors)) {
+    /*if (empty($errors)) {
 
         //INSERT INTO Played_Character
         $insertCharacter = "INSERT INTO played_character (character_name, player_id) VALUES (:name, :player_id)";
@@ -35,7 +34,7 @@ if (!empty($_POST)) {
 
         //heading to player dashboard
         header('Location: ?page=characters_list&create=true');
-    }
+    }*/
 }
 
 ?>
@@ -54,15 +53,22 @@ if (!empty($_POST)) {
                 <!-- boucle sur les statistiques -->
                 <?php foreach ($statistics as $key => $stat) {
                     ?>
-                    <li class="my-3 d-flex justify-content-between w-50 align-items-center">
+                    <li class="my-3 d-flex justify-content-between align-items-center">
                         <label for="stat_<?= $stat->getId(); ?>">
                             <?= $stat->getName(); ?> (max <?= $stat->getQuantity(); ?>):
                         </label>
-                        <input type="number" min="0" max="<?= $stat->getQuantity(); ?>" name="stats[<?= $stat->getId(); ?>]"
-                            value="">
-                        <?php if (!empty($errors['stats'][$stat->getId()])) {
+                        <input <?php if ($stat->getInSum()) { ?>data-stat<?php } ?> type="number" min="0"
+                            max="<?= $stat->getQuantity(); ?>" name="stats[<?= $stat->getId(); ?>]" value="<?php
+                                $currentStat = $character->getStatById($stat->getId());
+                                if ($currentStat) {
+                                    echo $currentStat->getCurrent_statistic();
+                                }
+                                ?>">
+                        <?php
+                        if (!empty($errors['stat_' . $stat->getId()])) {
                             echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                         } ?>
+
                     </li>
                     <?php
                 }

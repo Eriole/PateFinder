@@ -1,29 +1,24 @@
 <?php
 class CharacterStatistic
 {
-    protected int $character_id;
-    protected int $statistic_id;
-    protected int $current_statistic;
+    protected int $character_id = 0;
+    protected int $statistic_id = 0;
+    protected int $current_statistic = 0;
 
-    public function __construct(array $data = [])
+    public function __construct(int $statId, int $statValue)
     {
-        if (!empty($data['character_id'])) {
-            $this->character_id = $data['character_id'];
-        }
-        if (!empty($data['statistic_id'])) {
-            $this->statistic_id = $data['statistic_id'];
-        }
-        if (!empty($data['current_statistic'])) {
-            $this->current_statistic = $data['current_statistic'];
-        }
+        $this->statistic_id = $statId;
+        $this->current_statistic = intval($statValue);
     }
+
 
     //Validate function
     public function validate(Statistic $statistic): bool
     {
-        return $this->current_statistic >= 0
-            && $this->current_statistic <= $statistic->getQuantity();
+        return $this->current_statistic < 0
+            || $this->current_statistic > $statistic->getQuantity();
     }
+
 
     public function getCharacter_id(): int
     {

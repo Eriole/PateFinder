@@ -1,5 +1,5 @@
 //Count of sum stat on new_character
-let stats = document.querySelectorAll("[data-type]");
+let stats = document.querySelectorAll("[data-stat]");
 let count = document.querySelector("#count");
 
 window.addEventListener("load", addition);
@@ -11,7 +11,7 @@ stats.forEach((stat) => {
 
 // Add values to a variable sum
 function addition() {
-  let stats = document.querySelectorAll("[data-type]");
+  let stats = document.querySelectorAll("[data-stat]");
   let sum = 0;
   stats.forEach((stat) => {
     sum += parseInt(stat.value || 0);
@@ -23,5 +23,3 @@ function addition() {
 function displaySum(sum) {
   count.innerHTML = `Reste entre ${60 - sum} et ${80 - sum} pts à distribuer.`;
 }
-
-
