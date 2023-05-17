@@ -1,6 +1,7 @@
 <?php
 $username = $_SESSION['user']->getUsername();
 $idPlayer = $_SESSION['user']->getId();
+
 //SELECT FROM played_Character
 $selectCharacter = "SELECT * FROM played_character WHERE player_id = :id";
 
@@ -43,13 +44,13 @@ $characters = $queryCharacter->fetchAll();
                         </a>
                     </td>
                     <td>
-                        <a href="?page=edit_character&characterid=<?php echo $character->getId(); ?>"
+                        <a href="?page=character_sheet&characterid=<?php echo $character->getId(); ?>"
                             class="btn btn-secondary">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>
                     <td class="">
-                        <a href="?page=remove_character&characterid=<?php echo $character->getId(); ?>"
+                        <a href="?page=character_delete&characterid=<?= $character->getId(); ?>"
                         onclick="return confirm('Valider la suppression?')" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                         </a>

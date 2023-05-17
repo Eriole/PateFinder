@@ -34,3 +34,18 @@ function selectStatistic(int $characId, Character $character, PDO $connection): 
     $character = (new CharacterComposer())->compose($character, $characStat);
     return $character;
 }
+
+//SELECT CHARACTERID AND PLAYERID TO CHECK IF THEY MATCH 
+function combinationCheck(PDO $connection, int $characterId, int $userId)
+{
+    $sqlVerif = "SELECT * FROM played_character WHERE character_id = :characterId AND player_id = :playerId";
+    $statementcombination = $connection->prepare($sqlVerif);
+    $statementcombination->bindValue(':characterId', $characterId, PDO::PARAM_INT);
+    $statementcombination->bindValue(':playerId', $userId, PDO::PARAM_INT);
+    $statementcombination->execute();
+    $resultVerif = $statementcombination->fetch();
+
+    if (empty($resultVerif)) {
+        header('Location: ?page=characters_list.php');
+    }
+}

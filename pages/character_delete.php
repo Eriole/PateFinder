@@ -1,6 +1,8 @@
 <?php
 $charID = $_GET['characterid'];
 
+combinationCheck($connection, $charID, $_SESSION['user']->getId());
+
 $tableName = 'character_stuff';
 deleteChar($tableName, $charID, $connection);
 $tableName = 'character_skill';

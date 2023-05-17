@@ -2,9 +2,13 @@
 $skill = new Skill();
 $errors = [];
 
+$charId = intval($_GET['characterid']);
+
+combinationCheck($connection, $charId, $_SESSION['user']->getId());
+
 if (!empty($_POST)) {
     $skill = new Skill($_POST);
-    $errors = $skill->validate();   
+    $errors = $skill->validate();
 
     if (empty($errors)) {
         // INSERT INTO Skill
@@ -22,7 +26,6 @@ if (!empty($_POST)) {
         $insertCharSkill = "INSERT INTO character_skill (character_id, skill_id) 
                 VALUES (:character_id, :skill_id)";
 
-        $charId = $_GET['characterid'];
 
         $statementInsertCharSkill = $connection->prepare($insertCharSkill);
         $statementInsertCharSkill->bindValue(':character_id', $charId, PDO::PARAM_INT);
@@ -30,7 +33,7 @@ if (!empty($_POST)) {
         $statementInsertCharSkill->execute();
 
         // heading to Character Sheet
-        header('Location: ?page=character_sheet&characterid='.$charId);
+        header('Location: ?page=character_sheet&characterid=' . $charId);
     }
 }
 

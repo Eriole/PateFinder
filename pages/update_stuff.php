@@ -10,6 +10,8 @@ $statementSelectStuff->execute();
 $statementSelectStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
 $stuff = $statementSelectStuff->fetch();
 
+combinationCheck($connection, $characId, $_SESSION['user']->getId());
+
 
 if (!empty($_POST)) {
     $stuff = new Stuff($_POST);
