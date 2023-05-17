@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 16 mai 2023 à 11:38
+-- Généré le : mer. 17 mai 2023 à 09:27
 -- Version du serveur : 8.0.31
--- Version de PHP : 8.0.26
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -323,10 +323,10 @@ CREATE TABLE IF NOT EXISTS `statistic` (
 
 INSERT INTO `statistic` (`statistic_id`, `statistic_name`, `statistic_shortname`, `statistic_quantity`) VALUES
 (1, 'Initiative', 'INIT', 10),
-(2, 'Points de vie max', 'PVmax', 99),
-(3, 'Points de vie actuels', 'PVact', 99),
-(4, 'Points de magie max', 'PMmax', 99),
-(5, 'Points de magie actuels', 'PMact', 99),
+(2, 'Points de vie max', 'PVmax', 250),
+(3, 'Points de vie actuels', 'PVact', 250),
+(4, 'Points de magie max', 'PMmax', 250),
+(5, 'Points de magie actuels', 'PMact', 250),
 (6, 'Force', 'FOR', 20),
 (7, 'Dexterite', 'DEX', 20),
 (8, 'Constitution', 'CONST', 20),
