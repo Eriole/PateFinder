@@ -17,13 +17,13 @@ $currentCharact = $queryCharac->fetch();
 
 //SELECT FROM Character_Statistic
 $selectStat = "SELECT * FROM character_statistic 
-
     WHERE character_id= :charact_id";
 $queryStat = $connection->prepare($selectStat);
 $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
 $queryStat->setFetchMode(PDO::FETCH_CLASS, CharacterStatistic::class);
 $queryStat->execute();
 $characStat = $queryStat->fetchAll();
+var_dump($currentCharact, $characStat);
 
 /*
 //UPDATE PV and PM
@@ -98,109 +98,9 @@ $characStuff = $queryStuff->fetchAll();
 
         <!-- Display Stats -->
         <form class="bg-gray px-3 py-5 rounded" method="POST" action="">
-            <p class="mb-4">
-                <span class="p-2 dark-gray rounded me-3">
-                    <?php echo $currentCharact->getInitiative(); ?>
-                </span>
-                Initiative (INIT)
-            </p>
-
-            <!-- Display PV and PM -->
-            <div class="d-flex justify-content-between align-items-center">
-                <ul class="list-unstyled">
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getPvmax(); ?>
-                            </span>
-                            Points de vie max
-                        </p>
-                    </li>
-                    <li>
-                        <p>Points de vie actuels </p>
-                        <div class="current">
-                            <input type="number" min="0" max="<?php echo $currentCharact->getPvmax(); ?>" name="pvcur"
-                                class="p-2 dark-gray rounded"
-                                value="<?php echo $currentCharact->getPvcur(); ?>"></input>
-                            <?php if (!empty($errors['pvcur'])) {
-                                echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                            } ?>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list-unstyled">
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getPmmax(); ?>
-                            </span>
-                            Points de magie max
-                        </p>
-                    </li>
-                    <li class="">
-                        <p>Points de magie actuels </p>
-                        <div class="current">
-                            <input type="number" min="0" max="<?php echo $currentCharact->getPmmax(); ?>" name="pmcur"
-                                class="p-2 dark-gray rounded"
-                                value="<?php echo $currentCharact->getPmcur(); ?>"></input>
-                            <?php if (!empty($errors['pmcur'])) {
-                                echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                            } ?>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="mb-2 row justify-content-center">
-                <input type="submit" class="col-1 btn btn-light" value="OK">
-            </div>
-            <!-- Display stats -->
-            <div class="d-flex justify-content-around mx-auto align-items-center w-75 bg-light-gray p-3 rounded ">
-                <ul class="list-unstyled my-0">
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getStrength(); ?>
-                            </span>
-                            FOR
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getDexterity(); ?>
-                            </span>
-                            DEX
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getConstitution(); ?>
-                            </span>
-                            CONST
-                        </p>
-                    </li>
-                </ul>
-                <ul class="list-unstyled my-0">
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getInitiative(); ?>
-                            </span> INT </p>
-                    </li>
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getWisdom(); ?>
-                            </span> SAG </p>
-                    </li>
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getLuck(); ?>
-                            </span> CHA </p>
-                    </li>
-                </ul>
-            </div>
+            
         </form>
-    </section>
+           
 
     <!-- Skill and Stuff -->
     <section class="w-75 d-flex justify-content-around gap-3">

@@ -5,12 +5,16 @@ class CharacterStatistic
     protected int $statistic_id = 0;
     protected int $current_statistic = 0;
 
-    
 
-    public function __construct(int $statId, int $statValue)
+
+    public function __construct(?int $statId = null, ?int $statValue = null)
     {
-        $this->statistic_id = $statId;
-        $this->current_statistic = intval($statValue);
+        if ($statId != null) {
+            $this->statistic_id = $statId;
+        }
+        if ($statValue != null) {
+            $this->current_statistic = intval($statValue);
+        }
     }
 
 
