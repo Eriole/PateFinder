@@ -1,14 +1,14 @@
 <?php
 
 // Connexion WAMP Pour Window (Joanna, Hichem et Antoine)
-$dsn = 'mysql:dbname=exo_patefinder;port=3306;host=127.0.0.1';
-$user = 'root'; // Default User
-$password = ''; // Default no password
+// $dsn = 'mysql:dbname=exo_patefinder;port=3306;host=127.0.0.1';
+// $user = 'root'; // Default User
+// $password = ''; // Default no password
 
 //Connexion MAMP Pour Mac (Winai)
-// $dsn = 'mysql:dbname=exo_patefinder;port=8889;host=127.0.0.1';
-// $user = 'root';
-// $password = 'root';
+$dsn = 'mysql:dbname=exo_patefinder;port=8889;host=127.0.0.1';
+$user = 'root';
+$password = 'root';
 
 try {
     $connection = new PDO($dsn, $user, $password, [

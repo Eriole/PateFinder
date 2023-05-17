@@ -14,13 +14,14 @@ $connection->exec("SET foreign_key_checks = 0;
     SET foreign_key_checks = 1");
 
 //INSERT INTO Table 'statistic'
-$insertStatistic = "INSERT INTO statistic (statistic_name, statistic_shortname, statistic_quantity, inSum) 
-VALUES (:name, :shortname, :quantity, :inSum)";
+$insertStatistic = "INSERT INTO statistic (statistic_name, statistic_shortname, statistic_quantity, inSum, editable) 
+VALUES (:name, :shortname, :quantity, :inSum, :editable)";
 $statement = $connection->prepare($insertStatistic);
 foreach ($statistics as $statistic) {
     $statement->bindValue(':name', $statistic->getName(), PDO::PARAM_STR);
     $statement->bindValue(':shortname', $statistic->getShortname(), PDO::PARAM_STR);
     $statement->bindValue(':quantity', $statistic->getQuantity(), PDO::PARAM_INT);
     $statement->bindValue(':inSum', $statistic->getInSum(), PDO::PARAM_BOOL);
+    $statement->bindValue(':editable', $statistic->getEditable(), PDO::PARAM_BOOL);
     $statement->execute();
 }

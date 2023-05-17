@@ -5,6 +5,8 @@ class CharacterStatistic
     protected int $statistic_id = 0;
     protected int $current_statistic = 0;
 
+    
+
     public function __construct(int $statId, int $statValue)
     {
         $this->statistic_id = $statId;

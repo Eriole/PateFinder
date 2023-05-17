@@ -6,6 +6,7 @@ class Statistic
 	protected string $statistic_shortname;
 	protected int $statistic_quantity;
 	protected bool $inSum = false;
+	protected bool $editable = false;
 
 	public function getName(): string
 	{
@@ -66,6 +67,22 @@ class Statistic
 	public function setInSum(bool $inSum): self
 	{
 		$this->inSum = $inSum;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getEditable(): bool {
+		return $this->editable;
+	}
+	
+	/**
+	 * @param  $editable 
+	 * @return self
+	 */
+	public function setEditable(bool $editable): self {
+		$this->editable = $editable;
 		return $this;
 	}
 }

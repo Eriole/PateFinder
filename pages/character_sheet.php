@@ -16,15 +16,16 @@ $queryCharac->execute();
 $currentCharact = $queryCharac->fetch();
 
 //SELECT FROM Character_Statistic
-$selectStat = "SELECT character_statistic.statistic_id, current_statistic, statistic_shortname FROM character_statistic 
-    LEFT JOIN statistic ON character_statistic.statistic_id = statistic.statistic_id 
+$selectStat = "SELECT * FROM character_statistic 
+
     WHERE character_id= :charact_id";
 $queryStat = $connection->prepare($selectStat);
 $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
+$queryStat->setFetchMode(PDO::FETCH_CLASS, CharacterStatistic::class);
 $queryStat->execute();
 $characStat = $queryStat->fetchAll();
-$currentCharact = (new CharacterComposer())->compose($currentCharact, $characStat);
 
+/*
 //UPDATE PV and PM
 if (!empty($_POST)) {
     $currentCharact->setPmcur($_POST['pmcur']);
@@ -47,6 +48,7 @@ if (!empty($_POST)) {
         $statementUpdatePVPM->execute();
     }
 }
+*/
 
 //SELECT FROM Character_Skill
 $selectSkill = "SELECT character_skill.skill_id, skill_name, skill_level, statistic_id FROM character_skill
