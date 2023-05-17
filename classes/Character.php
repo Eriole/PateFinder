@@ -26,7 +26,7 @@ class Character
         }
         if (!empty($form['stats'])) {
             foreach ($form['stats'] as $statisticId => $currentStatistic) {
-                $characterStatistic = new CharacterStatistic($statisticId, $currentStatistic);
+                $characterStatistic = new CharacterStatistic($statisticId, intval($currentStatistic));
                 $this->addStat($characterStatistic);
             }
         }

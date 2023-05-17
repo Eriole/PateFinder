@@ -1,14 +1,15 @@
 <?php
 $playerId = $_SESSION['user']->getId();
-$character = new Character();
+$character = new Character($_POST);
 $errors = [];
 
 //Creation Character
 if (!empty($_POST)) {
     $errors = $character->validate($statsById, true);
-    var_dump($errors);
+    var_dump($errors, $character);
 
-    /*if (empty($errors)) {
+    /*
+    if (empty($errors)) {
 
         //INSERT INTO Played_Character
         $insertCharacter = "INSERT INTO played_character (character_name, player_id) VALUES (:name, :player_id)";
