@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 17 mai 2023 à 09:27
+-- Généré le : mer. 17 mai 2023 à 13:57
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.2.0
 
@@ -314,6 +314,7 @@ CREATE TABLE IF NOT EXISTS `statistic` (
   `statistic_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `statistic_shortname` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `statistic_quantity` tinyint UNSIGNED NOT NULL,
+  `inSum` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`statistic_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -321,18 +322,18 @@ CREATE TABLE IF NOT EXISTS `statistic` (
 -- Déchargement des données de la table `statistic`
 --
 
-INSERT INTO `statistic` (`statistic_id`, `statistic_name`, `statistic_shortname`, `statistic_quantity`) VALUES
-(1, 'Initiative', 'INIT', 10),
-(2, 'Points de vie max', 'PVmax', 250),
-(3, 'Points de vie actuels', 'PVact', 250),
-(4, 'Points de magie max', 'PMmax', 250),
-(5, 'Points de magie actuels', 'PMact', 250),
-(6, 'Force', 'FOR', 20),
-(7, 'Dexterite', 'DEX', 20),
-(8, 'Constitution', 'CONST', 20),
-(9, 'Intelligence', 'INT', 20),
-(10, 'Sagesse', 'SAG', 20),
-(11, 'Chance', 'CHA', 20);
+INSERT INTO `statistic` (`statistic_id`, `statistic_name`, `statistic_shortname`, `statistic_quantity`, `inSum`) VALUES
+(1, 'Initiative', 'INIT', 10, 0),
+(2, 'Points de vie max', 'PVmax', 250, 0),
+(3, 'Points de vie actuels', 'PVact', 250, 0),
+(4, 'Points de magie max', 'PMmax', 250, 0),
+(5, 'Points de magie actuels', 'PMact', 250, 0),
+(6, 'Force', 'FOR', 20, 1),
+(7, 'Dexterite', 'DEX', 20, 1),
+(8, 'Constitution', 'CONST', 20, 1),
+(9, 'Intelligence', 'INT', 20, 1),
+(10, 'Sagesse', 'SAG', 20, 1),
+(11, 'Chance', 'CHA', 20, 1);
 
 -- --------------------------------------------------------
 

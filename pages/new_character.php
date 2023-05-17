@@ -6,9 +6,6 @@ $errors = [];
 //Creation Character
 if (!empty($_POST)) {
     $errors = $character->validate($statsById, true);
-    var_dump($errors, $character);
-
-    /*
     if (empty($errors)) {
 
         //INSERT INTO Played_Character
@@ -19,23 +16,22 @@ if (!empty($_POST)) {
         $statementInsertChar->execute();
         $idCharacter = $connection->lastInsertId();
 
-        //Creation of an Array with CharacterComposer decompose function based on $statistics (in variables.php) and $character
-        $characterStatistics = (new CharacterComposer)->decompose($character, $statistics);
+        $characterStats = $character->getStats();
 
-        //INSERT INTO Character_Statistic using array $characterStatistics
-        foreach ($characterStatistics as $statId => $currentStat) {
+        foreach ($characterStats as $key => $characterStatistic) {
+            //INSERT INTO Character_Statistic using array $characterStatistics
             $insertCharacterStatistic = "INSERT INTO character_statistic (character_id, statistic_id, current_statistic) 
                 VALUES (:id, :stat_id, :current_stat)";
             $statementInsertCharStat = $connection->prepare($insertCharacterStatistic);
             $statementInsertCharStat->bindValue(':id', $idCharacter, PDO::PARAM_INT);
-            $statementInsertCharStat->bindValue(':stat_id', $statId, PDO::PARAM_INT);
-            $statementInsertCharStat->bindValue(':current_stat', $currentStat, PDO::PARAM_INT);
+            $statementInsertCharStat->bindValue(':stat_id', $characterStatistic->getStatistic_id(), PDO::PARAM_INT);
+            $statementInsertCharStat->bindValue(':current_stat', $characterStatistic->getCurrent_statistic(), PDO::PARAM_INT);
             $statementInsertCharStat->execute();
         }
 
         //heading to player dashboard
         header('Location: ?page=characters_list&create=true');
-    }*/
+    }
 }
 
 ?>
@@ -51,7 +47,7 @@ if (!empty($_POST)) {
         <legend>Caractéristiques</legend>
         <div class="d-flex gap-5 w-75">
             <ul class="list-unstyled w-50">
-                <!-- boucle sur les statistiques -->
+                <!-- Use of $statistics array to generate input -->
                 <?php foreach ($statistics as $key => $stat) {
                     ?>
                     <li class="my-3 d-flex justify-content-between align-items-center">
@@ -69,7 +65,6 @@ if (!empty($_POST)) {
                         if (!empty($errors['stat_' . $stat->getId()])) {
                             echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
                         } ?>
-
                     </li>
                     <?php
                 }

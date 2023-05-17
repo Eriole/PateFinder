@@ -48,8 +48,9 @@ class Character
             if ($statFromDb->getInSum()) {
                 $this->stat += $charStat->getCurrent_statistic();
             }
-
-            $errors['stat_' . $statId] = $charStat->validate($statFromDb);
+            if ($charStat->validate($statFromDb)) {
+                $errors['stat_' . $statId] = true;
+            }
         }
 
         if ($isCreate && ($this->stat < 60 || $this->stat > 80)) {
