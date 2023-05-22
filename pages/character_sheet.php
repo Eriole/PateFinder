@@ -1,6 +1,9 @@
 <?php
 $characId = $_GET['characterid'];
 $errors = [];
+$inSumStats = [];
+$editableStats = [];
+$regularStats = [];
 
 combinationCheck($connection, $charID, $_SESSION['user']->getId());
 
@@ -23,7 +26,19 @@ $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
 $queryStat->setFetchMode(PDO::FETCH_CLASS, CharacterStatistic::class);
 $queryStat->execute();
 $characStat = $queryStat->fetchAll();
-var_dump($currentCharact, $characStat);
+
+foreach ($characStat as $key => $characterStatistic) {
+    $statId = $characterStatistic->getStatistic_id();
+    // array_push($regularStats, $statId);
+    if ($statsById[$statId]->getInSum() == true) {
+        $inSumStats[$statId] = $characterStatistic;
+    } elseif ($statsById[$statId]->getEditable() == true) {
+        $editableStats[$statId] = $characterStatistic;
+    } else {
+        $regularStats[$statId] = $characterStatistic;
+    }
+}
+// var_dump($regularStats, $inSumStats, $editableStats);
 
 /*
 //UPDATE PV and PM
@@ -81,8 +96,8 @@ $characStuff = $queryStuff->fetchAll();
             <h2>
                 <?php echo $currentCharact->getName(); ?>
             </h2>
-            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><iclass="fa-solid
-                    fa-pen-to-square"></iclass=></a>
+            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><i
+                    class="fa-solid fa-pen-to-square"></i></a>
         </div>
         <hr class="mx-auto w-75">
     </div>
@@ -93,14 +108,33 @@ $characStuff = $queryStuff->fetchAll();
         <!-- Title -->
         <div class="d-flex justify-content-around align-items-center gap-3">
             <h3>Caractéristiques</h3>
-            <a href="?page=update_statistics&characterid=<?= $currentCharact->getId(); ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="?page=update_statistics&characterid=<?= $currentCharact->getId(); ?>"><i
+                    class="fa-solid fa-pen-to-square"></i></a>
         </div>
 
-        <!-- Display Stats -->
-        <form class="bg-gray px-3 py-5 rounded" method="POST" action="">
-            
-        </form>
-           
+        <!-- Display regularStats -->
+        <div class="bg-gray px-3 py-5 rounded">
+            <?php foreach ($regularStats as $statId => $regularStat) {
+                echo '<p class="mb-4"> <span class="p-2 dark-gray rounded me-3">'
+                    . $regularStat->getCurrent_statistic() .
+                    '</span>'
+                    . $statsById[$statId]->getName() .
+                    '</p>';
+            } ?>
+
+
+            <!-- Display inSumStats -->
+            <div class="d-flex flex-wrap mx-auto w-75 bg-light-gray p-3 rounded">
+                <?php foreach ($inSumStats as $statId => $inSumStat) {
+                    echo '<p class="my-3 w-50"> <span class="p-2 dark-gray rounded me-3">'
+                        . $inSumStat->getCurrent_statistic() .
+                        '</span>'
+                        . $statsById[$statId]->getShortname() .
+                        '</p>';
+                } ?>
+            </div>
+        </div>
+    </section>
 
     <!-- Skill and Stuff -->
     <section class="w-75 d-flex justify-content-around gap-3">
@@ -179,7 +213,9 @@ $characStuff = $queryStuff->fetchAll();
         </article>
     </section>
     <div class="text-center">
-        <p>Personnage créé le : <?php echo $currentCharact->getCreationDate(); ?></p>
+        <p>Personnage créé le :
+            <?php echo $currentCharact->getCreationDate(); ?>
+        </p>
         <a href="?page=character_delete&characterid=<?= $characId ?>"
             onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
     </div>
