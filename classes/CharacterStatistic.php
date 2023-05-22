@@ -7,8 +7,11 @@ class CharacterStatistic
 
 
 
-    public function __construct(?int $statId = null, ?int $statValue = null)
+    public function __construct(?int $characId = null, ?int $statId = null, ?int $statValue = null)
     {
+        if ($characId != null) {
+            $this->character_id = $characId;
+        }
         if ($statId != null) {
             $this->statistic_id = $statId;
         }
@@ -21,8 +24,8 @@ class CharacterStatistic
     //Validate function
     public function validate(Statistic $statistic): bool
     {
-        return $this->current_statistic < 0
-            || $this->current_statistic > $statistic->getQuantity();
+        return $this->current_statistic >= 0
+            && $this->current_statistic <= $statistic->getQuantity();
     }
 
 

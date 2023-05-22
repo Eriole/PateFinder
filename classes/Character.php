@@ -48,7 +48,7 @@ class Character
             if ($statFromDb->getInSum()) {
                 $this->stat += $charStat->getCurrent_statistic();
             }
-            if ($charStat->validate($statFromDb)) {
+            if (!$charStat->validate($statFromDb)) {
                 $errors['stat_' . $statId] = true;
             }
         }
