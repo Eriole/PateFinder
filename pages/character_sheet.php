@@ -40,30 +40,32 @@ foreach ($characStat as $key => $characterStatistic) {
 }
 // var_dump($regularStats, $inSumStats, $editableStats);
 
-/*
+
 //UPDATE PV and PM
 if (!empty($_POST)) {
-    $currentCharact->setPmcur($_POST['pmcur']);
-    $currentCharact->setPvcur($_POST['pvcur']);
-
-    $errors = $currentCharact->validate(isCreate: false);
-
-    if (empty($errors)) {
-        $updatePVPM = "UPDATE character_statistic 
-        SET current_statistic = :currentStat 
-        WHERE statistic_id = (SELECT statistic_id FROM statistic WHERE statistic_shortname = :shortname) 
-        AND character_id = :charact_id ";
-        $statementUpdatePVPM = $connection->prepare($updatePVPM);
-        $statementUpdatePVPM->bindValue(':charact_id', $characId, PDO::PARAM_INT);
-        $statementUpdatePVPM->bindValue(':shortname', 'PVact', PDO::PARAM_STR);
-        $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPvcur(), PDO::PARAM_INT);
-        $statementUpdatePVPM->execute();
-        $statementUpdatePVPM->bindValue(':shortname', 'PMact', PDO::PARAM_STR);
-        $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPmcur(), PDO::PARAM_INT);
-        $statementUpdatePVPM->execute();
+    foreach ($_POST as $statId => $statValue) {
+        $editableStat[$statId]->setCurrent_statistic($statValue);
     }
+    var_dump($_POST);
+
+    $errors = $editableStat->validate();
+    /*
+        if (empty($errors)) {
+            $updatePVPM = "UPDATE character_statistic 
+            SET current_statistic = :currentStat 
+            WHERE statistic_id = (SELECT statistic_id FROM statistic WHERE statistic_shortname = :shortname) 
+            AND character_id = :charact_id ";
+            $statementUpdatePVPM = $connection->prepare($updatePVPM);
+            $statementUpdatePVPM->bindValue(':charact_id', $characId, PDO::PARAM_INT);
+            $statementUpdatePVPM->bindValue(':shortname', 'PVact', PDO::PARAM_STR);
+            $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPvcur(), PDO::PARAM_INT);
+            $statementUpdatePVPM->execute();
+            $statementUpdatePVPM->bindValue(':shortname', 'PMact', PDO::PARAM_STR);
+            $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPmcur(), PDO::PARAM_INT);
+            $statementUpdatePVPM->execute();
+        }
+        */
 }
-*/
 
 //SELECT FROM Character_Skill
 $selectSkill = "SELECT character_skill.skill_id, skill_name, skill_level, statistic_id FROM character_skill
@@ -122,6 +124,19 @@ $characStuff = $queryStuff->fetchAll();
                     '</p>';
             } ?>
 
+            <form action="" method="post" class="my-3">
+                <ul class="bg-gray px-3 rounded d-flex list-unstyled justify-content-between align-items-center">
+                    <?php foreach ($editableStats as $statId => $editableStat) {
+
+                        echo '<li class="text-center"> '
+                            . $statsById[$statId]->getName() .
+                            '<input type="number" name="' . $statId . '" min="0" max="' . $statsById[$statId]->getQuantity() . '" class="p-2 dark-gray rounded mt-1" value="' . $editableStat->getCurrent_statistic() . '" ></li>';
+                    } ?>
+                </ul>
+                <div class="mb-2 row justify-content-center">
+                    <button type="submit" class="btn btn-light col-1">Ok</button>
+                </div>
+            </form>
 
             <!-- Display inSumStats -->
             <div class="d-flex flex-wrap mx-auto w-75 bg-light-gray p-3 rounded">
