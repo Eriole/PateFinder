@@ -162,7 +162,9 @@ class Character
      */
     public function setStats(array $stats): self
     {
-        $this->stats = $stats;
+        foreach($stats as $stat){
+            $this->addStat($stat);
+        }
         return $this;
     }
 

@@ -22,17 +22,21 @@ function selectCharacter(int $characId, PDO $connection): Character
 }
 
 //SELECT FROM Statistic
-function selectStatistic(int $characId, Character $character, PDO $connection): Character
+function selectStatistic(int $characId , PDO $connection): array
 {
-    $selectStat = "SELECT character_statistic.statistic_id, current_statistic, statistic_shortname FROM character_statistic 
-        LEFT JOIN statistic ON character_statistic.statistic_id = statistic.statistic_id 
-        WHERE character_id= :charact_id";
+    //SELECT FROM Character_Statistic
+    $selectStat = "SELECT * FROM character_statistic WHERE character_id= :charact_id";
     $queryStat = $connection->prepare($selectStat);
     $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
+    $queryStat->setFetchMode(PDO::FETCH_CLASS, CharacterStatistic::class);
     $queryStat->execute();
     $characStat = $queryStat->fetchAll();
-    $character = (new CharacterComposer())->compose($character, $characStat);
-    return $character;
+
+    $characStatById = [] ; 
+    foreach($characStat as $key => $characterStatistic ){
+    $characStatById [$characterStatistic->getStatistic_id()] = $characterStatistic ;
+    }
+    return $characStatById;
 }
 
 //SELECT CHARACTERID AND PLAYERID TO CHECK IF THEY MATCH 
