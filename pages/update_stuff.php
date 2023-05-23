@@ -13,8 +13,6 @@ $statementSelectStuff->execute();
 $statementSelectStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
 $stuff = $statementSelectStuff->fetch();
 
-
-
 if (!empty($_POST)) {
     $stuff = new Stuff($_POST);
     $errors = $stuff->validate();
@@ -37,6 +35,7 @@ if (!empty($_POST)) {
 }
 
 ?>
+
 <section class="container">
     <h2 class="text-center my-5">Modifier un équipement</h2>
     <form action="" method="post">

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 17 mai 2023 à 13:59
+-- Généré le : mar. 23 mai 2023 à 15:16
 -- Version du serveur : 8.0.31
--- Version de PHP : 8.2.0
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -201,6 +201,7 @@ CREATE TABLE IF NOT EXISTS `statistic` (
   `statistic_shortname` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `statistic_quantity` tinyint UNSIGNED NOT NULL,
   `inSum` tinyint(1) NOT NULL DEFAULT '0',
+  `editable` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`statistic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

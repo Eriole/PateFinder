@@ -106,30 +106,17 @@ class Character
         return $this;
     }
 
-    /**
-     * 
-     * @return 
-     */
     public function getStuffs(): array
     {
         return $this->stuffs;
     }
 
-    /**
-     * 
-     * @param  $stuffs 
-     * @return self
-     */
     public function setStuffs(array $stuffs): self
     {
         $this->stuffs = $stuffs;
         return $this;
     }
 
-    /**
-     * 
-     * @return 
-     */
     public function getSkills(): array
     {
         return $this->skills;
@@ -157,9 +144,9 @@ class Character
     public function addStat(CharacterStatistic $stat): self
     {
         $this->stats[$stat->getStatistic_id()] = $stat;
-
         return $this;
     }
+
     public function getStatById(int $idStat): ?CharacterStatistic
     {
         if (!isset($this->stats[$idStat])) {
