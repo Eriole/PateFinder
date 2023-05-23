@@ -7,10 +7,10 @@ class CharacterStatistic
 
 
 
-    public function __construct(?int $characId = null, ?int $statId = null, ?int $statValue = null)
+    public function __construct(?int $characId = null, ?int $statId = null,  ?string $statValue = null)
     {
         if ($characId != null) {
-            $this->character_id = $characId;
+            $this->character_id = intval($characId);
         }
         if ($statId != null) {
             $this->statistic_id = $statId;
@@ -19,7 +19,6 @@ class CharacterStatistic
             $this->current_statistic = intval($statValue);
         }
     }
-
 
     //Validate function
     public function validate(Statistic $statistic): bool

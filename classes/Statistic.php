@@ -52,35 +52,21 @@ class Statistic
 		return $this;
 	}
 
-	/**
-	 * @return 
-	 */
 	public function getInSum(): bool
 	{
 		return $this->inSum;
 	}
 
-	/**
-	 * @param  $inSum 
-	 * @return self
-	 */
 	public function setInSum(bool $inSum): self
 	{
 		$this->inSum = $inSum;
 		return $this;
 	}
 
-	/**
-	 * @return 
-	 */
 	public function getEditable(): bool {
 		return $this->editable;
 	}
 	
-	/**
-	 * @param  $editable 
-	 * @return self
-	 */
 	public function setEditable(bool $editable): self {
 		$this->editable = $editable;
 		return $this;
