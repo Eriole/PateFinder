@@ -1,7 +1,7 @@
 <?php
 class Character
 {
-    protected int $character_id;
+    protected ?int $character_id = null;
     protected int $player_id;
     protected string $character_name = '';
     protected string $character_creation_date = '';
@@ -26,7 +26,7 @@ class Character
         }
         if (!empty($form['stats'])) {
             foreach ($form['stats'] as $statisticId => $currentStatistic) {
-                $characterStatistic = new CharacterStatistic($statisticId, intval($currentStatistic));
+                $characterStatistic = new CharacterStatistic($this->character_id, $statisticId, $currentStatistic);
                 $this->addStat($characterStatistic);
             }
         }
@@ -135,31 +135,17 @@ class Character
         return $this->skills;
     }
 
-    /**
-     * 
-     * @param  $skills 
-     * @return self
-     */
     public function setSkills(array $skills): self
     {
         $this->skills = $skills;
         return $this;
     }
 
-    /**
-     * 
-     * @return array<CharacterStatistic>
-     */
     public function getStats(): array
     {
         return $this->stats;
     }
 
-    /**
-     * 
-     * @param  $stats 
-     * @return self
-     */
     public function setStats(array $stats): self
     {
         foreach($stats as $stat){

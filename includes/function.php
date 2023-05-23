@@ -8,7 +8,7 @@ function deleteChar($tableName, $charaID, $connection): void
     $statementDeleteCharacter->execute();
 }
 
-//SELECT FROM Played_Character
+//SELECT FROM Played_Character By Character_id
 function selectCharacter(int $characId, PDO $connection): Character
 {
     $characterStatement = "SELECT * FROM `played_character` WHERE `character_id` = :character_id;";
