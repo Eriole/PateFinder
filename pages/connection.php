@@ -107,7 +107,7 @@ if (isset($_POST['registration'])) {
             }
             ?>
           </li>
-          <small><a href="#">Mot de passe oublié ?</a></small>
+          <small><a href="https://www.francealzheimer.org/" target="_blank">Mot de passe oublié ?</a></small>
         </ul>
         <button type="submit" class="btn btn-primary" href="?page=" name="connection">SE CONNECTER</button>
       </form>
