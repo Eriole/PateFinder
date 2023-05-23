@@ -1,13 +1,11 @@
 <?php
 $playerId = $_SESSION['user']->getId();
-$character = new Character();
+$character = new Character($_POST);
 $errors = [];
 
 //Creation Character
 if (!empty($_POST)) {
-    $character = new Character($_POST);
-    $errors = $character->validate(isCreate: true);
-
+    $errors = $character->validate($statsById, true);
     if (empty($errors)) {
 
         //INSERT INTO Played_Character
@@ -18,17 +16,16 @@ if (!empty($_POST)) {
         $statementInsertChar->execute();
         $idCharacter = $connection->lastInsertId();
 
-        //Creation of an Array with CharacterComposer decompose function based on $statistics (in variables.php) and $character
-        $characterStatistics = (new CharacterComposer)->decompose($character, $statistics);
+        $characterStats = $character->getStats();
 
-        //INSERT INTO Character_Statistic using array $characterStatistics
-        foreach ($characterStatistics as $statId => $currentStat) {
+        foreach ($characterStats as $key => $characterStatistic) {
+            //INSERT INTO Character_Statistic using array $characterStatistics
             $insertCharacterStatistic = "INSERT INTO character_statistic (character_id, statistic_id, current_statistic) 
                 VALUES (:id, :stat_id, :current_stat)";
             $statementInsertCharStat = $connection->prepare($insertCharacterStatistic);
             $statementInsertCharStat->bindValue(':id', $idCharacter, PDO::PARAM_INT);
-            $statementInsertCharStat->bindValue(':stat_id', $statId, PDO::PARAM_INT);
-            $statementInsertCharStat->bindValue(':current_stat', $currentStat, PDO::PARAM_INT);
+            $statementInsertCharStat->bindValue(':stat_id', $characterStatistic->getStatistic_id(), PDO::PARAM_INT);
+            $statementInsertCharStat->bindValue(':current_stat', $characterStatistic->getCurrent_statistic(), PDO::PARAM_INT);
             $statementInsertCharStat->execute();
         }
 
@@ -48,79 +45,30 @@ if (!empty($_POST)) {
     </fieldset>
     <fieldset class="my-4">
         <legend>Caractéristiques</legend>
-        <label for="initiative">Initiative (max 10):</label>
-        <input type="number" min="0" max="10" name="initiative" value="<?php echo $character->getInitiative(); ?>">
-        <?php if (!empty($errors['initiative'])) {
-            echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-        } ?>
-        <div class="d-flex gap-5 w-75 justify-content-between">
-            <div class="my-3 d-flex justify-content-between w-50 align-items-center">
-                <label for="pvmax">Points de vie maximum (max 250):</label>
-                <input type="number" min="0" max="250" name="pvmax" value="<?php echo $character->getPvmax(); ?>">
-                <?php if (!empty($errors['pvmax'])) {
-                    echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                } ?>
-            </div>
-            <div class="my-3 d-flex justify-content-between w-50 align-items-center">
-                <label for="pmmax">Points de magie maximum (max 250):</label>
-                <input type="number" min="0" max="250" name="pmmax" value="<?php echo $character->getPmmax(); ?>">
-                <?php if (!empty($errors['pmmax'])) {
-                    echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                } ?>
-            </div>
-        </div>
         <div class="d-flex gap-5 w-75">
             <ul class="list-unstyled w-50">
-                <li class="my-3 d-flex justify-content-between align-items-center">
-                    <label for="strength">Force (max 20) </label>
-                    <input data-type="stat" type="number" min="0" max="20" name="strength"
-                        value="<?php echo $character->getStrength(); ?>">
-                    <?php if (!empty($errors['strength'])) {
-                        echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                    } ?>
-                </li>
-                <li class="my-3 d-flex justify-content-between align-items-center">
-                    <label for="dexterity">Dextérité (max 20) </label>
-                    <input data-type="stat" type="number" min="0" max="20" name="dexterity"
-                        value="<?php echo $character->getDexterity(); ?>">
-                    <?php if (!empty($errors['dexterity'])) {
-                        echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                    } ?>
-                </li>
-                <li class="my-3 d-flex justify-content-between align-items-center">
-                    <label for="constitution">Constitution (max 20) </label>
-                    <input data-type="stat" type="number" min="0" max="20" name="constitution"
-                        value="<?php echo $character->getConstitution(); ?>">
-                    <?php if (!empty($errors['constitution'])) {
-                        echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                    } ?>
-                </li>
-            </ul>
-            <ul class="list-unstyled w-50">
-                <li class="my-3 d-flex justify-content-between align-items-center">
-                    <label for="intelligence">Intelligence (max 20) </label>
-                    <input data-type="stat" type="number" min="0" max="20" name="intelligence"
-                        value="<?php echo $character->getIntelligence(); ?>">
-                    <?php if (!empty($errors['intelligence'])) {
-                        echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                    } ?>
-                </li>
-                <li class="my-3 d-flex justify-content-between align-items-center">
-                    <label for="wisdom">Sagesse (max 20) </label>
-                    <input data-type="stat" type="number" min="0" max="20" name="wisdom" 
-                        value="<?php echo $character->getWisdom(); ?>">
-                    <?php if (!empty($errors['wisdom'])) {
-                        echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                    } ?>
-                </li>
-                <li class="my-3 d-flex justify-content-between align-items-center">
-                    <label for="luck">Chance (max 20) </label>
-                    <input data-type="stat" type="number" min="0" max="20" name="luck" 
-                        value="<?php echo $character->getLuck(); ?>">
-                    <?php if (!empty($errors['luck'])) {
-                        echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                    } ?>
-                </li>
+                <!-- Use of $statistics array to generate input -->
+                <?php foreach ($statistics as $key => $stat) {
+                    ?>
+                    <li class="my-3 d-flex justify-content-between align-items-center">
+                        <label for="stat_<?= $stat->getId(); ?>">
+                            <?= $stat->getName(); ?> (max <?= $stat->getQuantity(); ?>):
+                        </label>
+                        <input <?php if ($stat->getInSum()) { ?>data-stat<?php } ?> type="number" min="0"
+                            max="<?= $stat->getQuantity(); ?>" name="stats[<?= $stat->getId(); ?>]" value="<?php
+                                $currentStat = $character->getStatById($stat->getId());
+                                if ($currentStat) {
+                                    echo $currentStat->getCurrent_statistic();
+                                }
+                                ?>">
+                        <?php
+                        if (!empty($errors['stat_' . $stat->getId()])) {
+                            echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
+                        } ?>
+                    </li>
+                    <?php
+                }
+                ?>
             </ul>
         </div>
         <p class="fw-light text-center">FOR + DEX + CONST + INT + SAG + CHA entre 60 et 80 pts. <span id="count"></span>
@@ -128,6 +76,7 @@ if (!empty($_POST)) {
                 echo '</br><span class="badge text-bg-danger">Vous ne respectez pas les conditions</span>';
             } ?>
         </p>
+
     </fieldset>
     <button class="btn btn-success" type="submit">Créer</button>
 </form>

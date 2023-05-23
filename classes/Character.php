@@ -5,124 +5,58 @@ class Character
     protected int $player_id;
     protected string $character_name = '';
     protected string $character_creation_date = '';
-    protected int $initiative = 0;
-    protected int $pvmax = 0;
-    protected int $pvcur = 0;
-    protected int $pmmax = 0;
-    protected int $pmcur = 0;
-    protected int $strength = 0;
-    protected int $dexterity = 0;
-    protected int $constitution = 0;
-    protected int $intelligence = 0;
-    protected int $wisdom = 0;
-    protected int $luck = 0;
+
     /** stat = sum of stats only for creation*/
     protected int $stat = 0;
+
+    /** @var array<Stuff> */
+    protected array $stuffs = [];
+
+    /** @var array<Skill> */
+    protected array $skills = [];
+
+    /** @var array<CharacterStatistic> */
+    protected array $stats = [];
 
     // Constructor
     public function __construct(?array $form = [])
     {
-        $this->update($form);
-        
-        if (!empty($form['pvmax'])) {
-            $this->pvcur = $this->pvmax;
+        if (isset($form['name'])) {
+            $this->character_name = trim($form['name']);
         }
-        if (!empty($form['pmmax'])) {
-            $this->pmcur = $this->pmmax;
-        }
-    }
-
-    public function update(array $form = []) :self
-    {
-        if (!empty($form)) {
-            if (isset($form['name'])) {
-                $this->character_name = trim($form['name']);
-            }
-            if (!empty($form['initiative'])) {
-                $this->initiative = $form['initiative'];
-            }
-            if (!empty($form['pvmax'])) {
-                $this->pvmax = $form['pvmax'];
-            }
-            if (!empty($form['pvcur'])) {
-                $this->pvcur = $form['pvcur'];
-            }
-            if (!empty($form['pmmax'])) {
-                $this->pmmax = $form['pmmax'];
-            }
-            if (!empty($form['pmcur'])) {
-                $this->pmcur = $form['pmcur'];
-            }
-            if (!empty($form['strength'])) {
-                $this->strength = $form['strength'];
-            }
-            if (!empty($form['dexterity'])) {
-                $this->dexterity = $form['dexterity'];
-            }
-            if (!empty($form['constitution'])) {
-                $this->constitution = $form['constitution'];
-            }
-            if (!empty($form['intelligence'])) {
-                $this->intelligence = $form['intelligence'];
-            }
-            if (!empty($form['wisdom'])) {
-                $this->wisdom = $form['wisdom'];
-            }
-            if (!empty($form['luck'])) {
-                $this->luck = $form['luck'];
+        if (!empty($form['stats'])) {
+            foreach ($form['stats'] as $statisticId => $currentStatistic) {
+                $characterStatistic = new CharacterStatistic($statisticId, intval($currentStatistic));
+                $this->addStat($characterStatistic);
             }
         }
-        return $this;
     }
 
     //Validate function
-    public function validate(bool $isCreate = true): array
+    public function validate(array $statsById = [], bool $isCreate = false): array
     {
         $errors = [];
         if (empty($this->character_name)) {
             $errors['name'] = true;
         }
-        if (empty($this->initiative) || $this->initiative > 10) {
-            $errors['initiative'] = true;
-        }
-        if (empty($this->pvmax)) {
-            $errors['pvmax'] = true;
-        }
-        if (empty($this->pmmax)) {
-            $errors['pmmax'] = true;
-        }
-        if (empty($this->strength) || $this->strength > 20) {
-            $errors['strength'] = true;
-        }
-        if (empty($this->dexterity) || $this->dexterity > 20) {
-            $errors['dexterity'] = true;
-        }
-        if (empty($this->constitution) || $this->constitution > 20) {
-            $errors['constitution'] = true;
-        }
-        if (empty($this->intelligence) || $this->intelligence > 20) {
-            $errors['intelligence'] = true;
-        }
-        if (empty($this->wisdom) || $this->wisdom > 20) {
-            $errors['wisdom'] = true;
-        }
-        if (empty($this->luck) || $this->luck > 20) {
-            $errors['luck'] = true;
+
+        $this->stat = 0;
+        foreach ($this->getStats() as $charStat) {
+            $statId = $charStat->getStatistic_id();
+            $statFromDb = $statsById[$statId];
+
+            if ($statFromDb->getInSum()) {
+                $this->stat += $charStat->getCurrent_statistic();
+            }
+            if (!$charStat->validate($statFromDb)) {
+                $errors['stat_' . $statId] = true;
+            }
         }
 
-        $this->stat = intval($this->strength) + intval($this->dexterity) + intval($this->constitution) + intval($this->intelligence) + intval($this->wisdom) + intval($this->luck);
-
-        //Check for sum of stats at Character Creation
         if ($isCreate && ($this->stat < 60 || $this->stat > 80)) {
             $errors['stat'] = true;
         }
-        //Check for current Pv and PM at Character Update
-        if (!$isCreate && (empty($this->pvcur) || $this->pvcur > $this->pvmax)) {
-            $errors['pvcur'] = true;
-        }
-        if (!$isCreate && (empty($this->pmcur) || $this->pmcur > $this->pmmax)) {
-            $errors['pmcur'] = true;
-        }
+
         return $errors;
     }
 
@@ -138,126 +72,6 @@ class Character
         return $this;
     }
 
-    public function getInitiative(): int
-    {
-        return $this->initiative;
-    }
-
-    public function setInitiative(int $initiative): self
-    {
-        $this->initiative = $initiative;
-        return $this;
-    }
-
-    public function getPvmax(): int
-    {
-        return $this->pvmax;
-    }
-
-    public function setPvmax(int $pvmax): self
-    {
-        $this->pvmax = $pvmax;
-        return $this;
-    }
-
-    public function getPmmax(): int
-    {
-        return $this->pmmax;
-    }
-
-    public function setPmmax(int $pmmax): self
-    {
-        $this->pmmax = $pmmax;
-        return $this;
-    }
-
-    public function getStrength(): int
-    {
-        return $this->strength;
-    }
-
-    public function setStrength(int $strength): self
-    {
-        $this->strength = $strength;
-        return $this;
-    }
-
-    public function getDexterity(): int
-    {
-        return $this->dexterity;
-    }
-
-    public function setDexterity(int $dexterity): self
-    {
-        $this->dexterity = $dexterity;
-        return $this;
-    }
-
-    public function getConstitution(): int
-    {
-        return $this->constitution;
-    }
-
-    public function setConstitution(int $constitution): self
-    {
-        $this->constitution = $constitution;
-        return $this;
-    }
-
-    public function getIntelligence(): int
-    {
-        return $this->intelligence;
-    }
-
-    public function setIntelligence(int $intelligence): self
-    {
-        $this->intelligence = $intelligence;
-        return $this;
-    }
-
-    public function getWisdom(): int
-    {
-        return $this->wisdom;
-    }
-
-    public function setWisdom(int $wisdom): self
-    {
-        $this->wisdom = $wisdom;
-        return $this;
-    }
-
-    public function getLuck(): int
-    {
-        return $this->luck;
-    }
-
-    public function setLuck(int $luck): self
-    {
-        $this->luck = $luck;
-        return $this;
-    }
-
-    public function getPvcur(): int
-    {
-        return $this->pvcur;
-    }
-
-    public function setPvcur(int $pvcur): self
-    {
-        $this->pvcur = $pvcur;
-        return $this;
-    }
-
-    public function getPmcur(): int
-    {
-        return $this->pmcur;
-    }
-
-    public function setPmcur(int $pmcur): self
-    {
-        $this->pmcur = $pmcur;
-        return $this;
-    }
 
     public function getId(): int
     {
@@ -290,5 +104,79 @@ class Character
     {
         $this->player_id = $player;
         return $this;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function getStuffs(): array
+    {
+        return $this->stuffs;
+    }
+
+    /**
+     * 
+     * @param  $stuffs 
+     * @return self
+     */
+    public function setStuffs(array $stuffs): self
+    {
+        $this->stuffs = $stuffs;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function getSkills(): array
+    {
+        return $this->skills;
+    }
+
+    /**
+     * 
+     * @param  $skills 
+     * @return self
+     */
+    public function setSkills(array $skills): self
+    {
+        $this->skills = $skills;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return array<CharacterStatistic>
+     */
+    public function getStats(): array
+    {
+        return $this->stats;
+    }
+
+    /**
+     * 
+     * @param  $stats 
+     * @return self
+     */
+    public function setStats(array $stats): self
+    {
+        $this->stats = $stats;
+        return $this;
+    }
+
+    public function addStat(CharacterStatistic $stat): self
+    {
+        $this->stats[$stat->getStatistic_id()] = $stat;
+
+        return $this;
+    }
+    public function getStatById(int $idStat): ?CharacterStatistic
+    {
+        if (!isset($this->stats[$idStat])) {
+            return null;
+        }
+        return $this->stats[$idStat];
     }
 }

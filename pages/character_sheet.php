@@ -1,6 +1,9 @@
 <?php
 $characId = $_GET['characterid'];
 $errors = [];
+$inSumStats = [];
+$editableStats = [];
+$regularStats = [];
 
 combinationCheck($connection, $charID, $_SESSION['user']->getId());
 
@@ -16,35 +19,46 @@ $queryCharac->execute();
 $currentCharact = $queryCharac->fetch();
 
 //SELECT FROM Character_Statistic
-$selectStat = "SELECT character_statistic.statistic_id, current_statistic, statistic_shortname FROM character_statistic 
-    LEFT JOIN statistic ON character_statistic.statistic_id = statistic.statistic_id 
+$selectStat = "SELECT * FROM character_statistic 
     WHERE character_id= :charact_id";
 $queryStat = $connection->prepare($selectStat);
 $queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
+$queryStat->setFetchMode(PDO::FETCH_CLASS, CharacterStatistic::class);
 $queryStat->execute();
 $characStat = $queryStat->fetchAll();
-$currentCharact = (new CharacterComposer())->compose($currentCharact, $characStat);
+
+foreach ($characStat as $key => $characterStatistic) {
+    $statId = $characterStatistic->getStatistic_id();
+    // array_push($regularStats, $statId);
+    if ($statsById[$statId]->getInSum() == true) {
+        $inSumStats[$statId] = $characterStatistic;
+    } elseif ($statsById[$statId]->getEditable() == true) {
+        $editableStats[$statId] = $characterStatistic;
+    } else {
+        $regularStats[$statId] = $characterStatistic;
+    }
+}
 
 //UPDATE PV and PM
 if (!empty($_POST)) {
-    $currentCharact->setPmcur($_POST['pmcur']);
-    $currentCharact->setPvcur($_POST['pvcur']);
-
-    $errors = $currentCharact->validate(isCreate: false);
+    foreach ($_POST as $statId => $statValue) {
+        $editableStats[$statId]->setCurrent_statistic($statValue);
+        if (!$editableStats[$statId]->validate($statsById[$statId])) {
+            $errors[$statId] = true;
+        }
+    }
 
     if (empty($errors)) {
-        $updatePVPM = "UPDATE character_statistic 
-        SET current_statistic = :currentStat 
-        WHERE statistic_id = (SELECT statistic_id FROM statistic WHERE statistic_shortname = :shortname) 
-        AND character_id = :charact_id ";
-        $statementUpdatePVPM = $connection->prepare($updatePVPM);
-        $statementUpdatePVPM->bindValue(':charact_id', $characId, PDO::PARAM_INT);
-        $statementUpdatePVPM->bindValue(':shortname', 'PVact', PDO::PARAM_STR);
-        $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPvcur(), PDO::PARAM_INT);
-        $statementUpdatePVPM->execute();
-        $statementUpdatePVPM->bindValue(':shortname', 'PMact', PDO::PARAM_STR);
-        $statementUpdatePVPM->bindValue(':currentStat', $currentCharact->getPmcur(), PDO::PARAM_INT);
-        $statementUpdatePVPM->execute();
+        foreach ($editableStats as $key => $characterStatistic) {
+            $updatePVPM = "UPDATE `character_statistic` SET `current_statistic`=:current_statistic 
+                WHERE statistic_id = :statistic_id
+                AND character_id = :character_id";
+            $statementUpdatePVPM = $connection->prepare($updatePVPM);
+            $statementUpdatePVPM->bindValue(':current_statistic', $characterStatistic->getCurrent_statistic(), PDO::PARAM_INT);
+            $statementUpdatePVPM->bindValue(':character_id', $characId, PDO::PARAM_INT);
+            $statementUpdatePVPM->bindValue(':statistic_id', $characterStatistic->getStatistic_id(), PDO::PARAM_INT);
+            $statementUpdatePVPM->execute();
+        }
     }
 }
 
@@ -79,8 +93,8 @@ $characStuff = $queryStuff->fetchAll();
             <h2>
                 <?php echo $currentCharact->getName(); ?>
             </h2>
-            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><iclass="fa-solid
-                    fa-pen-to-square"></iclass=></a>
+            <a href="?page=update_character&characterid=<?= $currentCharact->getId(); ?>"><i
+                    class="fa-solid fa-pen-to-square"></i></a>
         </div>
         <hr class="mx-auto w-75">
     </div>
@@ -91,113 +105,49 @@ $characStuff = $queryStuff->fetchAll();
         <!-- Title -->
         <div class="d-flex justify-content-around align-items-center gap-3">
             <h3>Caractéristiques</h3>
-            <a href="?page=update_statistics&characterid=<?= $currentCharact->getId(); ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="?page=update_statistics&characterid=<?= $currentCharact->getId(); ?>"><i
+                    class="fa-solid fa-pen-to-square"></i></a>
         </div>
 
-        <!-- Display Stats -->
-        <form class="bg-gray px-3 py-5 rounded" method="POST" action="">
-            <p class="mb-4">
-                <span class="p-2 dark-gray rounded me-3">
-                    <?php echo $currentCharact->getInitiative(); ?>
-                </span>
-                Initiative (INIT)
-            </p>
+        <!-- Display regularStats -->
+        <div class="bg-gray px-3 py-5 rounded">
+            <?php foreach ($regularStats as $statId => $regularStat) {
+                echo '<p class="mb-4"> <span class="p-2 dark-gray rounded me-3">'
+                    . $regularStat->getCurrent_statistic() .
+                    '</span>'
+                    . $statsById[$statId]->getName() .
+                    '</p>';
+            } ?>
 
-            <!-- Display PV and PM -->
-            <div class="d-flex justify-content-between align-items-center">
-                <ul class="list-unstyled">
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getPvmax(); ?>
-                            </span>
-                            Points de vie max
-                        </p>
-                    </li>
-                    <li>
-                        <p>Points de vie actuels </p>
-                        <div class="current">
-                            <input type="number" min="0" max="<?php echo $currentCharact->getPvmax(); ?>" name="pvcur"
-                                class="p-2 dark-gray rounded"
-                                value="<?php echo $currentCharact->getPvcur(); ?>"></input>
-                            <?php if (!empty($errors['pvcur'])) {
-                                echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                            } ?>
-                        </div>
-                    </li>
+            <!-- Display editableStat -->
+            <form action="" method="post" class="my-3">
+                <ul class="bg-gray px-3 rounded d-flex list-unstyled justify-content-between align-items-center">
+                    <?php foreach ($editableStats as $statId => $editableStat) {
+
+                        echo '<li class="text-center"> '
+                            . $statsById[$statId]->getName() .
+                            '<input type="number" name="' . $statId . '" min="0" max="' . $statsById[$statId]->getQuantity() . '" class="p-2 dark-gray rounded mt-1" value="' . $editableStat->getCurrent_statistic() . '" ></li>';
+                        if (!empty($errors[$statId])) {
+                            echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
+                        }
+                    } ?>
                 </ul>
-                <ul class="list-unstyled">
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getPmmax(); ?>
-                            </span>
-                            Points de magie max
-                        </p>
-                    </li>
-                    <li class="">
-                        <p>Points de magie actuels </p>
-                        <div class="current">
-                            <input type="number" min="0" max="<?php echo $currentCharact->getPmmax(); ?>" name="pmcur"
-                                class="p-2 dark-gray rounded"
-                                value="<?php echo $currentCharact->getPmcur(); ?>"></input>
-                            <?php if (!empty($errors['pmcur'])) {
-                                echo '<p class="badge m-0"><i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i></p>';
-                            } ?>
-                        </div>
-                    </li>
-                </ul>
+                <div class="mb-2 row justify-content-center">
+                    <button type="submit" class="btn btn-light col-1">Ok</button>
+                </div>
+            </form>
+
+            <!-- Display inSumStats -->
+            <div class="d-flex flex-wrap mx-auto w-75 bg-light-gray p-3 rounded">
+                <?php foreach ($inSumStats as $statId => $inSumStat) {
+                    echo '<p class="my-3 w-50"> <span class="p-2 dark-gray rounded me-3">'
+                        . $inSumStat->getCurrent_statistic() .
+                        '</span>'
+                        . $statsById[$statId]->getShortname() .
+                        '</p>';
+                } ?>
             </div>
-            <div class="mb-2 row justify-content-center">
-                <input type="submit" class="col-1 btn btn-light" value="OK">
-            </div>
-            <!-- Display stats -->
-            <div class="d-flex justify-content-around mx-auto align-items-center w-75 bg-light-gray p-3 rounded ">
-                <ul class="list-unstyled my-0">
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getStrength(); ?>
-                            </span>
-                            FOR
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getDexterity(); ?>
-                            </span>
-                            DEX
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getConstitution(); ?>
-                            </span>
-                            CONST
-                        </p>
-                    </li>
-                </ul>
-                <ul class="list-unstyled my-0">
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getInitiative(); ?>
-                            </span> INT </p>
-                    </li>
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getWisdom(); ?>
-                            </span> SAG </p>
-                    </li>
-                    <li>
-                        <p><span class="p-2 dark-gray rounded me-3">
-                                <?php echo $currentCharact->getLuck(); ?>
-                            </span> CHA </p>
-                    </li>
-                </ul>
-            </div>
-        </form>
+        </div>
     </section>
 
     <!-- Skill and Stuff -->
@@ -277,7 +227,9 @@ $characStuff = $queryStuff->fetchAll();
         </article>
     </section>
     <div class="text-center">
-        <p>Personnage créé le : <?php echo $currentCharact->getCreationDate(); ?></p>
+        <p>Personnage créé le :
+            <?php echo $currentCharact->getCreationDate(); ?>
+        </p>
         <a href="?page=character_delete&characterid=<?= $characId ?>"
             onclick="return confirm('Valider la suppression?')" class="btn btn-danger">Supprimer</a>
     </div>
