@@ -1,7 +1,6 @@
 <?php
 $stuff = new Stuff();
 $errors = [];
-
 $charId = intval($_GET['characterid']);
 
 combinationCheck($connection, $charId, $_SESSION['user']->getId());

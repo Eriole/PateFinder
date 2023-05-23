@@ -1,36 +1,32 @@
 <?php
-$skillid = $_GET['idskill'];
+$skillId = $_GET['idskill'];
 $characterid = $_GET['characterid'];
+$errors = [];
 
 combinationCheck($connection, $characterid, $_SESSION['user']->getId());
 
 $skillstatement = "SELECT * FROM `skill` WHERE `skill_id`= :skill_id";
 $querySkill = $connection->prepare($skillstatement);
-$querySkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
+$querySkill->bindValue(':skill_id', $skillId, PDO::PARAM_INT);
 $querySkill->execute();
 $querySkill->setFetchMode(PDO::FETCH_CLASS, Skill::class);
 $skill = $querySkill->fetch();
-
-
-$errors = [];
-
-
 
 if (!empty($_POST)) {
     $skill = new Skill($_POST);
     $errors = $skill->validate();
 
     if (empty($errors)) {
-        // INSERT INTO Skill
-        $updateSkill = "UPDATE `skill` SET `skill_id`= :skill_id ,`skill_name`= :name ,`skill_level`= :level  ,`statistic_id`= :statistic_id  WHERE skill_id = :skill_id";
+        // UPDATE Skill
+        $updateSkill = "UPDATE `skill` SET `skill_id`= :skill_id ,`skill_name`= :name ,`skill_level`= :level ,`statistic_id`= :statistic_id  
+            WHERE skill_id = :skill_id";
 
         $statementUpdateSkill = $connection->prepare($updateSkill);
-        $statementUpdateSkill->bindValue(':skill_id', $skillid, PDO::PARAM_INT);
+        $statementUpdateSkill->bindValue(':skill_id', $skillId, PDO::PARAM_INT);
         $statementUpdateSkill->bindValue(':name', $skill->getName(), PDO::PARAM_STR);
         $statementUpdateSkill->bindValue(':level', $skill->getLevel(), PDO::PARAM_INT);
         $statementUpdateSkill->bindValue(':statistic_id', $skill->getStatId(), PDO::PARAM_INT);
         $statementUpdateSkill->execute();
-        $idSkill = $connection->lastInsertId();
 
         header('Location: ?page=character_sheet&characterid=' . $characterid);
     }

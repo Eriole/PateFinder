@@ -1,12 +1,13 @@
 <?php
 require_once 'includes/config.inc.php';
 require_once 'includes/autoloader.php';
+include_once 'includes/variables.php';
 require_once 'includes/function.php';
+
 ob_start();
 session_start();
 
 if (empty($_SESSION['user'])) {
-
     $pages = [
         'connection' => "Accueil",
     ];
@@ -14,18 +15,18 @@ if (empty($_SESSION['user'])) {
 } else {
 
     $pages = [
-        'connection' => "Accueil",
-        'characters_list' => "Tableau de bord",
-        'new_character' => "Nouvelle fiche",
-        'character_sheet' => "Fiche personnage",
-        'update_character' => "Modifier le personnage",
+        'connection'        => "Accueil",
+        'characters_list'   => "Tableau de bord",
+        'new_character'     => "Nouvelle fiche",
+        'character_sheet'   => "Fiche personnage",
+        'update_character'  => "Modifier le personnage",
         'update_statistics' => "Modifier les caractéristiques",
-        'new_skill' => "Nouvelle compétence",
-        'update_skill' => "Modifier la compétence",
-        'new_stuff' => "Nouvel équipement",
-        'update_stuff' => "Modifier un équipement",
-        'character_delete' => "pouf",
-        'logout' => "Déconnexion",
+        'new_skill'         => "Nouvelle compétence",
+        'update_skill'      => "Modifier la compétence",
+        'new_stuff'         => "Nouvel équipement",
+        'update_stuff'      => "Modifier un équipement",
+        'character_delete'  => "pouf",
+        'logout'            => "Déconnexion",
     ];
 
 }

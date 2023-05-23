@@ -7,7 +7,6 @@ $regularStats = [];
 
 combinationCheck($connection, $characId, $_SESSION['user']->getId());
 
-
 //SELECT FROM Played_Character
 $selectCharac = "SELECT * FROM played_character
     WHERE character_id = :charact_id";

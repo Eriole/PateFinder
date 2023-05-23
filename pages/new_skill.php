@@ -1,7 +1,6 @@
 <?php
 $skill = new Skill();
 $errors = [];
-
 $charId = intval($_GET['characterid']);
 
 combinationCheck($connection, $charId, $_SESSION['user']->getId());
@@ -25,7 +24,6 @@ if (!empty($_POST)) {
         // INSERT INTO character_skill
         $insertCharSkill = "INSERT INTO character_skill (character_id, skill_id) 
                 VALUES (:character_id, :skill_id)";
-
 
         $statementInsertCharSkill = $connection->prepare($insertCharSkill);
         $statementInsertCharSkill->bindValue(':character_id', $charId, PDO::PARAM_INT);
