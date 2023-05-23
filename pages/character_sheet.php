@@ -5,7 +5,7 @@ $inSumStats = [];
 $editableStats = [];
 $regularStats = [];
 
-combinationCheck($connection, $charID, $_SESSION['user']->getId());
+combinationCheck($connection, $characId, $_SESSION['user']->getId());
 
 
 //SELECT FROM Played_Character
@@ -19,17 +19,9 @@ $queryCharac->execute();
 $currentCharact = $queryCharac->fetch();
 
 //SELECT FROM Character_Statistic
-$selectStat = "SELECT * FROM character_statistic 
-    WHERE character_id= :charact_id";
-$queryStat = $connection->prepare($selectStat);
-$queryStat->bindValue(':charact_id', $characId, PDO::PARAM_INT);
-$queryStat->setFetchMode(PDO::FETCH_CLASS, CharacterStatistic::class);
-$queryStat->execute();
-$characStat = $queryStat->fetchAll();
+$characStat = selectCharStatistic($characId, $connection);
 
-foreach ($characStat as $key => $characterStatistic) {
-    $statId = $characterStatistic->getStatistic_id();
-    // array_push($regularStats, $statId);
+foreach ($characStat as $statId => $characterStatistic) {
     if ($statsById[$statId]->getInSum() == true) {
         $inSumStats[$statId] = $characterStatistic;
     } elseif ($statsById[$statId]->getEditable() == true) {
@@ -50,14 +42,10 @@ if (!empty($_POST)) {
 
     if (empty($errors)) {
         foreach ($editableStats as $key => $characterStatistic) {
-            $updatePVPM = "UPDATE `character_statistic` SET `current_statistic`=:current_statistic 
-                WHERE statistic_id = :statistic_id
-                AND character_id = :character_id";
-            $statementUpdatePVPM = $connection->prepare($updatePVPM);
-            $statementUpdatePVPM->bindValue(':current_statistic', $characterStatistic->getCurrent_statistic(), PDO::PARAM_INT);
-            $statementUpdatePVPM->bindValue(':character_id', $characId, PDO::PARAM_INT);
-            $statementUpdatePVPM->bindValue(':statistic_id', $characterStatistic->getStatistic_id(), PDO::PARAM_INT);
-            $statementUpdatePVPM->execute();
+            $statId = $characterStatistic->getStatistic_id();
+            $statValue = $characterStatistic->getCurrent_statistic();
+
+            updateCharStatistic($characId, $statId, $statValue, $connection);
         }
     }
 }

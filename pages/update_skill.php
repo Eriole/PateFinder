@@ -70,6 +70,6 @@ if (!empty($_POST)) {
                 } ?>
             </li>
         </ul>
-        <button class="btn btn-success" type="submit">Ajouter</button>
+        <button class="btn btn-success" type="submit">Mettre à jour</button>
     </form>
 </section>

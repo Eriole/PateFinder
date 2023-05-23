@@ -15,16 +15,17 @@ if (empty($_SESSION['user'])) {
 
     $pages = [
         'connection' => "Accueil",
+        'characters_list' => "Tableau de bord",
         'new_character' => "Nouvelle fiche",
-        'logout' => "Déconnexion",
+        'character_sheet' => "Fiche personnage",
+        'update_character' => "Modifier le personnage",
+        'update_statistics' => "Modifier les caractéristiques",
         'new_skill' => "Nouvelle compétence",
+        'update_skill' => "Modifier la compétence",
         'new_stuff' => "Nouvel équipement",
         'update_stuff' => "Modifier un équipement",
-        'update_skill' => "Modifier la compétence",
-        'character_sheet' => "Fiche personnage",
-        'characters_list' => "Tableau de bord",
         'character_delete' => "pouf",
-        'update_character' => "Modifier le personnage",
+        'logout' => "Déconnexion",
     ];
 
 }

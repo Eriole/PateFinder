@@ -21,9 +21,9 @@ function selectCharacter(int $characId, PDO $connection): Character
     return $character;
 }
 
-//SELECT FROM Statistic
+//SELECT FROM Statistic By Character_id
 /** @return array<int,CharacterStatistic> */
-function selectStatistic(int $characId , PDO $connection): array
+function selectCharStatistic(int $characId , PDO $connection): array
 {
     //SELECT FROM Character_Statistic
     $selectStat = "SELECT * FROM character_statistic WHERE character_id= :charact_id";
@@ -38,6 +38,19 @@ function selectStatistic(int $characId , PDO $connection): array
     $characStatById [$characterStatistic->getStatistic_id()] = $characterStatistic ;
     }
     return $characStatById;
+}
+
+//UPDATE Character_Statistics using Statistic_id AND character_id
+function updateCharStatistic(int $characId, int $statId, int $statValue, PDO $connection): void
+{
+    $updateCharacterStatistic = "UPDATE `character_statistic` 
+        SET `current_statistic`= :current_stat
+        WHERE `character_id` = :character_id AND `statistic_id` = :stat_id;";
+    $statementUpdateCharStat = $connection->prepare($updateCharacterStatistic);
+    $statementUpdateCharStat->bindValue(':current_stat', $statValue, PDO::PARAM_INT);
+    $statementUpdateCharStat->bindValue(':character_id', $characId, PDO::PARAM_INT);
+    $statementUpdateCharStat->bindValue(':stat_id', $statId, PDO::PARAM_INT);
+    $statementUpdateCharStat->execute();
 }
 
 //SELECT CHARACTERID AND PLAYERID TO CHECK IF THEY MATCH 
