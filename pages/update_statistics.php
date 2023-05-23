@@ -9,17 +9,14 @@ $characterStats = selectStatistic($characId, $connection);
 $character -> setStats($characterStats); 
 
 if (!empty($_POST)) {
-    //creer tableau objet character statistic et vérifier conformité des stats ,puis parcourir ce tableau pour envoie BDD 
+    //Generating an array of CharacterStatistic objects 
     foreach ($_POST as $statId => $statValue) {
         $characterStats[$statId] = new CharacterStatistic($characId, $statId, $statValue);
         $character->addStat($characterStats[$statId]);
     }
 
-    var_dump($_POST, $characterStats);
-
     if (empty($errors)){
         //UPDATE Character_Statistic using array $characterStatistics
-
         foreach ($character->getStats() as $statId => $currentStat) {
         $updateCharacterStatistic = "UPDATE `character_statistic` 
             SET `current_statistic`= :current_stat
