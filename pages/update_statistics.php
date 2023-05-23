@@ -6,17 +6,18 @@ $character = selectCharacter($characId, $connection);
 
 //SELECT FROM Character_statistic
 $characterStats = selectStatistic($characId, $connection);
-$character -> setStats($characterStats); 
+$character->setStats($characterStats); 
 
 if (!empty($_POST)) {
     //Generating an array of CharacterStatistic objects 
     foreach ($_POST as $statId => $statValue) {
         $characterStats[$statId] = new CharacterStatistic($characId, $statId, $statValue);
+        //AddStat to Character
         $character->addStat($characterStats[$statId]);
     }
 
     if (empty($errors)){
-        //UPDATE Character_Statistic using array $characterStatistics
+        //UPDATE Character_Statistic using Character->getStat() array
         foreach ($character->getStats() as $statId => $currentStat) {
         $updateCharacterStatistic = "UPDATE `character_statistic` 
             SET `current_statistic`= :current_stat

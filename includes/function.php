@@ -1,6 +1,6 @@
 <?php
 //ATTENTION ! IT'S A DELETE QUERY !
-function deleteChar($tableName, $charaID, $connection)
+function deleteChar($tableName, $charaID, $connection): void
 {
     $queryDelete = "DELETE FROM $tableName WHERE character_id = :charact_id ";
     $statementDeleteCharacter = $connection->prepare($queryDelete);
@@ -22,6 +22,7 @@ function selectCharacter(int $characId, PDO $connection): Character
 }
 
 //SELECT FROM Statistic
+/** @return array<int,CharacterStatistic> */
 function selectStatistic(int $characId , PDO $connection): array
 {
     //SELECT FROM Character_Statistic
@@ -40,7 +41,7 @@ function selectStatistic(int $characId , PDO $connection): array
 }
 
 //SELECT CHARACTERID AND PLAYERID TO CHECK IF THEY MATCH 
-function combinationCheck(PDO $connection, int $characterId, int $userId)
+function combinationCheck(PDO $connection, int $characterId, int $userId): void
 {
     $sqlVerif = "SELECT * FROM played_character WHERE character_id = :characterId AND player_id = :playerId";
     $statementcombination = $connection->prepare($sqlVerif);
