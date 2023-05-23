@@ -24,11 +24,9 @@ if (isset($_POST['connection'])) {
     $connexionErrors['passwordWrong'] = true;
   }
 
-  //If everything is ok open session and head to Dashboard
+  //If everything is ok open session and heading to Dashboard
   if (empty($connexionErrors)) {
     $_SESSION['user'] = $dataBaseUsername;
-
-    // @TODO Heading to User Dashboard
     header('location: ?page=characters_list&login=true');
   }
 }
@@ -71,9 +69,6 @@ if (isset($_POST['registration'])) {
     $statmentInsertPlay->bindValue(':mail', $registration->getMail(), PDO::PARAM_STR);
     $statmentInsertPlay->bindValue(':password', $password, PDO::PARAM_STR);
     $statmentInsertPlay->execute();
-    $registration->setId($connection->lastInsertId());
-    //Opening Session with new username
-    $registration->setPassword($password);
 
     //Heading after Sign in
     header('location: ?signin=true');
@@ -84,9 +79,7 @@ if (isset($_POST['registration'])) {
 <div class="container">
   <section class="row mt-5">
 
-
     <!-- connexion form -->
-
     <article class="col-5 text-center">
       <h2>Me Connecter</h2>
       <form action="" method="post" class="">
@@ -112,7 +105,6 @@ if (isset($_POST['registration'])) {
             } elseif (!empty($connexionErrors['passwordWrong'])) {
               echo '<p class="badge text-bg-danger">Mot de passe invalide</p>';
             }
-
             ?>
           </li>
           <small><a href="#">Mot de passe oublié ?</a></small>
@@ -122,7 +114,6 @@ if (isset($_POST['registration'])) {
     </article>
 
     <!-- registration  form -->
-
     <article class="col-5 offset-2 text-center">
       <h2>Créer un compte</h2>
       <form action="" method="post" class="">
@@ -166,6 +157,5 @@ if (isset($_POST['registration'])) {
         <button type="submit" class="btn btn-primary" name="registration">CRÉER UN COMPTE</button>
       </form>
     </article>
-
   </section>
 </div>
