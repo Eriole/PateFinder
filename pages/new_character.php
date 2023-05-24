@@ -80,3 +80,4 @@ if (!empty($_POST)) {
     </fieldset>
     <button class="btn btn-success" type="submit">Créer</button>
 </form>
+<script src="script/main.js"></script>

@@ -1,11 +1,14 @@
 <?php
 $characId = $_GET['characterid'];
 $errors = [];
+
+combinationCheck($connection, $characId, $_SESSION['user']->getId());
+
 //SELECT FROM Played_character 
 $character = selectCharacter($characId, $connection);
 
 //SELECT FROM Character_statistic
-$characterStats = selectStatistic($characId, $connection);
+$characterStats = selectCharStatistic($characId, $connection);
 $character->setStats($characterStats); 
 
 if (!empty($_POST)) {
@@ -19,14 +22,8 @@ if (!empty($_POST)) {
     if (empty($errors)){
         //UPDATE Character_Statistic using Character->getStat() array
         foreach ($character->getStats() as $statId => $currentStat) {
-        $updateCharacterStatistic = "UPDATE `character_statistic` 
-            SET `current_statistic`= :current_stat
-            WHERE `character_id` = :character_id AND `statistic_id` = :stat_id;";
-        $statementUpdateCharStat = $connection->prepare($updateCharacterStatistic);
-        $statementUpdateCharStat->bindValue(':character_id', $currentStat->getCharacter_id(), PDO::PARAM_INT);
-        $statementUpdateCharStat->bindValue(':stat_id', $currentStat->getStatistic_id(), PDO::PARAM_INT);
-        $statementUpdateCharStat->bindValue(':current_stat', $currentStat->getCurrent_statistic(), PDO::PARAM_INT);
-        $statementUpdateCharStat->execute();
+            $statValue = $currentStat->getCurrent_statistic();
+            updateCharStatistic($characId, $statId, $statValue, $connection);
         }
 
         header('Location: ?page=character_sheet&characterid=' . $characId);
@@ -69,6 +66,6 @@ if (!empty($_POST)) {
                 </ul>
             </div>
         </fieldset>
-        <button class="btn btn-success" type="submit">Modifier</button>
+        <button class="btn btn-success" type="submit">Mettre à jour</button>
     </form>
 </section>

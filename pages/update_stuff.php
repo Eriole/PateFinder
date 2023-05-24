@@ -1,17 +1,17 @@
 <?php
-$errors = [];
 $idStuff = $_GET['idstuff'];
 $characId = $_GET['characterid'];
-$selectStuff = "SELECT * FROM stuff WHERE stuff_id = :stuff_id";
-$statementSelectStuff = $connection->prepare($selectStuff);
+$errors = [];
 
+combinationCheck($connection, $characId, $_SESSION['user']->getId());
+
+$selectStuff = "SELECT * FROM stuff WHERE stuff_id = :stuff_id";
+
+$statementSelectStuff = $connection->prepare($selectStuff);
 $statementSelectStuff->bindValue(':stuff_id', $idStuff, PDO::PARAM_INT);
 $statementSelectStuff->execute();
 $statementSelectStuff->setFetchMode(PDO::FETCH_CLASS, Stuff::class);
 $stuff = $statementSelectStuff->fetch();
-
-combinationCheck($connection, $characId, $_SESSION['user']->getId());
-
 
 if (!empty($_POST)) {
     $stuff = new Stuff($_POST);
@@ -28,8 +28,6 @@ if (!empty($_POST)) {
         $statementUpdateStuff->bindValue(':name', $stuff->getName(), PDO::PARAM_STR);
         $statementUpdateStuff->bindValue(':dmg', $stuff->getDamage(), PDO::PARAM_INT);
         $statementUpdateStuff->bindValue(':range', $stuff->getRange(), PDO::PARAM_INT);
-        // $statementUpdateStuff->bindValue(':player_id', $idPlayer, PDO::PARAM_INT);
-
         $statementUpdateStuff->execute();
 
         header('location: ?page=character_sheet&characterid=' . $characId);
@@ -37,6 +35,7 @@ if (!empty($_POST)) {
 }
 
 ?>
+
 <section class="container">
     <h2 class="text-center my-5">Modifier un équipement</h2>
     <form action="" method="post">
@@ -63,6 +62,6 @@ if (!empty($_POST)) {
                 } ?>
             </li>
         </ul>
-        <button class="btn btn-success" type="submit">Ajouter</button>
+        <button class="btn btn-success" type="submit">Mettre à jour</button>
     </form>
 </section>

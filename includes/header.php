@@ -1,7 +1,3 @@
-<?php
-include_once 'variables.php';
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -27,7 +23,8 @@ include_once 'variables.php';
             <p>Gérez vos fiches de personnages pour vos parties de Jeu de Rôle !</p>
         </div>
     </header>
-    <?php if (!empty($_SESSION)) {
+    <?php 
+    if (!empty($_SESSION)) {
         echo '
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -42,15 +39,11 @@ include_once 'variables.php';
                     <li class="nav-item">
                     <a class="nav-link" href="?page=new_character">Créer une fiche</a>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Commencer une partie</a>
-                    </li>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Mon compte
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profil</a></li>
                         <li><a class="dropdown-item" href="?page=logout">Déconnexion</a></li>
                     </ul>
                     </li>
@@ -59,10 +52,8 @@ include_once 'variables.php';
         </div>
     </nav>
     ';
-    } ?>
+    }
 
-
-    <?php
     //Primary Alert New Character created successfully
     if (!empty($_GET['create']) && $_GET['create'] == true) {
         echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">Personnage créé

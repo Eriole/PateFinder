@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 17 mai 2023 à 13:57
+-- Généré le : mar. 23 mai 2023 à 15:15
 -- Version du serveur : 8.0.31
--- Version de PHP : 8.2.0
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -57,11 +57,9 @@ CREATE TABLE IF NOT EXISTS `character_skill` (
 
 INSERT INTO `character_skill` (`character_id`, `skill_id`) VALUES
 (1, 1),
-(2, 1),
-(3, 1),
 (2, 2),
-(4, 2),
-(5, 2);
+(3, 3),
+(4, 4);
 
 -- --------------------------------------------------------
 
@@ -83,61 +81,50 @@ CREATE TABLE IF NOT EXISTS `character_statistic` (
 --
 
 INSERT INTO `character_statistic` (`character_id`, `statistic_id`, `current_statistic`) VALUES
-(1, 1, 2),
-(1, 2, 50),
-(1, 3, 50),
-(1, 4, 250),
-(1, 5, 50),
-(1, 6, 10),
-(1, 7, 10),
+(1, 1, 8),
+(1, 2, 150),
+(1, 3, 150),
+(1, 4, 200),
+(1, 5, 200),
+(1, 6, 5),
+(1, 7, 15),
 (1, 8, 10),
-(1, 9, 10),
+(1, 9, 15),
 (1, 10, 10),
-(1, 11, 10),
-(2, 1, 5),
-(2, 2, 50),
-(2, 3, 50),
-(2, 4, 50),
-(2, 5, 50),
-(2, 6, 10),
+(1, 11, 5),
+(2, 1, 4),
+(2, 2, 250),
+(2, 3, 250),
+(2, 4, 250),
+(2, 5, 250),
+(2, 6, 20),
 (2, 7, 10),
-(2, 8, 10),
+(2, 8, 15),
 (2, 9, 10),
-(2, 10, 10),
-(2, 11, 10),
-(3, 1, 5),
-(3, 2, 60),
-(3, 3, 60),
-(3, 4, 60),
-(3, 5, 60),
-(3, 6, 10),
-(3, 7, 10),
-(3, 8, 10),
+(2, 10, 12),
+(2, 11, 2),
+(3, 1, 2),
+(3, 2, 200),
+(3, 3, 150),
+(3, 4, 100),
+(3, 5, 100),
+(3, 6, 7),
+(3, 7, 15),
+(3, 8, 15),
 (3, 9, 10),
-(3, 10, 10),
-(3, 11, 10),
-(4, 1, 9),
-(4, 2, 50),
-(4, 3, 50),
-(4, 4, 50),
-(4, 5, 50),
-(4, 6, 10),
+(3, 10, 20),
+(3, 11, 5),
+(4, 1, 5),
+(4, 2, 200),
+(4, 3, 200),
+(4, 4, 200),
+(4, 5, 200),
+(4, 6, 15),
 (4, 7, 10),
-(4, 8, 10),
-(4, 9, 10),
-(4, 10, 10),
-(4, 11, 10),
-(5, 1, 8),
-(5, 2, 90),
-(5, 3, 90),
-(5, 4, 90),
-(5, 5, 90),
-(5, 6, 20),
-(5, 7, 10),
-(5, 8, 10),
-(5, 9, 10),
-(5, 10, 10),
-(5, 11, 10);
+(4, 8, 15),
+(4, 9, 15),
+(4, 10, 5),
+(4, 11, 10);
 
 -- --------------------------------------------------------
 
@@ -158,12 +145,12 @@ CREATE TABLE IF NOT EXISTS `character_stuff` (
 --
 
 INSERT INTO `character_stuff` (`character_id`, `stuff_id`) VALUES
-(3, 1),
-(4, 1),
-(5, 1),
-(1, 2),
+(1, 1),
 (2, 2),
-(5, 2);
+(3, 3),
+(3, 4),
+(4, 5),
+(4, 6);
 
 -- --------------------------------------------------------
 
@@ -225,18 +212,17 @@ CREATE TABLE IF NOT EXISTS `played_character` (
   `player_id` int NOT NULL,
   PRIMARY KEY (`character_id`),
   KEY `Played_Character_Player_FK` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `played_character`
 --
 
 INSERT INTO `played_character` (`character_id`, `character_name`, `character_creation_date`, `player_id`) VALUES
-(1, 'Parya', '2023-05-11 11:03:41', 1),
-(2, 'Hisha', '2023-05-11 11:04:12', 2),
-(3, 'Eriole', '2023-05-11 11:04:43', 3),
-(4, 'Snow', '2023-05-11 11:04:56', 4),
-(5, 'Arthur', '2023-05-11 11:05:15', 3);
+(1, 'Eriole', '2023-05-23 15:07:01', 1),
+(2, 'Parya', '2023-05-23 15:08:34', 2),
+(3, 'Hisha', '2023-05-23 15:10:51', 3),
+(4, 'Snow', '2023-05-23 15:13:18', 4);
 
 -- --------------------------------------------------------
 
@@ -259,10 +245,10 @@ CREATE TABLE IF NOT EXISTS `player` (
 --
 
 INSERT INTO `player` (`player_id`, `player_username`, `player_mail`, `player_password`) VALUES
-(1, 'Antoine', 'antoine@mail.com', '$2y$10$yGGJ/wSMV2IILHkXaHB4I.BqGz4ajT4VRfPSi4E7s5w92E9DWynv.'),
-(2, 'Hichem', 'hichem@mail.com', '$2y$10$/24NwR91Xd7v6bTJvZ9NzOT3IvkeElpaeYJWSUdYfUWl9OxakAES.'),
-(3, 'Joanna', 'joanna@mail.com', '$2y$10$k3zN3ZssWzgxqcu3HG382O8BSkiyEe69q8V2ivAXQYo5rrGQWjThC'),
-(4, 'Winai', 'winai@mail.com', '$2y$10$iVHRpKTzdFLLmSZVEv7U/eskQcqpZO1bvt85hBnxH5RgmmCQFPCrC');
+(1, 'Joanna', 'joanna@mail.com', '$2y$10$Em7u.GyMN/c.KEWLxmNOHuI6KRtaSsk.kZgtUoVTbNFxbDW1qx2WK'),
+(2, 'Antoine', 'antoine@mail.com', '$2y$10$G8PtQRskT1yCKxI5fGRE1.95iauC4OmoOjAFALqO2CA7FbiycnFK6'),
+(3, 'Hichem', 'hichem@mail.com', '$2y$10$/MeOl6lcQOmMkGsgpf.FuelkgKd0LfIBdHJkQbKE4STF0onQjcLiu'),
+(4, 'Winai', 'winai@mail.com', '$2y$10$.rZTFprDCz8.qDpPVKUhMeK1w7xRVSYC3Ehuy8oaRVdh9zVZg6ogy');
 
 -- --------------------------------------------------------
 
@@ -292,15 +278,17 @@ CREATE TABLE IF NOT EXISTS `skill` (
   PRIMARY KEY (`skill_id`),
   KEY `Skill_Game_Master_FK` (`player_id`),
   KEY `Skill_Statistic_FK` (`statistic_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `skill`
 --
 
 INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_level`, `player_id`, `statistic_id`) VALUES
-(1, 'Voleur à la sauvette', 0, NULL, 7),
-(2, 'Charmeur de patate', 0, NULL, 9);
+(1, 'Charmeur de patate', 1, NULL, 9),
+(2, 'Panique', 2, NULL, 1),
+(3, 'Voleur à la sauvette', 4, NULL, 7),
+(4, 'Dealer de sucre', 2, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -315,6 +303,7 @@ CREATE TABLE IF NOT EXISTS `statistic` (
   `statistic_shortname` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `statistic_quantity` tinyint UNSIGNED NOT NULL,
   `inSum` tinyint(1) NOT NULL DEFAULT '0',
+  `editable` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`statistic_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -322,18 +311,18 @@ CREATE TABLE IF NOT EXISTS `statistic` (
 -- Déchargement des données de la table `statistic`
 --
 
-INSERT INTO `statistic` (`statistic_id`, `statistic_name`, `statistic_shortname`, `statistic_quantity`, `inSum`) VALUES
-(1, 'Initiative', 'INIT', 10, 0),
-(2, 'Points de vie max', 'PVmax', 250, 0),
-(3, 'Points de vie actuels', 'PVact', 250, 0),
-(4, 'Points de magie max', 'PMmax', 250, 0),
-(5, 'Points de magie actuels', 'PMact', 250, 0),
-(6, 'Force', 'FOR', 20, 1),
-(7, 'Dexterite', 'DEX', 20, 1),
-(8, 'Constitution', 'CONST', 20, 1),
-(9, 'Intelligence', 'INT', 20, 1),
-(10, 'Sagesse', 'SAG', 20, 1),
-(11, 'Chance', 'CHA', 20, 1);
+INSERT INTO `statistic` (`statistic_id`, `statistic_name`, `statistic_shortname`, `statistic_quantity`, `inSum`, `editable`) VALUES
+(1, 'Initiative', 'INIT', 10, 0, 0),
+(2, 'Points de vie max', 'PVmax', 250, 0, 0),
+(3, 'Points de vie actuels', 'PVact', 250, 0, 1),
+(4, 'Points de magie max', 'PMmax', 250, 0, 0),
+(5, 'Points de magie actuels', 'PMact', 250, 0, 1),
+(6, 'Force', 'FOR', 20, 1, 0),
+(7, 'Dexterite', 'DEX', 20, 1, 0),
+(8, 'Constitution', 'CONST', 20, 1, 0),
+(9, 'Intelligence', 'INT', 20, 1, 0),
+(10, 'Sagesse', 'SAG', 20, 1, 0),
+(11, 'Chance', 'CHA', 20, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -350,15 +339,19 @@ CREATE TABLE IF NOT EXISTS `stuff` (
   `player_id` int DEFAULT NULL,
   PRIMARY KEY (`stuff_id`),
   KEY `Stuff_Game_Master_FK` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `stuff`
 --
 
 INSERT INTO `stuff` (`stuff_id`, `stuff_name`, `stuff_dmg`, `stuff_range`, `player_id`) VALUES
-(1, 'Hache à 2 mains', 1, 1, NULL),
-(2, 'Epée rouillée', 5, 1, NULL);
+(1, 'Scalpel rouillé', 1, 1, NULL),
+(2, 'Hache à 2 mains', 4, 3, NULL),
+(3, 'Bâton enchanté', 2, 4, NULL),
+(4, 'Flèche d\'argent', 10, 5, NULL),
+(5, 'Glacière sans fond', 0, 0, NULL),
+(6, 'Couteaux de lancer', 5, 5, NULL);
 
 --
 -- Contraintes pour les tables déchargées

@@ -4,10 +4,8 @@ $idPlayer = $_SESSION['user']->getId();
 
 //SELECT FROM played_Character
 $selectCharacter = "SELECT * FROM played_character WHERE player_id = :id";
-
 $queryCharacter = $connection->prepare($selectCharacter);
 $queryCharacter->bindValue(':id', $idPlayer, PDO::PARAM_INT);
-
 //PDO create an array $characters based on Character class
 $queryCharacter->setFetchMode(PDO::FETCH_CLASS, Character::class);
 $queryCharacter->execute();
