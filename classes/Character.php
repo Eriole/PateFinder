@@ -135,7 +135,7 @@ class Character
 
     public function setStats(array $stats): self
     {
-        foreach($stats as $stat){
+        foreach ($stats as $stat) {
             $this->addStat($stat);
         }
         return $this;
