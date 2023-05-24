@@ -23,7 +23,7 @@ function selectCharacter(int $characId, PDO $connection): Character
 
 //SELECT FROM Statistic By Character_id
 /** @return array<int,CharacterStatistic> */
-function selectCharStatistic(int $characId , PDO $connection): array
+function selectCharStatistic(int $characId, PDO $connection): array
 {
     //SELECT FROM Character_Statistic
     $selectStat = "SELECT * FROM character_statistic WHERE character_id= :charact_id";
@@ -33,9 +33,9 @@ function selectCharStatistic(int $characId , PDO $connection): array
     $queryStat->execute();
     $characStat = $queryStat->fetchAll();
 
-    $characStatById = [] ; 
-    foreach($characStat as $key => $characterStatistic ){
-    $characStatById [$characterStatistic->getStatistic_id()] = $characterStatistic ;
+    $characStatById = [];
+    foreach ($characStat as $key => $characterStatistic) {
+        $characStatById[$characterStatistic->getStatistic_id()] = $characterStatistic;
     }
     return $characStatById;
 }
@@ -64,6 +64,6 @@ function combinationCheck(PDO $connection, int $characterId, int $userId): void
     $resultVerif = $statementcombination->fetch();
 
     if (empty($resultVerif)) {
-        header('Location: ?page=characters_list.php');
+        header('Location: ?page=characters_list');
     }
 }
